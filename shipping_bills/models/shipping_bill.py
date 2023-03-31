@@ -237,7 +237,8 @@ class ShippingBill(models.Model):
     @api.model
     def model_update_in_days(cls):
         for self in cls.search([]):
-            self.in_days = (date.today() - self.in_date).days
+            if self.in_date:
+                self.in_days = (date.today() - self.in_date).days
 
 
 

@@ -115,37 +115,45 @@
 
 	<!-- Add Wallet on Payment Page -->
 	<template id="website_wallet_on_payment_page" inherit_id="website_sale.payment" active="True" customize_show="True" name="Show Website Wallet">
-		<xpath expr="//div[@id='payment_method']" position="before">
-			<div t-if="website_sale_order and website_sale_order.website_order_line" class="col-lg-12">
+		<xpath expr="//t[@t-if='website_sale_order.amount_total']" position="before">
+			<div t-if="website_sale_order and website_sale_order.website_order_line" class="col-lg-12" style="margin: 32px 0; padding: 1.25rem; border: 1px solid rgba(0, 0, 0, 0.125);border-radius: 0.25rem;">
 				<t t-set="count" t-value="0"/>
-				<t t-foreach ="website_sale_order.website_order_line" t-as="line"> 
-				<div t-if ="line.product_id.id != website.wallet_product_id.id">
-					<t t-set="count" t-value="1"/>
-				</div>
+				<t t-foreach="website_sale_order.website_order_line" t-as="line">
+  				<div t-if="line.product_id.id != website.wallet_product_id.id or (line.product_id.id == website.wallet_product_id.id and line.price_unit &lt; 0)">
+  					<t t-set="count" t-value="1"/>
+  				</div>
 				</t>
-				<t t-if="count==1">
+				<t t-set="is_wallet" t-value="website_sale_order.website_order_line.filtered(lambda l: l.product_id.id == request.website.wallet_product_id.id)"/>
+				<t t-if="count==1 and request.env.user.partner_id.wallet_balance &gt; 0">
 					<div class="website-wallet" t-if="website.wallet_product_id">
-						<div class="checkbox" style="margin-left:19px">
-							<t t-if="not website_sale_order.is_wallet">
-								<div id="not_wallet" style="font-size: 16px;margin-right: 5px;">
-									<span><i class="fa fa-square-o"></i></span>
-									<label style="font-size: 18px; cursor:auto; color: #337AB7; padding-left: 0px;"> Use Wallet </label>
+						<div class="checkbox">
+							<t t-if="not is_wallet">
+								<div id="not_wallet" style="font-size: 16px;">
+									<span><i class="fa fa-square-o"/></span>
+									<label style="font-size: 18px; cursor:auto; color: #337AB7; padding-left: 0px;"> 使用电子钱包 </label>
 								</div>
 							</t>
-							<t t-if="website_sale_order.is_wallet">
-								<div id="wallet_checked" style="font-size: 16px;margin-right: 5px;">
-									<span><i class="fa fa-check-square-o"></i></span>
-									<label style="font-size: 18px; cursor:auto; color: #337AB7; padding-left: 0px;">Wallet </label>
+							<t t-if="is_wallet">
+								<div id="wallet_checked" style="font-size: 16px;">
+									<span><i class="fa fa-check-square-o"/></span>
+									<label style="font-size: 18px; cursor:auto; color: #337AB7; padding-left: 0px;"> 取消电子钱包 </label>
 								</div>
-								
+
 							</t>
 						</div>
-						<div class="mb32">
-							<b>Your Current Wallet Balance is </b> 
+						<div>
+							<b>您当前的钱包余额为</b>
 							<t t-set="partner_wallet" t-value="website.sudo().get_wallet_balance(website.currency_id)"/>
-							<span style="font-size: 18px; color: #337AB7; font-weight: 700;" t-esc="partner_wallet"/>
 							<span style="font-size: 18px; color: #337AB7; font-weight: 700;" t-esc="website.currency_id.symbol"/>
+							<span style="font-size: 18px; color: #337AB7; font-weight: 700;" t-esc="partner_wallet"/>
 						</div>
+					</div>
+				</t>
+				<t t-elif="count==1">
+					您的钱包余额不足：
+					<div>
+					  <span style="font-size: 18px; color: #337AB7; font-weight: 700;" t-esc="website.currency_id.symbol"/>
+						<span style="font-size: 18px; color: #337AB7; font-weight: 700;" t-esc="partner_wallet or 0.0"/>
 					</div>
 				</t>
 			</div>

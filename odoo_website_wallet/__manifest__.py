@@ -128,6 +128,7 @@ This Module allow the seller to recharge wallet for the customer.
         'views/wallet.xml',
         'views/template.xml',
         'views/portal_template.xml',
+        'views/shopping_cart_lines.xml',
         'wizard/add_money_view.xml',
         'wizard/add_payment_view.xml',
     ],

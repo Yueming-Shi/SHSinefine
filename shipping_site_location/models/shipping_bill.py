@@ -81,5 +81,5 @@ class ShippingBill(models.Model):
     def model_judgment_package_day(selfs):
         for self in selfs.search([('state', '=', 'draft'), ('sale_order_id', '=', False)]):
             if self.site_location_id and self.site_location_id.name == '无头位置':
-                if self.in_days > self.self.site_location_id.package_discard_day:
+                if self.in_days > self.site_location_id.package_discard_day:
                     self.disposable = True

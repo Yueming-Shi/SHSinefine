@@ -14,4 +14,12 @@
     <!--包裹可丢弃-->
     <menuitem id="menu_shipping_bills_disposable" name="包裹（可丢弃）" action="action_shipping_bill_disposable"
               parent="shipping_bills.menu_shipping_bills_order_inquiry" sequence="4"/>
+
+    <!--包裹退运-->
+    <menuitem id="menu_shipping_bills_return_shipment" name="包裹（退运）" action="action_shipping_bill_return_shipment"
+              parent="shipping_bills.menu_shipping_bills_order_inquiry" sequence="5"/>
+
+    <!--运单改泡-->
+    <menuitem id="menu_shipping_bills_return_shipment" name="运单（改泡）" action="action_shipping_bill_modified_foam"
+              parent="shipping_bills.menu_shipping_bills_order_inquiry" sequence="6"/>
 </odoo>

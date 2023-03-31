@@ -20,7 +20,7 @@ class Res_company_inherit(models.Model):
 class res_partner(models.Model):
 	_inherit = 'res.partner'
 
-	wallet_balance = fields.Float('Wallet Balance')
+	wallet_balance = fields.Float('Wallet Balance', compute='_compute_wallet_balance')
 	wallet_transaction_count = fields.Integer(compute='_compute_wallet_transaction_count', string="Wallet")
 
 	def _compute_wallet_transaction_count(self):
@@ -36,6 +36,17 @@ class res_partner(models.Model):
 						partner.wallet_balance -= float(trns.amount)
 
 			partner.wallet_transaction_count = len(wallet_data)
+
+	def _compute_wallet_balance(selfs):
+		for self in selfs:
+			wallet_data = self.env['website.wallet.transaction'].search([('partner_id', 'in', self.ids)])
+			amount = 0
+			for wallet in wallet_data:
+				if wallet.wallet_type == 'credit':
+					amount += float(wallet.amount)
+				else:
+					amount -= float(wallet.amount)
+			self.wallet_balance = amount
 
 	def action_view_wallet_trans(self):
 		return {
