@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="ir_report_form_excel_view" model="ir.ui.view">
+        <field name="name">ir_report form excel view</field>
+        <field name="model">ir.actions.report</field>
+        <field name="inherit_id" ref="base.act_report_xml_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='paperformat_id']" position="after">
+                <field name="excel_attachment_id" attrs="{'invisible': [('report_type', '!=', 'xlsx')]}"/>
+            </xpath>
+            <xpath expr="//page[@name='advanced']" position="after">
+                <page name="code" string="Python Code">
+                    <field name="code" attrs="{'invisible': [('report_type', '!=', 'xlsx')]}" widget="ace" options="{'mode': 'python'}" placeholder="Enter Python code here. "/>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
