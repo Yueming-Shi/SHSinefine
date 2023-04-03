@@ -37,6 +37,8 @@
                             <field name="site_id"/>
                             <field name="create_date" string="创建时间"/>
                             <field name="delivery_time"/>
+                            <field name="sender_contact"/>
+                            <field name="address_contact"/>
                             <field name="is_sent" string="已发送" readonly="1"/>
                         </group>
                         <group>

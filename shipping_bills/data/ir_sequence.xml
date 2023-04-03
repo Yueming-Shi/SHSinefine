@@ -20,8 +20,8 @@
         <record id="ir_sequence_large_package_no" model="ir.sequence">
             <field name="name">大包裹单号</field>
             <field name="code">shipping.large.parcel</field>
-            <field name="prefix">B</field>
-            <field name="padding">4</field>
+            <field name="prefix">%(year)s%(month)s%(day)s</field>
+            <field name="padding">3</field>
             <field name="company_id" eval="False"/>
         </record>
     </data>

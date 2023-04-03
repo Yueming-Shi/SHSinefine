@@ -18,7 +18,8 @@ class ShippingLargeParcel(models.Model):
     width = fields.Float('宽(CM)')
     height = fields.Float('高(CM)')
     volume = fields.Float('体积(m³)')
-
+    sender_contact = fields.Many2one('res.partner', '发件人')
+    address_contact = fields.Many2one('res.partner', '收件人')
     shipping_bill_ids = fields.Many2many(
         'shipping.bill', 'shipping_bill_large_parcel_rel', 'large_parcel_id', 'shipping_bill_id', '客户运单',
         copy=False)

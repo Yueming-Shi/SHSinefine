@@ -15,6 +15,7 @@
         'views/sale_order.xml',
         'views/shipping_bill.xml',
         'views/shipping_factor.xml',
+        'views/product_product_view.xml',
         'views/shipping_large_parcel_menu.xml',
         'views/shipping_state.xml',
         'views/action.xml',

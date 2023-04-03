@@ -5,3 +5,4 @@ from . import crm_team
 from . import sale_order
 from . import shipping_large_parcel
 from . import shipping_state
+from . import product_product
