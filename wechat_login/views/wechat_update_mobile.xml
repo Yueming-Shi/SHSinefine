@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="wechat_update_mobile">
+            <link rel="stylesheet" href="/wechat_login/static/src/css/mobile.css"/>
+            <div class="header_div">
+                <form action="/wechat/update_user_mobile">
+                    <div class="mobil">
+                        <input type="hidden" name="user_id" t-att-value="user_id"/>
+                        <input class="inp_mob" type="text" id="phone" name="mobile" required="required" placeholder="请输入手机号"/>
+                    </div>
+                    <div class="signal">
+                        <input class="inp_sign" type="tel" name="sign_code" id="code" placeholder="请输入验证码"/>
+                        <a class="btn" href="javascript:void(0);" id="sendMobileCode">
+                            <button id="dyMobileButton" class="get_sign">获取验证码</button>
+                        </a>
+                    </div>
+                    <button type="submit" class="confirm">提交</button>
+                </form>
+            </div>
+            <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+            <script type="text/javascript" src="/wechat_login/static/src/js/signal_time.js"></script>
+        </template>
+    </data>
+</odoo>
