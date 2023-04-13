@@ -25,7 +25,7 @@ class AuthOAuthProvider(models.Model):
     app_id = fields.Char(string='微信APP ID')
     app_secret = fields.Char(string='微信Secret')
     update_openid = fields.Boolean(string='是否替换微信openID')
-
+    test =  fields.Char()
     def get_wx_token(self, code):
         params = {'appid': self.app_id, 'secret': self.app_secret, 'code': code}
         url = '{}?{}&grant_type=authorization_code'.format(self.validation_endpoint, url_encode(params))
