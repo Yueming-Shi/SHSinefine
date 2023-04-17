@@ -10,7 +10,7 @@
 							<input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
 							<div class="row">
 								<div class="col-md-12 text-center mt32 mb32">
-									<h2>Your Wallet Details</h2>
+									<h2>Your Point Details</h2>
 								</div>
 								<div class="container-fluid" >
 								<div class='text-center'>   
@@ -21,11 +21,11 @@
 								</div>
 								<div class="col-md-12 text-center mt32 mb32">
 									<h2>You have <b> <span class="text-right"
-										t-esc="wallet" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/> </b> wallet balance in your account.</h2>
+										t-esc="wallet" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/> </b> Point balance in your account.</h2>
 								</div>
 								
 								<div id='submit_wallet' class="col-md-12 text-center mt32 mb32">
-								<a href="/add/wallet/balance" class="btn" style="height: 40px;background-color: #FDC00F;color: black;">Add Wallet Balance</a>
+								<a href="/add/wallet/balance" class="btn" style="height: 40px;background-color: #FDC00F;color: black;">Add Point Balance</a>
 								</div>
 							</div>
 					 </form>
@@ -40,7 +40,7 @@
 		<t t-if="website.user_id != user_id and website.wallet_product_id">
 			<li class="nav-item">
 				<a class="nav-link" href="/wallet">
-					<span>Wallet</span>
+					<span>Point</span>
 				</a>
 			</li>
 		</t>
@@ -130,19 +130,19 @@
 							<t t-if="not is_wallet">
 								<div id="not_wallet" style="font-size: 16px;">
 									<span><i class="fa fa-square-o"/></span>
-									<label style="font-size: 18px; cursor:auto; color: #337AB7; padding-left: 0px;"> 使用电子钱包 </label>
+									<label style="font-size: 18px; cursor:auto; color: #337AB7; padding-left: 0px;"> 使用电子点卡 </label>
 								</div>
 							</t>
 							<t t-if="is_wallet">
 								<div id="wallet_checked" style="font-size: 16px;">
 									<span><i class="fa fa-check-square-o"/></span>
-									<label style="font-size: 18px; cursor:auto; color: #337AB7; padding-left: 0px;"> 取消电子钱包 </label>
+									<label style="font-size: 18px; cursor:auto; color: #337AB7; padding-left: 0px;"> 取消电子点卡 </label>
 								</div>
 
 							</t>
 						</div>
 						<div>
-							<b>您当前的钱包余额为</b>
+							<b>您当前的点卡余额为</b>
 							<t t-set="partner_wallet" t-value="website.sudo().get_wallet_balance(website.currency_id)"/>
 							<span style="font-size: 18px; color: #337AB7; font-weight: 700;" t-esc="website.currency_id.symbol"/>
 							<span style="font-size: 18px; color: #337AB7; font-weight: 700;" t-esc="partner_wallet"/>
@@ -150,7 +150,7 @@
 					</div>
 				</t>
 				<t t-elif="count==1">
-					您的钱包余额不足：
+					您的点卡余额不足：
 					<div>
 					  <span style="font-size: 18px; color: #337AB7; font-weight: 700;" t-esc="website.currency_id.symbol"/>
 						<span style="font-size: 18px; color: #337AB7; font-weight: 700;" t-esc="partner_wallet or 0.0"/>
@@ -163,10 +163,10 @@
 	
 	<template id="add_wallet_balance">
 		<t t-call="website.layout">
-			<t t-set="additional_title">Add Wallet Balance</t>
+			<t t-set="additional_title">Add Point Balance</t>
 			<div class="wrap">
 				<div class="container o_website_payment">
-					<h1>Add Wallet Balance</h1>
+					<h1>Add Point Balance</h1>
 					<div id="wrap">
 						<div class="container oe_website_sale">
 							<form t-attf-action="/wallet/balance/confirm" method="post">
@@ -195,7 +195,7 @@
 											<div class="form-group col-12">
 												<div class="row s_col_no_resize s_col_no_bgcolor">
 													<div class="col-md-3 col-sm-4 control-label"></div>
-													<button type="submit" id="add_wallet_payment" class="btn btn-primary ml16">Add Wallet Balance</button>
+													<button type="submit" id="add_wallet_payment" class="btn btn-primary ml16">Add Point Balance</button>
 												</div>
 											</div>
 										</div>
@@ -241,7 +241,7 @@
 			<div class="oe_website_sale_tx_status mt-3" t-att-data-order-id="order.id">
 				<div class="card bg-success text-white">
 					<div class="card-body">
-						<div class="ml8"><span>Thank You for Confirming Order with Wallet</span></div>
+						<div class="ml8"><span>Thank You for Confirming Order with Point</span></div>
 					</div>
 				</div>
 			</div>

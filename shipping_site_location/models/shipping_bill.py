@@ -12,6 +12,7 @@ class ShippingBill(models.Model):
 
     # 仓库位置
     site_location_id = fields.Many2one('site.location', string="仓库位置", compute="_compute_site_location")
+    remark = fields.Char('备注')
 
     def _inverse_frontend_trigger(selfs):
         for self in selfs.filtered(lambda s: s.frontend_trigger):

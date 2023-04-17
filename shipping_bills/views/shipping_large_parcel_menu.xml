@@ -4,7 +4,7 @@
         <field name="name">menu.shipping_large_parcel.tree</field>
         <field name="model">shipping.large.parcel</field>
         <field name="arch" type="xml">
-            <tree>
+            <tree default_order="create_date desc">
                 <field name="name"/>
                 <field name="site_id"/>
                 <field name="logistics_provider"/>

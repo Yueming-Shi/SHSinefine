@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <template id="link_to_frontend_portal" inherit_id="haitao_website.portal_user_dropdown" name="Link to frontend portal" priority="17">
+    <xpath expr="//a[@class='dropdown-item']" position="replace">
+      <a href="/my/personal/home" role="menuitem" class="dropdown-item">个人中心</a>
+    </xpath>
+  </template>
+
+  <template id="haitao_website_my_home" name="个人中心">
+    <t t-call="website.layout">
+      <link type="text/css" rel="stylesheet" href="/zhaogu_website_my_home/static/src/css/style.css"/>
+      <div class="m0myheader">
+        <div class="conbox">
+          <div class="conboxL">
+            <img t-attf-src="/zhaogu_website_my_home/static/src/img/tx.png" class="tt"/>
+            <div class="btR">
+              <p class="p1">123</p>
+              <a href="/my/payment_method">
+                <div class="v1">
+                  <img t-attf-src="/zhaogu_website_my_home/static/src/img/mmm.png"/>
+                  <p>管理付款方式 &gt;</p>
+                </div>
+              </a>
+            </div>
+          </div>
+          <div class="conboxR">
+            <a href="/my/account">设置</a>
+          </div>
+          <div class="clear"/>
+        </div>
+        <!--<div class="conbox2">-->
+        <!--    <ul>-->
+        <!--        <li>-->
+        <!--            <a href="javascript:void()">-->
+        <!--                <p class="p1">13</p>-->
+        <!--                <p class="p2">收藏夹</p>-->
+        <!--            </a>-->
+        <!--        </li>-->
+        <!--        <li>-->
+        <!--            <a href="javascript:void()">-->
+        <!--                <p class="p1">1</p>-->
+        <!--                <p class="p2">关注商品</p>-->
+        <!--            </a>-->
+        <!--        </li>-->
+        <!--        <li>-->
+        <!--            <a href="javascript:void()">-->
+        <!--                <p class="p1">3</p>-->
+        <!--                <p class="p2">浏览记录</p>-->
+        <!--            </a>-->
+        <!--        </li>-->
+        <!--    </ul>-->
+        <!--</div>-->
+      </div>
+      <div class="clear"/>
+      <div class="mypart1">
+        <ul>
+          <li>
+            <a href="">
+              <p class="p1">0</p>
+              <p class="p2">收藏</p>
+            </a>
+          </li>
+          <li>
+            <a href="">
+              <p class="p1">1</p>
+              <p class="p2">订阅店铺</p>
+            </a>
+          </li>
+          <li>
+            <a href="">
+              <p class="p1">0.00</p>
+              <p class="p2">足迹</p>
+            </a>
+          </li>
+          <li>
+            <a href="">
+              <p class="p1"><span t-esc="partner.wallet_balance"/></p>
+              <p class="p2">点卡</p>
+            </a>
+          </li>
+          <li>
+            <a href="">
+              <img t-attf-src="/zhaogu_website_my_home/static/src/img/my01.png"/>
+              <p class="p2">消费记录</p>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="clear"/>
+      <div style="width:100%;padding:0 1rem;"><img style="width:100%;" t-attf-src="/zhaogu_website_my_home/static/src/img/my00.jpg"/></div>
+      <div class="mypart2">
+        <div class="con">
+          <div class="pa2_tit">
+            <p>我的订单</p>
+          </div>
+          <ul>
+            <li>
+              <a href="/sale/portal/orders?ytype=draft">
+                <div class="ddimg">
+                  <img t-attf-src="/zhaogu_website_my_home/static/src/img/my06.png"/>
+                </div>
+                <p>待入库</p>
+              </a>
+            </li>
+            <li>
+              <a href="/sale/portal/orders?ytype=valuedno">
+                <div class="ddimg">
+                  <img t-attf-src="/zhaogu_website_my_home/static/src/img/my02.png"/>
+                </div>
+                <p>待付款</p>
+              </a>
+            </li>
+            <li>
+              <a href="/sale/portal/orders?ytype=valued">
+                <div class="ddimg">
+                  <img t-attf-src="/zhaogu_website_my_home/static/src/img/my03.png"/>
+                </div>
+                <p>待发货</p>
+              </a>
+            </li>
+            <li>
+              <a href="/sale/portal/orders?ytype=arrived">
+                <div class="ddimg">
+                  <img t-attf-src="/zhaogu_website_my_home/static/src/img/my04.png"/>
+                </div>
+                <p>待收货</p>
+              </a>
+            </li>
+            <!--<li>-->
+            <!--  <a href="">-->
+            <!--    <div class="ddimg">-->
+            <!--      <img t-attf-src="/zhaogu_website_my_home/static/src/img/my05.png"/>-->
+            <!--<div class="num">2</div>-->
+            <!--    </div>-->
+            <!--    <p>待评价</p>-->
+            <!--  </a>-->
+            <!--</li>-->
+          </ul>
+        </div>
+      </div>
+      <div class="kbox"/>
+      <div class="kbox"/>
+      <div class="clear"/>
+      <!--<div class="mypart2">-->
+      <!--    <div class="con">-->
+      <!--        <div class="pa2_tit">-->
+      <!--            <p>我的优惠券</p>-->
+      <!--            <a href="quanNews1.html">查看更多订单 ></a>-->
+      <!--        </div>-->
+      <!--    </div>-->
+      <!--</div>-->
+      <div class="clear"/>
+      <div class="kbox"/>
+      <div class="kbox"/>
+      <div class="clear"/>
+      <div class="mypart3">
+        <div class="con">
+          <div class="pa2_tit">
+            <p>更多</p>
+          </div>
+          <ul>
+            <li>
+              <a href="">
+                <img t-attf-src="/zhaogu_website_my_home/static/src/img/my11.png"/>
+                <p>我的活动</p>
+              </a>
+            </li>
+            <li>
+              <a href="">
+                <img t-attf-src="/zhaogu_website_my_home/static/src/img/my12.png"/>
+                <p>社区</p>
+              </a>
+            </li>
+            <li>
+              <a href="">
+                <img t-attf-src="/zhaogu_website_my_home/static/src/img/my13.png"/>
+                <p>客户服务</p>
+              </a>
+            </li>
+            <li>
+              <a href="">
+                <img t-attf-src="/zhaogu_website_my_home/static/src/img/my14.png"/>
+                <p>京东超市</p>
+              </a>
+            </li>
+            <li>
+              <a href="">
+                <img t-attf-src="/zhaogu_website_my_home/static/src/img/my7.png"/>
+                <p>我的优惠券</p>
+              </a>
+            </li>
+            <li>
+              <a href="">
+                <img t-attf-src="/zhaogu_website_my_home/static/src/img/my8.png"/>
+                <p>收获地址</p>
+              </a>
+            </li>
+            <li>
+              <a href="">
+                <img t-attf-src="/zhaogu_website_my_home/static/src/img/my9.png"/>
+                <p>我的积分</p>
+              </a>
+            </li>
+            <li>
+              <a href="">
+                <img t-attf-src="/zhaogu_website_my_home/static/src/img/my10.png"/>
+                <p>我的客服</p>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="clear"/>
+      <div class="kbox"/>
+      <div class="kbox"/>
+      <div class="clear"/>
+      <div style="width:100%;padding:0 1rem;"><img style="width:100%;" t-attf-src="/zhaogu_website_my_home/static/src/img/my00.jpg"/></div>
+      <!--<div class="mypart2">-->
+      <!--    <div class="con">-->
+      <!--        <div class="pa2_tit">-->
+      <!--            <p>天猫超市卡</p>-->
+      <!--            <a href="">立刻充值 ></a>-->
+      <!--        </div>-->
+      <!--        <div class="pa2con">-->
+      <!--            <img t-attf-src="/zhaogu_website_my_home/static/src/img/my00.jpg" />-->
+      <!--            <p>账户余额：￥0.00</p>-->
+      <!--        </div>-->
+      <!--    </div>-->
+      <!--</div>-->
+      <!--<div class="kbox"></div><div class="kbox"></div>-->
+      <!--<div class="clear"></div>-->
+    </t>
+  </template>
+</odoo>

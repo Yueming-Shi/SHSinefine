@@ -13,10 +13,6 @@
                             <field name="ref" readonly="1"/>
                         </h1>
                     </div>
-                    <div style="display:flex;">
-                        <div style="flex:1;"><label for="can_change"/><field name="can_change"/></div>
-                    </div>
-                    <hr/>
                     <group name="1">
                         <group name="11">
                             <field name="in_date" readonly="1" force_save="1"/>
@@ -36,7 +32,12 @@
                             <field name="sale_fetch_no" readonly="1"/>
                             <field name="sale_partner_id" readonly="1"/>
                             <field name="sale_site_id" readonly="1"/>
-                            <field name="sale_site_contact_address" readonly="1"/>
+                            <field name="remark"/>
+                            <field name="frontend_trigger" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="sale order line" string="销售明细行">
                             <field name="sale_order_line_ids">
                                 <tree>
                                     <field name="product_sale_category_id"/>
@@ -46,9 +47,8 @@
                                     <field name="product_uom_qty"/>
                                 </tree>
                             </field>
-                            <field name="frontend_trigger" invisible="1"/>
-                        </group>
-                    </group>
+                        </page>
+                    </notebook>
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids"/>
