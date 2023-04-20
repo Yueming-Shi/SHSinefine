@@ -9,6 +9,22 @@
         <field name="view_mode">tree,form</field>
     </record>
 
+    <record id="action_warehouse_shipping_bill" model="ir.actions.act_window">
+        <field name="name">仓库订单</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">shipping.bill</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state','in', ['draft', 'paired', 'valued'])]</field>
+    </record>
+
+    <record id="action_site_shipping_bill" model="ir.actions.act_window">
+        <field name="name">各站点订单</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">shipping.bill</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state','in', ['transported', 'arrived', 'signed'])]</field>
+    </record>
+
     <record id="action_shipping_factor" model="ir.actions.act_window">
         <field name="name">Shipping Factor</field>
         <field name="type">ir.actions.act_window</field>

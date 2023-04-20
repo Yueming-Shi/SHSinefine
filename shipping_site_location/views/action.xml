@@ -13,11 +13,11 @@
         <field name="name">扫码入库</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">shipping.bill</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">form,tree</field>
         <field name="view_ids"
                    eval="[(5, 0, 0),
-                          (0, 0, {'view_mode': 'tree', 'view_id': ref('shipping_bill_tree_scan_code')}),
-                          (0, 0, {'view_mode': 'form', 'view_id': ref('shipping_bill_from_scan_code')})]"/>
+                          (0, 0, {'view_mode': 'form', 'view_id': ref('shipping_bill_from_scan_code')}),
+                          (0, 0, {'view_mode': 'tree', 'view_id': ref('shipping_bill_tree_scan_code')})]"/>
         <field name="domain">[]</field>
     </record>
 

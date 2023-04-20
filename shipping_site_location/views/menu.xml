@@ -4,22 +4,22 @@
     <menuitem id="menu_shipping_bills_scan_code" name="扫码入库" action="action_shipping_bill_scan_code"
               parent="shipping_bills.root_menu_operational_kanban_board" sequence="1"/>
 
-    <menuitem id="menu_site_location" name="包裹存放位置" parent="shipping_bills.menu_shipping_bills_config"
+    <menuitem id="menu_site_location" name="包裹类型" parent="shipping_bills.menu_shipping_bills_config"
               action="action_site_location" sequence="4"/>
 
-    <!--无头件-->
-    <menuitem id="menu_shipping_bills_head_less_piece" name="无头件" action="action_shipping_bill_head_less_piece"
-              parent="shipping_bills.root_menu_shipping_bills" sequence="5"/>
-
     <!--包裹可丢弃-->
-    <menuitem id="menu_shipping_bills_disposable" name="包裹（可丢弃）" action="action_shipping_bill_disposable"
+    <menuitem id="menu_shipping_bills_disposable" name="可丢弃包裹" action="action_shipping_bill_disposable"
               parent="shipping_bills.menu_shipping_bills_order_inquiry" sequence="4"/>
 
     <!--包裹退运-->
-    <menuitem id="menu_shipping_bills_return_shipment" name="包裹（退运）" action="action_shipping_bill_return_shipment"
+    <menuitem id="menu_shipping_bills_return_shipment" name="退运包裹" action="action_shipping_bill_return_shipment"
               parent="shipping_bills.menu_shipping_bills_order_inquiry" sequence="5"/>
 
     <!--运单改泡-->
-    <menuitem id="menu_shipping_bills_return_shipment" name="运单（改泡）" action="action_shipping_bill_modified_foam"
+    <menuitem id="menu_shipping_bills_return_shipment" name="改泡包裹" action="action_shipping_bill_modified_foam"
               parent="shipping_bills.menu_shipping_bills_order_inquiry" sequence="6"/>
+
+    <!--无头件-->
+    <menuitem id="menu_shipping_bills_head_less_piece" name="无头订单" action="action_shipping_bill_head_less_piece"
+              parent="shipping_bills.menu_shipping_bills_order_inquiry" sequence="7"/>
 </odoo>

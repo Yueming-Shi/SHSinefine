@@ -160,6 +160,10 @@ class Home(main.Home):
                 login = request.params.get('login')
                 if is_valid_email(login):                    
                     request.env['res.users'].browse(request.session.uid).write({'login': login})
+                    try:
+                        request.env['res.users'].browse(request.session.uid).action_reset_password()
+                    except Exception as e:
+                        _logger.info(str(e))
                     return request.redirect('/web/signup')
                 else:
                     return request.render('wechat_sign.bind_email', {'error': 'Invaild email'})

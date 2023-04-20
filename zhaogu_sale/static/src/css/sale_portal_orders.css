@@ -108,3 +108,75 @@ outline:none;
 border:none;
 border-bottom:1px solid #C0C0C0;
 }
+
+#point-payment-form {
+    display:none;
+}
+.point-payment-detail {
+    width:300px;
+    height:180px;
+    background:white;
+    border:1px solid 	#C0C0C0;
+    position:fixed;
+    z-index:1;
+    top:0;
+    left:0;
+    bottom:0;
+    right:0;
+    margin:auto;
+    border-radius:20px;
+    padding:10px;
+}
+.point-payment-detail >  div:first-child {
+    height:50px;
+    font-size:24px;
+    text-align:center;
+    position:relative;
+}
+.clear-x {
+    position:absolute;
+    right:0;
+    top:-10px;
+    font-size:20px;
+    padding:0;
+    display:inline-block;
+    cursor:pointer;
+}
+
+.point-payment-detail >  div:nth-child(2){
+    height:80px;
+}
+
+.point-payment-detail >  div:nth-child(3) {
+    display:flex;
+    justify-content:center;
+    text-align:center;
+}
+.point-payment-detail >  div:nth-child(3) > button{
+    flex:1;
+    margin: 0 5px;
+}
+
+.deduction-balance {
+    color: red;
+}
+
+.not-balance {
+    font-family: 'PingFang SC';
+    display: flex;
+    width:100%;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background: #C0C0C0;
+    box-shadow: 0px 12px 16px -4px rgba(16, 24, 40, 0.08), 0px 4px 6px rgba(16, 24, 40, 0.05);
+    border:none;
+    padding: 4px 10px;
+    border-radius: 20px;
+    color: white;
+    outline:none;
+    boder:none;
+    margin:0 10px 0 0;
+    display:none;
+    pointer-events: none;
+}

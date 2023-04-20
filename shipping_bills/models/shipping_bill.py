@@ -32,10 +32,6 @@ class ShippingBill(models.Model):
                 invoices = self.sale_invoice_ids.filtered(lambda i:i.state == 'posted')
                 flag = invoices and all([invoice.payment_state == 'paid' for invoice in invoices])
                 self.stage_id = self.search_shipping_bill_state('payment') if flag else self.search_shipping_bill_state('valued')
-#                 if self.sale_invoice_payment_state == '支付未完成':
-#                     self.stage_id = self.search_shipping_bill_state('valued')
-#                 else:
-#                     self.stage_id = self.search_shipping_bill_state('payment')
 
     @api.model
     def _read_group_stage_ids(self, stages, domain, order):

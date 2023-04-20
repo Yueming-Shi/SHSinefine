@@ -3,7 +3,7 @@
 {
     'name': 'zhaogu_website_my_home',
     'depends': [
-        'base', 'website',
+        'base', 'website', 'website_sale_wishlist'
     ],
     'data': [
         'views/templates.xml',
