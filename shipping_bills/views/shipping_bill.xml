@@ -35,15 +35,26 @@
                     </div>
                     <div class="oe_title">
                         <h1>
-                            <field name="ref"/>
+                            <field name="ref" readonly="1"/>
                         </h1>
                     </div>
+                    <div style="display:flex;">
+                        <div style="flex:1;"><label for="has_bought_safety"/><field name="has_bought_safety"/></div>
+                        <div style="flex:1;"><label for="no_change"/><field name="no_change"/></div>
+                        <div style="flex:1;"><label for="can_change"/><field name="can_change"/></div>
+                        <div style="flex:1;"><label for="has_changed"/><field name="has_changed"/></div>
+                        <div style="flex:1;"><label for="is_changed_done"/><field name="is_changed_done"/></div>
+                        <div style="flex:1;"><label for="disposable"/><field name="disposable"/></div>
+                        <div style="flex:1;"><label for="has_returned"/><field name="has_returned"/></div>
+                    </div>
+                    <hr/>
                     <group name="1">
                         <group name="11">
+                            <field name="in_date"/>
                             <field name="state"/>
+                            <field name="stage_id" invisible="1"/>
                             <field name="name"/>
                             <field name="picking_code"/>
-                            <field name="in_date"/>
                             <field name="length"/>
                             <field name="width"/>
                             <field name="height"/>
@@ -53,7 +64,7 @@
                             <field name="discarded_date" attrs="{'invisible':[('state','!=','discarded')]}"/>
                         </group>
                         <group name="12">
-                            <field name="sale_order_id"/>
+                            <field name="sale_order_id" readonly="1"/>
                             <field name="sale_fetch_no"/>
                             <field name="sale_partner_id"/>
                             <field name="sale_site_id"/>
@@ -62,7 +73,7 @@
                     </group>
                     <group name="2">
                         <group name="21">
-                            <field name="size_weight" digits="[42, 1]" />
+                            <field name="size_weight" digits="[42, 1]"/>
                             <field name="fee"/>
                             <field name="currency_id"/>
                         </group>
@@ -78,12 +89,6 @@
                             <field name="tracking_no"/>
                         </group>
                         <group name="32">
-                            <field name="has_bought_safety"/>
-                            <field name="no_change"/>
-                            <field name="can_change"/>
-                            <field name="has_changed"/>
-                            <field name="is_changed_done"/>
-                            <field name="has_returned"/>
                             <field name="return_address"/>
                             <field name="return_contact"/>
                             <field name="return_mobile"/>
@@ -107,6 +112,54 @@
             </form>
         </field>
     </record>
+
+    <record id="shipping_bill_kanban" model="ir.ui.view">
+        <field name="name">shipping.bill.kanban</field>
+        <field name="model">shipping.bill</field>
+        <field name="priority">4</field>
+        <field name="arch" type="xml">
+            <kanban records_draggable="0" default_group_by="stage_id" class="o_kanban_applicant" sample="1" create='false'>
+                <field name="stage_id" />
+                <field name="name"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_card oe_kanban_global_click" style="width:250px;">
+                            <table style="width:100%;font-size:8px;">
+                                <tr>
+                                    <td><strong>站点：</strong></td>
+                                    <td>
+                                        <strong><field name="sale_site_id"/></strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>运单号：</strong></td>
+                                    <td>
+                                        <strong><field name="name"/></strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>入库日期：</td>
+                                    <td style="text-align:left;"><field name="in_date"/></td>
+                                </tr>
+                                <tr>
+                                    <td>实际重量：</td>
+                                    <td style="text-align:left;"><field name="actual_weight"/></td>
+                                </tr>
+                                <tr>
+                                    <td>线路敏感性：</td>
+                                    <td style="text-align:left;"><field name="shipping_factor_id"/></td>
+                                </tr>
+                                <tr>
+                                    <td>费用：</td>
+                                    <td style="text-align:left;"><field name="currency_id"/><field name="fee"/></td>
+                                </tr>
+                            </table>
+                        </div>
+						</t>
+					</templates>
+				</kanban>
+			</field>
+		</record>
 
     <record id="shipping_bill_tree_out" model="ir.ui.view">
         <field name="name">shipping_bill_tree_out</field>

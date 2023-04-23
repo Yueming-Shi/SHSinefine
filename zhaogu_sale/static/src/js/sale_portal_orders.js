@@ -22,4 +22,28 @@ $(document).ready(function() {
       $('#return-shipment-form').css('display','none')
       $('.return-shipment-detail').attr("required", "false");
     })
+
+    $('.point-payment').click(function () {
+      val = $('#order-id-btn').val()
+      shipping_total = $("input[name='shipping_total']").val()
+      point_balance = $("input[name='point_balance']").val()
+
+      $('.point-order-id').val(val)
+      $('.deduction-balance').text(shipping_total)
+      $('#point-payment-form').css('display','block')
+
+      btn_div = $('.balance-sufficient')
+
+      if ( parseFloat(point_balance.replace(',', '')) > parseFloat(shipping_total.replace(',', '')) ) {
+        $('.balance-sufficient').replaceAll(btn_div)
+        $('.not-balance').css('display', 'none')
+      } else {
+        $('.balance-sufficient').replaceAll("<p></p>")
+        $('.not-balance').css('display', 'block')
+      }
+    })
+    $('#clear-point, .clear-x').click(function () {
+      $('#point-payment-form').css('display','none')
+    })
+
 })

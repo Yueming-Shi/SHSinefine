@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import re
 import logging
 import qrcode
 import base64
@@ -10,6 +11,11 @@ from odoo.http import request
 from odoo.addons.auth_signup.controllers.main import AuthSignupHome
 from odoo.addons.web.controllers.main import SIGN_UP_REQUEST_PARAMS
 from odoo.addons.portal.controllers.portal import CustomerPortal, pager as portal_pager
+from odoo.addons.web.controllers import main
+
+ 
+def is_valid_email(email):
+    return  re.compile(r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$')
 
 
 SIGN_UP_REQUEST_PARAMS.update({'site_id'})
@@ -77,7 +83,7 @@ class AuthSignupHome(AuthSignupHome):
         result = super(AuthSignupHome, self).get_auth_signup_qcontext()
         result["teams"] = self.list_teams()
         base_url = request.httprequest.base_url
-        _logger.info(base_url)
+       
         result['baes_url'] = base_url
         return result
 
@@ -94,12 +100,12 @@ class AuthSignupHome(AuthSignupHome):
     def wechat_login(self, site=0, *args, **kw):
         wechat_auth = self._wechat_instance(site)  
         authorize_url = wechat_auth.authorize_url
-        _logger.info(authorize_url)   
+       
         return  request.redirect(authorize_url, 301, False) 
 
     @http.route('/web/signup', type='http', auth='public', website=True, sitemap=False)
     def web_auth_signup(self, *args, **kw):
-        _logger.info(kw)   
+        
         if kw.get('wx_openid', False) and kw.get('access_token', False):
             #如果没有用户 则再获取用户信息 创建用户
             site = kw.get('site_id', 0)
@@ -109,7 +115,7 @@ class AuthSignupHome(AuthSignupHome):
             if res:
                 wechat_auth = self._wechat_instance(site)  
                 authorize_url = wechat_auth.authorize_url
-                _logger.info(authorize_url)   
+                
                 return  request.redirect(authorize_url, 301, False) 
             else:
                 return request.redirect('/404')
@@ -118,7 +124,6 @@ class AuthSignupHome(AuthSignupHome):
         if user_agent.find('MicroMessenger') > -1:
             wechat_auth = self._wechat_instance(kw.get('site_id', 0))  
             authorize_url = wechat_auth.authorize_url
-            _logger.info(authorize_url)   
             return  request.redirect(authorize_url, 301, False) 
         return super().web_auth_signup(*args, **kw)
 
@@ -138,3 +143,29 @@ class AuthSignupHome(AuthSignupHome):
         sites = request.env['crm.team'].sudo().search([])
         return request.render("wechat_sign.sitelist", {'sites': sites})
  
+class Home(main.Home):
+
+    @http.route('/web', type='http', auth="none")
+    def web_client(self, s_action=None, **kw):
+        #import pdb;pdb.set_trace()
+        print(request.session.uid)
+        if request.session.uid and request.session.uid != 2 and not is_valid_email(request.env['res.users'].browse(request.session.uid).login):
+            return  request.redirect('/bind/email', 301, False) 
+        return super().web_client(s_action, **kw)
+
+    @http.route('/bind/email', type='http',auth='public', website=True)
+    def bind_email(self, **kw):
+        if request.httprequest.method == 'POST':
+            if request.params.get('login'):
+                login = request.params.get('login')
+                if is_valid_email(login):                    
+                    request.env['res.users'].browse(request.session.uid).write({'login': login})
+                    try:
+                        request.env['res.users'].browse(request.session.uid).action_reset_password()
+                    except Exception as e:
+                        _logger.info(str(e))
+                    return request.redirect('/web/signup')
+                else:
+                    return request.render('wechat_sign.bind_email', {'error': 'Invaild email'})
+                    
+        return request.render('wechat_sign.bind_email')

@@ -1,1 +1,5 @@
 wechatpy
+pycrypto
+wechatpy
+diskcache
+openpyxl==3.0.10

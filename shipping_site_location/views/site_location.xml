@@ -1,0 +1,15 @@
+<odoo>
+    <record id="site_location_tree" model="ir.ui.view">
+        <field name="name">site_location_tree</field>
+        <field name="model">site.location</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="name"/>
+                <field name="factor_id"/>
+                <field name="site_partner_id"/>
+                <field name="real_weight" required="1"/>
+                <field name="package_discard_day"/>
+            </tree>
+        </field>
+    </record>
+</odoo>

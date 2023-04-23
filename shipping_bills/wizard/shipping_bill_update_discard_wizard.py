@@ -31,3 +31,11 @@ class ShippingBillUpdateDiscardWizard(models.TransientModel):
                 'discarded_date': _today,
                 'state': 'discarded',
             })
+            self.env['mail.message'].create({
+                'subject': '包裹已丢弃',
+                'message_type': 'notification',
+                'model': 'shipping.bill',
+                'res_id': shipping_bill.id,
+                'record_name': shipping_bill.name,
+                'body': '<div>运单' + shipping_bill.name + '已被丢弃</div>'
+            })

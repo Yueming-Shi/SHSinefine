@@ -65,21 +65,35 @@ class WebsiteWallet(http.Controller):
 	def wallet(self, wallet, **post):
 		cr, uid, context = request.cr, request.uid, request.context
 		order = request.website.sale_get_order()
+		wallet_product_id = request.website.wallet_product_id.id
 		if wallet:
+			wallet_order_line = order.order_line.filtered(lambda l: l.product_id.id == wallet_product_id)
 			order.write({
-				'is_wallet' : False,
-				'amount_total': (order.amount_untaxed + order.amount_tax)
+				'is_wallet': False,
+				'order_line': [(2, wallet_order_line.id, 0)],
 			})
 		if wallet == False:
-			order.write({'is_wallet' : True})
+			order.write({'is_wallet': True})
 			web_currency = request.website.get_current_pricelist().currency_id
 			wallet_balance = request.website.get_wallet_balance(web_currency)
 			if wallet_balance >= order.amount_total:
-				order.write({'amount_total': 0.0 })
+				order.write({
+					'order_line': [(0, 0, {
+						'product_id': wallet_product_id,
+						'product_uom_qty': 1,
+						'price_unit': -order.amount_total
+					})]
+				})
 
 			if order.amount_total > wallet_balance:
 				deduct_amount = order.amount_total - wallet_balance
-				order.write({'amount_total': deduct_amount})
+				order.write({
+					'order_line': [(0, 0, {
+						'product_id': wallet_product_id,
+						'product_uom_qty': 1,
+						'price_unit': -deduct_amount
+					})]
+				})
 		return True
 
 
@@ -183,11 +197,21 @@ class WebsiteWalletPayment(WebsiteSale):
 	@http.route(['/shop/confirmation'], type='http', auth="public", website=True)
 	def shop_payment_confirmation(self, **post):
 		sale_order_id = request.session.get('sale_last_order_id')
+		wallet_product_id = request.website.wallet_product_id.id
 		if sale_order_id:
 			order = request.env['sale.order'].sudo().browse(sale_order_id)
 			if order.is_wallet == True:
+
+				order.state = 'draft'
+				# 删除明细行
+				wallet_order_line = order.order_line.filtered(lambda l: l.product_id.id == wallet_product_id)
+				order.write({
+					'order_line': [(2, wallet_order_line.id, 0)],
+				})
+				order.state = 'sale'
+
 				wallet_obj = request.env['website.wallet.transaction']
-				partner = request.env['res.partner'].search([('id','=',order.partner_id.id)])      
+				partner = request.env['res.partner'].search([('id','=',order.partner_id.id)])
 				wallet_balance = order.partner_id.wallet_balance
 				amount_total = (order.amount_untaxed + order.amount_tax)
 
@@ -205,7 +229,7 @@ class WebsiteWalletPayment(WebsiteSale):
 					'sale_order_id': order.id, 
 					'reference': 'sale_order', 
 					'amount': price, 
-					'currency_id': company_currency.id, 
+					'currency_id': company_currency.id,
 					'status': 'done' 
 				})
 				
@@ -220,6 +244,7 @@ class WebsiteWalletPayment(WebsiteSale):
 					partner.sudo().write({'wallet_balance':0.0})
 					order.wallet_transaction_id.update({'amount':p_wlt})
 				wallet_create.wallet_transaction_email_send()
+
 				return request.render("website_sale.confirmation", {'order': order})
 			else:
 				return super(WebsiteWalletPayment, self).shop_payment_confirmation(**post)

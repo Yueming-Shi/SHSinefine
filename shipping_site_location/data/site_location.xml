@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="site_location_nobody" model="site.location">
+            <field name="name">无头位置</field>
+        </record>
+    </data>
+</odoo>
+

@@ -1,0 +1,79 @@
+<odoo>
+    <record id="shipping_bill_from_scan_code" model="ir.ui.view">
+        <field name="name">shipping_bill_from_scan_code</field>
+        <field name="model">shipping.bill</field>
+        <field name="priority">20</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="ref" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group name="1">
+                        <group name="11">
+                            <field name="in_date" readonly="1" force_save="1"/>
+                            <field name="name" widget="my_char_field"/>
+                            <field name="picking_code" widget="my_char_field"/>
+                            <field name="length"/>
+                            <field name="width"/>
+                            <field name="height"/>
+                            <field name="actual_weight"/>
+                            <field name="uom_id"/>
+                            <field name="shipping_factor_id"/>
+                            <field name="site_location_id" readonly="1" force_save="1"/>
+                            <field name="can_change"/>
+                        </group>
+                        <group name="12">
+                            <field name="sale_order_id" readonly="1"/>
+                            <field name="sale_fetch_no" readonly="1"/>
+                            <field name="sale_partner_id" readonly="1"/>
+                            <field name="sale_site_id" readonly="1"/>
+                            <field name="remark"/>
+                            <field name="frontend_trigger" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="sale order line" string="销售明细行">
+                            <field name="sale_order_line_ids">
+                                <tree>
+                                    <field name="product_sale_category_id"/>
+                                    <field name="product_material_id"/>
+                                    <field name="product_brand_id"/>
+                                    <field name="product_id"/>
+                                    <field name="product_uom_qty"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="shipping_bill_tree_scan_code" model="ir.ui.view">
+        <field name="name">shipping_bill_tree_scan_code</field>
+        <field name="model">shipping.bill</field>
+        <field name="priority">20</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="out_date" readonly="1"/>
+                <field name="logistics" readonly="1"/>
+                <field name="tracking_no" readonly="1"/>
+                <field name="name" readonly="1"/>
+                <field name="sale_fetch_no" readonly="1"/>
+                <field name="sale_partner_id" readonly="1"/>
+                <field name="sale_site_id" readonly="1"/>
+                <field name="signed_date"/>
+                <field name="state" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+</odoo>

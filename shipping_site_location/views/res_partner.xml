@@ -1,0 +1,27 @@
+<odoo>
+    <record id="res_partner_form_view" model="ir.ui.view">
+        <field name="name">res.partner.form.view</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="priority" eval="37"/>
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page name="site_location" string="包裹存放位置">
+                    <field name="site_location_ids"/>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+    <record id="res_partner_add_partner_type_form_view" model="ir.ui.view">
+        <field name="name">res.partner.add.partner.type.form.view</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="priority" eval="37"/>
+        <field name="arch" type="xml">
+            <field name="vat" position="after">
+                <field name="partner_vip_type"/>
+            </field>
+        </field>
+    </record>
+</odoo>

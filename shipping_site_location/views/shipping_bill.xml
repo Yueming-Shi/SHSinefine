@@ -1,0 +1,16 @@
+<odoo>
+    <record id="shipping_bill_form_view" model="ir.ui.view">
+        <field name="name">shipping_bill_form_view</field>
+        <field name="model">shipping.bill</field>
+        <field name="inherit_id" ref="shipping_bills.shipping_bill_form"/>
+        <field name="priority" eval="37"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='shipping_factor_id']" position="after">
+                <field name="site_location_id" force_save="1" readonly="1"/>
+            </xpath>
+            <xpath expr="//field[@name='sale_invoice_payment_state']" position="after">
+                <field name="remark"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

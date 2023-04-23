@@ -13,3 +13,4 @@ class ShippingFactor(models.Model):
     first_total_price = fields.Float('首重总价')
     next_weight_to_ceil = fields.Float('续重取整')
     next_price_unit = fields.Float('续重单价')
+

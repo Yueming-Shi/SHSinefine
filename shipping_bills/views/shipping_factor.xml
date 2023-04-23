@@ -6,7 +6,6 @@
             <tree>
                 <field name="name"/>
                 <field name="factor"/>
-
                 <field name="first_weight"/>
                 <field name="first_total_price"/>
                 <field name="next_weight_to_ceil"/>

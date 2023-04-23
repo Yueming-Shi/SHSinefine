@@ -1,0 +1,20 @@
+<odoo>
+    <record id="shipping_bill_head_less_piece" model="ir.ui.view">
+        <field name="name">shipping_bill_head_less_piece</field>
+        <field name="model">shipping.bill</field>
+        <field name="priority">20</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="out_date" readonly="1"/>
+                <field name="logistics" readonly="1"/>
+                <field name="tracking_no" readonly="1"/>
+                <field name="name" readonly="1"/>
+                <field name="sale_fetch_no" readonly="1"/>
+                <field name="sale_partner_id" readonly="1"/>
+                <field name="sale_site_id" readonly="1"/>
+                <field name="signed_date"/>
+                <field name="state" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+</odoo>

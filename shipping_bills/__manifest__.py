@@ -15,7 +15,9 @@
         'views/sale_order.xml',
         'views/shipping_bill.xml',
         'views/shipping_factor.xml',
+        'views/product_product_view.xml',
         'views/shipping_large_parcel_menu.xml',
+        'views/shipping_state.xml',
         'views/action.xml',
         'views/menu.xml',
         'data/ir_actions_server.xml',
@@ -24,6 +26,7 @@
         'data/product_product.xml',
         'data/ir_cron.xml',
         'data/mail_template_date.xml',
+        'data/shipping_state.xml',
         'wizard/action.xml',
         'wizard/menu.xml',
         'wizard/shipping_bill_update_transport_wizard.xml',
@@ -31,7 +34,6 @@
         'wizard/shipping_bill_update_sign_wizard.xml',
         'wizard/shipping_bill_update_return_wizard.xml',
         'wizard/shipping_bill_update_discard_wizard.xml',
-
     ],
 
 }

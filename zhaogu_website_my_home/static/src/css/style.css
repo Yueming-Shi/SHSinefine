@@ -1,0 +1,71 @@
+@charset "utf-8";
+/* CSS Document */
+*{ margin:0; padding:0}
+ul li{ list-style:none}
+.clear{ clear:both}
+a{ text-decoration:none; color:#666}
+a:hover{ text-decoration:none;}
+img{ max-height:100%; max-width:100%; border:0}
+html,body{ font-size:100%;width:100%; height:100%}
+body{ width:100%;margin:0 auto;color:#666;background:#f7f7f7; overflow-x:hidden}
+p{text-align:justify}
+.kbox{ width:100%; background:#f7f7f7; height:0.4rem}
+
+/*个人中心*/
+.m0myheader{ background:url('/zhaogu_website_my_home/static/src/img/mybg.jpg') repeat-y; width:100%; background-size:100%}
+.m0myheader .conbox{ padding:0.8rem}
+.m0myheader .conbox .conboxL{ float:left; width:80%}
+.m0myheader .conbox .conboxL img.tt{ float:left;width:3rem; height:3rem; border-radius:100%; padding-right:0.5rem}
+.m0myheader .conbox .conboxL .p1{color:#fff; font-size:1.2rem}
+.m0myheader .conbox .conboxL .btR{ float:left}
+.m0myheader .conbox .conboxL .v1{ background:#e5595c; border-radius:6px; width:7rem; height:1.3rem; line-height:1.3rem; margin-top:0.3rem} 
+.m0myheader .conbox .conboxL .v1 img{ height:1rem; float:left; padding-left:0.2rem; padding-right:0.1rem;    padding-top: 0.1rem;}
+.m0myheader .conbox .conboxL .v1 p{ color:#fff; font-size:0.7rem; float:left}
+.m0myheader .conbox .conboxR{ float:right; width:20%}
+.m0myheader .conbox .conboxR a{ display:block; color:#fff; text-align:right; font-size:0.85rem;}
+
+.m0myheader .conbox2{ width:80%; margin:0 auto; padding:0rem 0 2.5rem}
+.m0myheader .conbox2 ul{ overflow:hidden}
+.m0myheader .conbox2 ul li{ float:left; width:33.3%}
+.m0myheader .conbox2 ul li .p1{ text-align:center; color:#fff; font-size:0.8rem; line-height:1.5rem}
+.m0myheader .conbox2 ul li .p2{ text-align:center;color:#fff; font-size:0.75rem}
+
+.mypart1{ position:relative; margin-top:-2rem; padding:0 1rem}
+.mypart1 ul{ overflow:hidden; background:#fff; padding:0.8rem; border-radius:6px; width:100%;}
+.mypart1 ul li{ float:left; width:20%; text-align:center}
+.mypart1 ul li .p1{ text-align:center; color:#000; font-size:0.8rem; line-height:1.5rem}
+.mypart1 ul li .p2{ text-align:center; color:#000; font-size:0.75rem; line-height:1.5rem}
+.mypart1 ul li img{ height:1.5rem}
+.mypart1 ul li:last-child{ border-left:1px solid #eee; box-sizing:border-box}
+
+.mypart2{padding:0 1rem}
+.mypart2 .con{background:#fff; padding:0.5rem 0.8rem; border-radius:6px}
+.mypart2 .con .pa2_tit{ height:2rem; line-height:2rem; border-bottom:1px solid #f7f7f7}
+.mypart2 .con .pa2_tit p{ float:left; font-size:0.8rem; color:#000; font-weight:bold;}
+.mypart2 .con .pa2_tit a{ display:block; float:right; color:#666; font-size:0.75rem}
+.mypart2 .con ul{ overflow:hidden; padding-top:0.3rem; width:100%;}
+.mypart2 .con ul li{ float:left; width:25%; text-align:center; padding:0.5rem 0}
+.mypart2 .con ul li .ddimg{ width:1.5rem; height:1.5rem; margin:0 auto; position:relative;}
+.mypart2 .con ul li .ddimg img{ width:1.5rem; height:1.5rem;}
+.mypart2 .con ul li .ddimg .num{ position:absolute;top: 0;right: -0.2rem;z-index: 99;background: #ff2150;color: #fff;width: 0.8rem;height: 0.8rem;text-align: center;line-height: 0.8rem;border-radius: 100%;}
+.mypart2 .con ul li p{ text-align:center; line-height:1.5rem; font-size:0.75rem; color:#666}
+
+
+.mypart3{padding:0 1rem}
+.mypart3 .con{background:#fff; padding:0.5rem 0.8rem; border-radius:6px}
+.mypart3 .con .pa2_tit{ height:2rem; line-height:2rem; border-bottom:1px solid #f7f7f7}
+.mypart3 .con .pa2_tit p{ float:left; font-size:0.8rem; color:#000; font-weight:bold;}
+.mypart3 .con .pa2_tit a{ display:block; float:right; color:#666; font-size:0.75rem}
+.mypart3 .con ul{background:#fff; padding:0.5rem 0.8rem; border-radius:6px; overflow:hidden; padding-top:1rem;width:100%;}
+.mypart3 .con ul li{ float:left; width:25%; text-align:center; padding-bottom:0.5rem}
+.mypart3 .con ul li img{ height:2.5rem}
+.mypart3 .con ul li p{ text-align:center; font-size:0.75rem; color:#666; line-height:1.5rem}
+
+.mypart2 .pa2con{}
+.mypart2 .pa2con img{ width:100%}
+.mypart2 .pa2con p{ color:#000; line-height:2rem; font-size:0.8rem}
+
+.likebox.my{ margin:0 1rem}
+
+.mypart4{padding:0 1rem; padding-bottom:0.5rem}
+.mypart4 img{ display:block; margin:0 auto; height:1.5rem}

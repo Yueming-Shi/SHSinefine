@@ -5,7 +5,7 @@
         <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
             <div class="o_portal_docs list-group">
                 <t t-if="wallet_count" t-call="portal.portal_docs_entry">
-                    <t t-set="title">Wallet Transactions</t>
+                    <t t-set="title">Point Transactions</t>
                     <t t-set="url" t-value="'/my/wallet-transactions'"/>
                     <t t-set="count" t-value="wallet_count"/>
                 </t>
@@ -16,11 +16,11 @@
     <template id="portal_my_wallet_transactions" name="My Wallet Transactions">
       <t t-call="portal.portal_layout">
         <br/>
-        <h3 class="text-center">Wallet Transactions
+        <h3 class="text-center">Point Transactions
         </h3>
         <br/>
         <t t-if="not wallets">
-            <p>There are currently no Wallet Transaction for your account.</p>
+            <p>There are currently no Point Transaction for your account.</p>
         </t>
         <div t-if="wallets" class="panel panel-default">
             <div class="table-responsive"><table class="table table-hover o_portal_my_doc_table">

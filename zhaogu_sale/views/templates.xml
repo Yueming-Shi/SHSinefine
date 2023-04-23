@@ -123,7 +123,7 @@
                     </div>
                 </div>
 
-                <label><input name="no_change" type="checkbox" value="1"/>免泡</label>
+                <label><input name="no_change" type="checkbox" t-att-checked="no_change" value="1"/>免泡</label>
 
                 <t t-if="error_message">
                     <div>
@@ -139,7 +139,7 @@
             <div id="pop-up-permission" class="pop-up-permission">
               <div class="pop-header">提示</div>
               <div class="pop-body">
-                为了更好的为您服务，请您如实填写您的个人信息。
+                为了防止您的包裹丢失，<span style ="color:#E3170D">请准确填写住址</span>。
               </div>
               <div class="pop-footer row">
                 <div class="col-6">
@@ -295,6 +295,9 @@
             <script src="https://lib.sinaapp.com/js/jquery/2.0.2/jquery-2.0.2.min.js"/>
             <link rel="stylesheet" type="text/css" href="/zhaogu_sale/static/src/css/sale_portal_orders.css"/>
             <script src="/zhaogu_sale/static/src/js/sale_portal_orders.js"/>
+
+            <t t-set="point_balance" t-value="request.env.user.partner_id.wallet_balance"/>
+            <input type="hidden" name="point_balance" t-att-value="point_balance"/>
             <div style="height:60px;line-height:60px;text-align:center;">
                 <span style="font-weight:bold;font-size:24px;">我的订单</span>
             </div>
@@ -324,12 +327,14 @@
 
                             </div>
                         </div>
+                        <t t-set="shipping_total" t-value="'{0:,.2f}'.format(sum(line.shipping_bill_id.sale_invoice_ids.filtered(lambda l: l.payment_state not in ['paid', 'reversed', 'invoicing_legacy']).mapped('amount_total')))"/>
+                        <input type="hidden" name="shipping_total" t-att-value="shipping_total"/>
                         <div class="order-div-line-body row">
                             <div class="col-6">取件码：
                                 <span t-if="line.shipping_bill_id" t-esc="line.shipping_bill_id.picking_code"/>
                             </div>
                             <div class="col-6 text-right">价格：
-                                <span t-if="line.shipping_bill_id and line.shipping_bill_id.sale_invoice_ids" t-esc="'{0:,.2f}'.format(sum(line.shipping_bill_id.sale_invoice_ids.filtered(lambda l: l.payment_state not in ['paid', 'reversed', 'invoicing_legacy']).mapped('amount_total')))"/>
+                                <span t-if="line.shipping_bill_id and line.shipping_bill_id.sale_invoice_ids" t-esc="shipping_total"/>
                                 <span t-else="">待计算</span>
                             </div>
                         </div>
@@ -346,6 +351,9 @@
                                         <input type="hidden" t-att-value="line.shipping_bill_id.id" id="order-id-btn"/>
                                         <button t-if="not line.shipping_bill_id.has_returned" class="sub-butn return-shipment">退运</button>
                                         <button t-else="" class="sub-butn">退运中</button>
+                                    </div>
+                                    <div>
+                                      <button class="sub-butn point-payment" style="width:100px;">点卡支付</button>
                                     </div>
                                 </div>
                             </t>
@@ -366,20 +374,42 @@
                     <div>
                         <div>
                             <lable>退运收件人</lable>
-                            <input type="text" name="name" readonly="readonly" class="return-shipment-detail"/>
+                            <input type="text" name="name" class="return-shipment-detail"/>
                         </div>
                         <div>
                             <lable>退运联系电话</lable>
-                            <input type="text" name="phone" readonly="readonly" class="return-shipment-detail"/>
+                            <input type="text" name="phone" class="return-shipment-detail"/>
                         </div>
                         <div>
                             <lable>退运地址</lable>
-                            <input type="text" name="address" readonly="readonly" class="return-shipment-detail"/>
+                            <input type="text" name="address" class="return-shipment-detail"/>
                         </div>
                     </div>
                     <div style="display:flex;">
                         <button type="submit" style="flex:1;" class="sub-butn" id="return-shipment-btn">确定</button>
                         <button type="button" style="flex:1;" id="clear-btn" class="sub-butn">取消</button>
+                    </div>
+                </div>
+            </form>
+
+            <form action="/shpping/point/payment" method="post" id="point-payment-form">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <input type="hidden" name="order_id" class="point-order-id"/>
+                <div class="point-payment-detail">
+                    <div>
+                      <div>使用点卡支付</div>
+                      <span class="clear-x">×</span>
+                    </div>
+                    <div>
+                      <div>点卡余额：<span t-esc="point_balance"/></div>
+                      <div>本次扣款金额：<span class="deduction-balance"/></div>
+                    </div>
+                    <div class="balance-sufficient">
+                      <button type="submit" style="flex:1;" class="sub-butn">确定</button>
+                      <button type="button" style="flex:1;" id="clear-point" class="sub-butn">取消</button>
+                    </div>
+                    <div>
+                      <button type="button" class="not-balance" readonly="readonly">余额不足</button>
                     </div>
                 </div>
             </form>
