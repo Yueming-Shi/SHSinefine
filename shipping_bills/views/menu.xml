@@ -21,7 +21,7 @@
     <menuitem id="root_menu_operational_kanban_board" name="操作员"
               parent="root_menu_shipping_bills" sequence="3"/>
 
-    <menuitem id="menu_shipping_large_parcel" name="大包裹"  parent="root_menu_operational_kanban_board"
+    <menuitem id="menu_shipping_large_parcel" name="转运包裹"  parent="root_menu_operational_kanban_board"
               action="action_shipping_large_parcel" sequence="6"/>
 
     <!--站点操作-->

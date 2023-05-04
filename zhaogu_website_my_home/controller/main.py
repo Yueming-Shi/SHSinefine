@@ -4,6 +4,7 @@
 import logging
 
 from odoo import http
+from random import choice
 from odoo.exceptions import UserError
 from odoo.http import request
 from werkzeug.urls import url_join, url_encode
@@ -18,10 +19,16 @@ class Controller(http.Controller):
         partner = request.env.user.partner_id
         order = request.website.sale_get_order()
         wishlist = request.env['product.wishlist'].with_context(display_default_code=False).current()
+        banner = request.env['web.protal.img'].search([])
+        if banner:
+            banner = choice(request.env['web.protal.img'].search([]))
+        else:
+            banner=[]
         values = {
             'partner': partner,
             'website_sale_order': order,
-            'wishlist': wishlist
+            'wishlist': wishlist,
+            'banner': banner
         }
         return request.render('zhaogu_website_my_home.haitao_website_my_home', values)
 
