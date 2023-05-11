@@ -7,7 +7,8 @@ from odoo import http
 from odoo.http import request
 from odoo.addons.auth_oauth.controllers.main import OAuthLogin as Home, OAuthController as Controller
 import requests
-
+import logging
+_logger = logging.getLogger(__name__)
 
 def _set_wx_auth_link(provider):
     params = dict(
@@ -60,6 +61,7 @@ class OAuthController(Controller):
             request.session.authenticate(request.session.db, user.login, user_info['unionid'])
             return request.redirect('/')
         except Exception as e:
+            _logger.info(str(e))
             return request.redirect('/web/login')
 
     @http.route('/wechat/update_user_mobile', type='http', auth='none')
