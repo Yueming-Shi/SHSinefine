@@ -12,7 +12,7 @@ import requests
 def _set_wx_auth_link(provider):
     params = dict(
         appid=provider['app_id'],
-        redirect_uri=request.httprequest.url_root + 'wechat/signin',
+        redirect_uri=request.httprequest.url_root + 'wechat/signin_new',
         response_type='code',
         scope=provider['scope'],
         state=str(provider['id'])
@@ -50,7 +50,7 @@ class OAuthLogin(Home):
 
 class OAuthController(Controller):
 
-    @http.route('/wechat/signin', type='http', auth='none')
+    @http.route('/wechat/signin_new', type='http', auth='none')
     def wechat_signin(self, **kwargs):
         try:
             provider = request.env['auth.oauth.provider'].sudo().browse(int(kwargs['state']))
