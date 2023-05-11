@@ -58,12 +58,12 @@ class OAuthController(Controller):
             user_info = provider.sudo().get_wx_userinfo(token_info)
             user = request.env['res.users'].sudo().get_by_userInfo(user_info, provider.id)
             request.session.authenticate(request.session.db, user.login, user_info['unionid'])
-            return http.local_redirect('/')
+            return request.redirect('/')
         except Exception as e:
-            return http.local_redirect('/web/login')
+            return request.redirect('/web/login')
 
     @http.route('/wechat/update_user_mobile', type='http', auth='none')
     def wechat_update_user_mobile(self, user_id, mobile):
         user = request.env['res.users'].sudo().browse(int(user_id))
         user.sudo().update_mobile(mobile)
-        return http.local_redirect('/')
+        return request.redirect('/')
