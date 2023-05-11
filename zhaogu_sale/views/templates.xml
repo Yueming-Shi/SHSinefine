@@ -184,6 +184,7 @@
 		    $("select[name='sale_category_id']").change(function() {
 		      btn_state($(this))
 		    })
+
 		  })
 		</script>
 	    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
@@ -233,8 +234,7 @@
 		<span class="s_website_form_mark" style="color:#1A67FF;"> *</span>
 		<div class="row">
 		  <div class="col-12">
-		    <select name="sale_category_id" id="sale-category-id" class="form-control-input form-control-sm">
-		      <option value="0"/>
+		    <select name="sale_category_id" id="sale-category-id" class="form-control-input form-control-sm" required="required">
 		      <option t-foreach="sale_categories" t-as="category" t-att-value="category[0]" t-esc="category[1]" t-att-selected="str(category[0])==str(sale_category_id)"/>
 		    </select>
 		  </div>
@@ -248,8 +248,7 @@
 		<span class="s_website_form_mark" style="color:#1A67FF;"> *</span>
 		<div class="row">
 		  <div class="col-12">
-		    <select name="product_brand_id" id="product-brand-id" class="form-control-input form-control-sm" style="height:44px;">
-		      <option value="0"/>
+		    <select name="product_brand_id" id="product-brand-id" class="form-control-input form-control-sm" style="height:44px;" required="required">
 		      <option t-foreach="product_brands" t-as="brand" t-att-value="brand[0]" t-esc="brand[1]" t-att-selected="str(brand[0])==str(product_brand_id)"/>
 		    </select>
 		  </div>
@@ -260,8 +259,7 @@
 		<span class="s_website_form_mark" style="color:#1A67FF;"> *</span>
 		<div class="row">
 		  <div class="col-12">
-		    <select name="product_material_id" class="form-control-input form-control-sm">
-		      <option value="0"/>
+		    <select name="product_material_id" class="form-control-input form-control-sm" required="required">
 		      <option t-foreach="product_materials" t-as="material" t-att-value="material[0]" t-esc="material[1]" t-att-selected="str(material[0])==str(product_material_id)"/>
 		    </select>
 		  </div>
@@ -272,7 +270,7 @@
 		<span class="s_website_form_mark" style="color:#1A67FF;"> *</span>
 		<div class="row">
 		  <div class="col-12">
-		    <input type="text" name="qty" class="form-control-input form-control-sm" t-att-value="qty"/>
+		    <input type="text" name="qty" required="required" class="form-control-input form-control-sm" t-att-value="qty"/>
 		  </div>
 		</div>
 	      </div>
@@ -296,7 +294,7 @@
             <link rel="stylesheet" type="text/css" href="/zhaogu_sale/static/src/css/sale_portal_orders.css"/>
             <script src="/zhaogu_sale/static/src/js/sale_portal_orders.js"/>
 
-            <t t-set="point_balance" t-value="request.env.user.partner_id.wallet_balance"/>
+<!--             <t t-set="point_balance" t-value="request.env.user.partner_id.wallet_balance"/> -->
             <input type="hidden" name="point_balance" t-att-value="point_balance"/>
             <div style="height:60px;line-height:60px;text-align:center;">
                 <span style="font-weight:bold;font-size:24px;">我的订单</span>
@@ -352,9 +350,9 @@
                                         <button t-if="not line.shipping_bill_id.has_returned" class="sub-butn return-shipment">退运</button>
                                         <button t-else="" class="sub-butn">退运中</button>
                                     </div>
-                                    <div>
+<!--                                     <div>
                                       <button class="sub-butn point-payment" style="width:100px;">点卡支付</button>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </t>
                         </div>
@@ -392,7 +390,7 @@
                 </div>
             </form>
 
-            <form action="/shpping/point/payment" method="post" id="point-payment-form">
+<!--             <form action="/shpping/point/payment" method="post" id="point-payment-form">
                 <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                 <input type="hidden" name="order_id" class="point-order-id"/>
                 <div class="point-payment-detail">
@@ -412,7 +410,7 @@
                       <button type="button" class="not-balance" readonly="readonly">余额不足</button>
                     </div>
                 </div>
-            </form>
+            </form> -->
         </t>
     </template>
 

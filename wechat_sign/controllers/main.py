@@ -15,8 +15,8 @@ from odoo.addons.web.controllers import main
 
  
 def is_valid_email(email):
-    return  re.compile(r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$')
-
+    pattern = re.compile(r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$')
+    return pattern.match(email)
 
 SIGN_UP_REQUEST_PARAMS.update({'site_id'})
 _logger = logging.getLogger(__name__)
@@ -73,6 +73,11 @@ class PortalAccount(CustomerPortal):
         })
         return request.render("wechat_sign.portal_my_teams", values)
 
+    @http.route(['/my', '/my/home'], type='http', auth="user", website=True)
+    def home(self, **kw):
+        if request.session.uid and request.session.uid != 2 and not is_valid_email(request.env['res.users'].browse(request.session.uid).login):
+            return  request.redirect('/bind/email', 301, False) 
+        return super().home(**kw)
 
 class AuthSignupHome(AuthSignupHome):
 
@@ -148,7 +153,7 @@ class Home(main.Home):
     @http.route('/web', type='http', auth="none")
     def web_client(self, s_action=None, **kw):
         #import pdb;pdb.set_trace()
-        print(request.session.uid)
+        
         if request.session.uid and request.session.uid != 2 and not is_valid_email(request.env['res.users'].browse(request.session.uid).login):
             return  request.redirect('/bind/email', 301, False) 
         return super().web_client(s_action, **kw)
@@ -159,13 +164,22 @@ class Home(main.Home):
             if request.params.get('login'):
                 login = request.params.get('login')
                 if is_valid_email(login):                    
-                    request.env['res.users'].browse(request.session.uid).write({'login': login})
+                    request.env['res.users'].browse(request.session.uid).sudo().write({
+                        'login': login,
+                        'email': login,
+                        })
                     try:
                         request.env['res.users'].browse(request.session.uid).action_reset_password()
                     except Exception as e:
                         _logger.info(str(e))
-                    return request.redirect('/web/signup')
+                    user_agent = request.httprequest.environ.get('HTTP_USER_AGENT', '')
+                    if user_agent.find('MicroMessenger') > -1:
+                        return request.redirect('/web/signup')
+                    return request.redirect('/web/login')
                 else:
                     return request.render('wechat_sign.bind_email', {'error': 'Invaild email'})
-                    
+            else:
+                    return request.render('wechat_sign.bind_email', {'error': 'Empty email'})        
         return request.render('wechat_sign.bind_email')
+
+

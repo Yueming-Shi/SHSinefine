@@ -37,7 +37,8 @@
            
             <image
             t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('QR', '%sweb/signup' % request.httprequest.url_root, 120, 120)" />
-            <p>微信扫码快速登录</p>
+                <p class="pc_tip">微信扫码快速登录</p>
+                <p class="mobile_tip">长按识别二维码</p>
             </div>
         </xpath>
     </template>
@@ -71,7 +72,7 @@
                     <form class="oe_bind_email_form" role="form" method="post">
                     <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                         <div class="form-group field-login">
-                            <label for="login" class="col-form-label">Your Email</label>
+                            <label for="login" class="col-form-label">请绑定Email(*必填)</label>
                             <input type="text" name="login" t-att-value="login" id="login" class="form-control"
                                 autofocus="autofocus" required="required" autocapitalize="off"/>
                         </div>

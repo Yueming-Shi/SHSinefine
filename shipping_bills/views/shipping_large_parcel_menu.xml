@@ -34,7 +34,7 @@
 
                     <group>
                         <group>
-                            <field name="site_id"/>
+                            <field name="site_id" domain="[('is_city_agency', '=', True)]"/>
                             <field name="create_date" string="创建时间"/>
                             <field name="delivery_time"/>
                             <field name="sender_contact" domain="[('is_city_agency', '=', True)]"/>
