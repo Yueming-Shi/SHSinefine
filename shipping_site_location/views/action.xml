@@ -27,7 +27,7 @@
         <field name="res_model">shipping.bill</field>
         <field name="view_mode">tree,form</field>
         <field name="view_id" ref="shipping_bill_head_less_piece"/>
-        <field name="domain">[('sale_order_id','=', False)]</field>
+        <field name="domain">[('is_no_header','=', True)]</field>
     </record>
 
     <record id="action_shipping_bill_disposable" model="ir.actions.act_window">
@@ -63,7 +63,7 @@
                    eval="[(5, 0, 0),
                           (0, 0, {'view_mode': 'tree', 'view_id': ref('shipping_bill_modified_foam_tree')}),
                           (0, 0, {'view_mode': 'form', 'view_id': ref('shipping_bill_modified_foam_form')})]"/>
-        <field name="domain">[('can_change','=', True), ('has_changed', '=', True), ('state', '=', 'valued')]</field>
+        <field name="domain">[('can_change','=', True), ('has_changed', '=', True), ('state', 'in', ['valued', 'paired'])]</field>
     </record>
 
 </odoo>

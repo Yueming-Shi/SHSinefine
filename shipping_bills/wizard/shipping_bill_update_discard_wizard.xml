@@ -8,7 +8,7 @@
             <form>
                 <sheet>
                     <group>
-                        <field name="data" placeholder="运单号"/>
+                        <field name="data" placeholder="运单号/取件码"/>
                     </group>
                 </sheet>
                 <footer>

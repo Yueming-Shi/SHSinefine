@@ -106,6 +106,12 @@ class ShippingBill(models.Model):
     return_contact = fields.Char('退运收件人')
     return_mobile = fields.Char('退运联系电话')
     return_name = fields.Char('退运单号')
+
+    @api.onchange('return_name')
+    def _onchage_return_name(self):
+        _today = date.today()
+        self.returned_date =  _today
+
     returned_date = fields.Date('退运日期')
     in_days = fields.Integer('入库天数')
 
@@ -165,7 +171,7 @@ class ShippingBill(models.Model):
 
     def multi_action_change(selfs):
         selfs.multi_action_compute()
-        selfs.write({'is_changed_done': True})
+        selfs.write({'is_changed_done': True, 'state': 'valued'})
 
     def action_remind_payment(selfs):
         for self in selfs:

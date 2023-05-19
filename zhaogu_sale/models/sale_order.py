@@ -20,7 +20,7 @@ class SaleOrder(models.Model):
             self = cls.create({'partner_id':user.partner_id.id,})
         return self
 
-    def portal_update_line(self, sale_category_id, brand_id, material_id, qty, order_line_id):
+    def portal_update_line(self, sale_category_id, brand_id, material_id, qty, order_line_id, product_other):
         sale_category_id, brand_id, material_id, qty = sale_category_id.strip(), brand_id.strip(),\
                                                        material_id.strip(), qty.strip()
         try:
@@ -39,6 +39,7 @@ class SaleOrder(models.Model):
                 'product_id': product.id, 'product_uom': product.uom_id.id,
                 'product_uom_qty': qty, 'name': product.name,
                 'product_brand_id': brand_id,
+                'other_remake': product_other
             })]})
         else:
             sale_order_line = self.order_line.filtered(lambda l:str(l.id) == order_line_id)
@@ -46,6 +47,7 @@ class SaleOrder(models.Model):
                 'product_id': product.id, 'product_uom': product.uom_id.id,
                 'product_uom_qty': qty, 'name': product.name,
                 'product_brand_id': brand_id.id,
+                'other_remake': product_other
             })
 
 

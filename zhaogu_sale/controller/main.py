@@ -135,7 +135,10 @@ class Controller(http.Controller):
                     {'order_id': order_id, 'shipping_no': shipping_no, 'error_message': '明细不能为空'}))
             sale_order.write({'shipping_no':shipping_no})
             if shipping_id:
-                sale_order.shipping_bill_id = shipping_id.id
+                sale_order.write({
+                    'fetch_no': shipping_id.picking_code,
+                    'shipping_bill_id': shipping_id.id
+                })
                 shipping_id.sale_order_id = sale_order.id
                 shipping_id.state = 'paired'
                 if shipping_id.state == 'paired':
@@ -155,7 +158,7 @@ class Controller(http.Controller):
                 request.env['product.category.determined'].sudo().create({
                     'name': product_other
                 })
-            sale_order.portal_update_line(sale_category_id, product_brand_id, product_material_id, qty, order_line_id)
+            sale_order.portal_update_line(sale_category_id, product_brand_id, product_material_id, qty, order_line_id, product_other)
         except UserError as e:
             params = {
                 'order_id':order_id, 'error_message':str(e), 'order_line_id':order_line_id,
