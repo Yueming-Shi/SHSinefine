@@ -110,7 +110,7 @@ class ShippingBill(models.Model):
     @api.onchange('return_name')
     def _onchage_return_name(self):
         _today = date.today()
-        self.returned_date =  _today
+        self.returned_date = _today
 
     returned_date = fields.Date('退运日期')
     in_days = fields.Integer('入库天数')
