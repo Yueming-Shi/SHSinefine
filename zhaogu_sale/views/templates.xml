@@ -68,36 +68,36 @@
 
     <template id="sale_portal_fill_order_create_template" name="包裹预报">
         <t t-call="website.layout">
-          <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+            <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
             <link rel="stylesheet" type="text/css" href="/zhaogu_sale/static/src/css/fill_order.css"/>
             <script crossorigin="anonymous" integrity="sha512-n/4gHW3atM3QqRcbCn6ewmpxcLAHGaDjpEBu4xZd47N0W2oQ+6q7oc3PXstrJYXcbNU1OHdQ1T7pAP+gi5Yu8g==" src="https://lib.baomitu.com/jquery/3.6.0/jquery.js"/>
             <script>
-            	$(document).ready(function() {
-              	$('.clear-button').click(function() {
-                  $('#pop-up-permission').css('display','none')
+                $(document).ready(function() {
+                $('.clear-button').click(function() {
+                $('#pop-up-permission').css('display','none')
                 })
-            		$('#sub-mit-btn').click(function() {
-	            		let data = {
-      				      csrf_token: $('#csrf-token').val(),
-      				    }
-            			$.ajax({
-				          type:"post",
-				          url: '/user/detail/edit',
-				          data: data,
-				          async:true,
-				          success:function(res){
-				            if (res == '200') {
-                      $('#sub-mit-btn-ok').click()
-				           } else {
-				             $('#pop-up-permission').css('display', 'block')
-				           }
-				          },
-				          error: function (xhr, textStatus, errorThrown) {
-				
-				          }
-				          })
-            		})
-            	})
+                $('#sub-mit-btn').click(function() {
+                let data = {
+                csrf_token: $('#csrf-token').val(),
+                }
+                $.ajax({
+                type:"post",
+                url: '/user/detail/edit',
+                data: data,
+                async:true,
+                success:function(res){
+                if (res == '200') {
+                $('#sub-mit-btn-ok').click()
+                } else {
+                $('#pop-up-permission').css('display', 'block')
+                }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+
+                }
+                })
+                })
+                })
             </script>
             <div style="height:60px;line-height:60px;text-align:center;">
                 <span style="font-weight:bold;font-size:24px;">包裹预报</span>
@@ -122,9 +122,7 @@
                         </div>
                     </div>
                 </div>
-
-                <label><input name="no_change" type="checkbox" t-att-checked="no_change" value="1"/>免泡</label>
-
+                <label class=""><input name="no_change" type="checkbox" t-att-disabled="no_change" value="1"/> VIP预存客户专用免泡</label>
                 <t t-if="error_message">
                     <div>
                         <span>错误信息:</span>
@@ -137,20 +135,20 @@
                 </div>
             </form>
             <div id="pop-up-permission" class="pop-up-permission">
-              <div class="pop-header">提示</div>
-              <div class="pop-body">
-                为了防止您的包裹丢失，<span style ="color:#E3170D">请准确填写住址</span>。
-              </div>
-              <div class="pop-footer row">
-                <div class="col-6">
-                  <a href="/my/account?redirect=https://trans.sinefine.store/order/nocustomer">
-                    <span class="submit-button">确认</span>
-                  </a>
+                <div class="pop-header">提示</div>
+                <div class="pop-body">
+                    为了防止您的包裹丢失，<span style ="color:#E3170D">请准确填写住址</span>。
                 </div>
-                <div class="col-6">
-                  <span class="submit-button clear-button">取消</span>
+                <div class="pop-footer row">
+                    <div class="col-6">
+                        <a href="/my/account?redirect=https://trans.sinefine.store/order/nocustomer">
+                            <span class="submit-button">确认</span>
+                        </a>
+                    </div>
+                    <div class="col-6">
+                        <span class="submit-button clear-button">取消</span>
+                    </div>
                 </div>
-              </div>
             </div>
         </t>
     </template>
@@ -325,7 +323,7 @@
 
                             </div>
                         </div>
-                        <t t-set="shipping_total" t-value="'{0:,.2f}'.format(sum(line.shipping_bill_id.sale_invoice_ids.filtered(lambda l: l.payment_state not in ['paid', 'reversed', 'invoicing_legacy']).mapped('amount_total')))"/>
+                        <t t-set="shipping_total" t-value="'{0:,.2f}'.format(sum(line.shipping_bill_id.sale_invoice_ids.filtered(lambda l: l.payment_state not in ['paid', 'reversed', 'invoicing_legacy']  and l.state != 'cancel').mapped('amount_total')))"/>
                         <input type="hidden" name="shipping_total" t-att-value="shipping_total"/>
                         <div class="order-div-line-body row">
                             <div class="col-6">取件码：

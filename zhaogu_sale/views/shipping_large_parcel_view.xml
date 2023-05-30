@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="shipping_large_parcel_form" model="ir.ui.view">
+        <field name="name">shipping_large_parcel_form</field>
+        <field name="model">shipping.large.parcel</field>
+        <field name="inherit_id" ref="shipping_bills.shipping_large_parcel_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='shipping_bill_ids']/tree/field[@name='sale_site_id']" position="after">
+                <field name="sale_order_line_ids" widget="many2many_tags" string="海关编码"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

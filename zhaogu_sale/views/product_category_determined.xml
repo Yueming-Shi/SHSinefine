@@ -1,13 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record id="product_category_determined_form" model="ir.ui.view">
-        <field name="name">product_category_determined_form</field>
+    <record id="product_category_determined_tree" model="ir.ui.view">
+        <field name="name">product_category_determined_tree</field>
         <field name="model">product.category.determined</field>
         <field name="arch" type="xml">
             <tree editable="bottom">
                 <field name="name"/>
+                <field name="product_id"/>
+                <field name="order_id"/>
+                <field name="category_id"/>
+                <field name="material_quality_id"/>
+                <field name="product_brand_id"/>
             </tree>
+        </field>
+    </record>
+
+    <record id="product_category_determined_form" model="ir.ui.view">
+        <field name="name">product_category_determined_form</field>
+        <field name="model">product.category.determined</field>
+        <field name="arch" type="xml">
+            <form string="Partners">
+                <header>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="order_id"/>
+                            <field name="material_quality_id"/>
+                        </group>
+                        <group>
+                            <field name="product_id"/>
+                            <field name="category_id"/>
+                            <field name="product_brand_id"/>
+                            <field name="order_line_id" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
         </field>
     </record>
 

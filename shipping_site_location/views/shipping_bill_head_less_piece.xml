@@ -11,6 +11,8 @@
                 <field name="name" readonly="1"/>
                 <field name="sale_fetch_no" readonly="1"/>
                 <field name="sale_partner_id" readonly="1"/>
+                <field name="shipping_factor_id" readonly="1"/>
+                <field name="site_location_id" readonly="1"/>
                 <field name="sale_site_id" readonly="1"/>
                 <field name="signed_date"/>
                 <field name="state" invisible="1"/>

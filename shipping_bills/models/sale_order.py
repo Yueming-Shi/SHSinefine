@@ -8,7 +8,12 @@ class SaleOrder(models.Model):
 
     shipping_no = fields.Char(string='运单号',copy=False)
     fetch_no = fields.Char(string='取件码')
-    partner_team_site_id = fields.Many2one('res.partner',related='partner_id.team_id.site_id',string='站点',store=True)
+    partner_team_site_id = fields.Many2one('res.partner', string='站点', store=True)
+
+    @api.onchange('partner_id')
+    def onchange_partner_team_site_id(self):
+        self.partner_team_site_id = self.partner_id.team_id.site_id.id
+
     partner_team_site_contact_address = fields.Char(string='站点地址',related='partner_team_site_id.contact_address',store=True)
 
     shipping_bill_id = fields.Many2one('shipping.bill')

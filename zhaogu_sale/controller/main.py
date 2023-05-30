@@ -16,13 +16,17 @@ class Controller(http.Controller):
     @http.route('/order/nocustomer', type='http', auth='public', methods=['GET'], csrf=False, website=True)
     def sale_fill_order_create_view(self, waybill_no=False):
         partner_type = request.env.user.partner_id.partner_vip_type
-        no_change = False
-        if partner_type in ['svip', 'vip']:
-            no_change = True
+
+        # 不可改泡
+        no_change = True
+
+        if partner_type == 'svip':
+            no_change = False
+
         values = {
             'user_name': request.env.user.name,
             'waybill_no': waybill_no,
-            'no_change': no_change
+            'no_change': no_change,
         }
         return request.render('zhaogu_sale.sale_portal_fill_order_create_template', values)
 
@@ -31,6 +35,7 @@ class Controller(http.Controller):
         user = request.env.user
         partner_type = request.env.user.partner_id.partner_vip_type
         no_change = False
+        website_id = request.website.id
         if partner_type in ['svip', 'vip']:
             no_change = True
         sale_shipping_no = request.env['sale.order'].sudo().search(
@@ -50,6 +55,8 @@ class Controller(http.Controller):
                 'partner_id': user.partner_id.id,
                 'shipping_no': kwargs.get('shipping_no'),
                 'no_change': bool(kwargs.get('no_change')),
+                'partner_team_site_id': user.partner_id.team_id.site_id.id,
+                'website_id': website_id
             }
             sale_order = request.env['sale.order'].sudo().create(values)
             return request.redirect('/sale/portal/fill_order?order_id=' + str(sale_order.id))
@@ -135,7 +142,10 @@ class Controller(http.Controller):
                     {'order_id': order_id, 'shipping_no': shipping_no, 'error_message': '明细不能为空'}))
             sale_order.write({'shipping_no':shipping_no})
             if shipping_id:
-                sale_order.shipping_bill_id = shipping_id.id
+                sale_order.write({
+                    'fetch_no': shipping_id.picking_code,
+                    'shipping_bill_id': shipping_id.id
+                })
                 shipping_id.sale_order_id = sale_order.id
                 shipping_id.state = 'paired'
                 if shipping_id.state == 'paired':
@@ -151,11 +161,7 @@ class Controller(http.Controller):
                                     qty, shipping_no=None,**kwargs):
         sale_order = request.env['sale.order'].sudo().browse(int(order_id))
         try:
-            if product_other:
-                request.env['product.category.determined'].sudo().create({
-                    'name': product_other
-                })
-            sale_order.portal_update_line(sale_category_id, product_brand_id, product_material_id, qty, order_line_id)
+            sale_order.portal_update_line(sale_category_id, product_brand_id, product_material_id, qty, order_line_id, product_other)
         except UserError as e:
             params = {
                 'order_id':order_id, 'error_message':str(e), 'order_line_id':order_line_id,

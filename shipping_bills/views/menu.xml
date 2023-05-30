@@ -41,6 +41,9 @@
     <menuitem id="menu_shipping_site_list" name="站点列表"  parent="menu_shipping_bills_config"
           action="sales_team.crm_team_action_config" sequence="3"/>
 
+    <menuitem id="menu_modification_fee" name="改泡费"  parent="menu_shipping_bills_config"
+          action="action_modification_fee" sequence="5"/>
+
     <!--订单查询-->
     <menuitem id="menu_shipping_bills_order_inquiry" name="订单查询"
               parent="root_menu_shipping_bills" sequence="6"/>

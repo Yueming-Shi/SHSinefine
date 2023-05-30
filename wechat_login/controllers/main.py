@@ -7,12 +7,13 @@ from odoo import http
 from odoo.http import request
 from odoo.addons.auth_oauth.controllers.main import OAuthLogin as Home, OAuthController as Controller
 import requests
-
+import logging
+_logger = logging.getLogger(__name__)
 
 def _set_wx_auth_link(provider):
     params = dict(
         appid=provider['app_id'],
-        redirect_uri=request.httprequest.url_root + 'wechat/signin',
+        redirect_uri=request.httprequest.url_root + 'wechat/signin_new',
         response_type='code',
         scope=provider['scope'],
         state=str(provider['id'])
@@ -50,7 +51,7 @@ class OAuthLogin(Home):
 
 class OAuthController(Controller):
 
-    @http.route('/wechat/signin', type='http', auth='none')
+    @http.route('/wechat/signin_new', type='http', auth='none')
     def wechat_signin(self, **kwargs):
         try:
             provider = request.env['auth.oauth.provider'].sudo().browse(int(kwargs['state']))
@@ -58,12 +59,13 @@ class OAuthController(Controller):
             user_info = provider.sudo().get_wx_userinfo(token_info)
             user = request.env['res.users'].sudo().get_by_userInfo(user_info, provider.id)
             request.session.authenticate(request.session.db, user.login, user_info['unionid'])
-            return http.local_redirect('/')
+            return request.redirect('/')
         except Exception as e:
-            return http.local_redirect('/web/login')
+            _logger.info(str(e))
+            return request.redirect('/web/login')
 
     @http.route('/wechat/update_user_mobile', type='http', auth='none')
     def wechat_update_user_mobile(self, user_id, mobile):
         user = request.env['res.users'].sudo().browse(int(user_id))
         user.sudo().update_mobile(mobile)
-        return http.local_redirect('/')
+        return request.redirect('/')

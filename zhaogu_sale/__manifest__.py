@@ -16,7 +16,9 @@
         'views/product_sale_category.xml',
         'views/product_category_determined.xml',
         'views/shipping_bill.xml',
+        'views/shipping_large_parcel_view.xml',
         'views/templates.xml',
+        'data/ir_sequence.xml'
     ],
     'installable': True,
     'auto_install': False,

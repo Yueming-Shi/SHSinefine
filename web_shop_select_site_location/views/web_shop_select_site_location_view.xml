@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="website_shop_select_site_page" inherit_id="website_sale_delivery.payment_delivery" name="Website Select Site">
+        <xpath expr="//div[@id='delivery_carrier']" position="after">
+            <t t-set="order" t-value="request.website.sale_get_order()"/>
+            <input type="hidden" name="partner_site_id" t-att-value="order.partner_id.team_id.id"/>
+            <script crossorigin="anonymous" integrity="sha512-n/4gHW3atM3QqRcbCn6ewmpxcLAHGaDjpEBu4xZd47N0W2oQ+6q7oc3PXstrJYXcbNU1OHdQ1T7pAP+gi5Yu8g==" src="https://lib.baomitu.com/jquery/3.6.0/jquery.js"/>
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet"/>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"/>
+            <script src="/web_shop_select_site_location/static/src/js/main.js"/>
+            <div class="col-lg-12" id="select-site-table" style="margin: 32px 0; padding: 1.25rem; border: 1px solid rgba(0, 0, 0, 0.125);border-radius: 0.25rem;">
+                <div class="website-select-site">
+                    <div class="checkbox">
+                        <div id="select-header" style="font-size: 16px;">
+                            <label style="font-size: 18px; cursor:auto; color: #337AB7; padding-left: 0px;"> 选择站点 </label>
+                        </div>
+                    </div>
+                    <div style="position:relative;">
+                        <select name="select_site" id="select-site">
+                            <optgroup label="站点">
+                                <option value="0">请选择</option>
+                                <t t-foreach="request.env['crm.team'].sudo().search([('site_id', '!=', False)])" t-as="site">
+                                    <option t-if="order.partner_team_site_id.id == site.site_id.id" t-att-value="site.id" selected="selected">
+                                        <span t-esc="site.name"/>
+                                    </option>
+                                    <option t-else="" t-att-value="site.id">
+                                        <span t-esc="site.name"/>
+                                    </option>
+                                </t>
+                            </optgroup>
+                        </select>
+                        <br/>
+                        <div id="site-address"/>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>

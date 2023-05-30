@@ -5,6 +5,9 @@
         <field name="priority">20</field>
         <field name="arch" type="xml">
             <form>
+                <header>
+                    <button name="multi_action_compute" string="运费计算" type="object" attrs="{'invisible':[('state','!=','paired')]}"/>
+                </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                     </div>
@@ -16,6 +19,7 @@
                     <group name="1">
                         <group name="11">
                             <field name="in_date" readonly="1" force_save="1"/>
+                            <field name="state" invisible="1"/>
                             <field name="name" widget="my_char_field"/>
                             <field name="picking_code" widget="my_char_field"/>
                             <field name="length"/>

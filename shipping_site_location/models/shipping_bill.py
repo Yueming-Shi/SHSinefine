@@ -13,17 +13,26 @@ class ShippingBill(models.Model):
     # 仓库位置
     site_location_id = fields.Many2one('site.location', string="仓库位置", compute="_compute_site_location")
     remark = fields.Char('备注')
+    is_no_header = fields.Boolean('无头件')
 
     def _inverse_frontend_trigger(selfs):
         for self in selfs.filtered(lambda s: s.frontend_trigger):
-            frontend_trigger_arr = self.frontend_trigger.split(',')
-            getattr(self, frontend_trigger_arr[0])()
-            self.state = 'paired'
-            if self.state == 'paired':
-                getattr(self, frontend_trigger_arr[1])()
+            getattr(self, self.frontend_trigger)()
+            # frontend_trigger_arr = self.frontend_trigger.split(',')
+            # getattr(self, frontend_trigger_arr[0])()
+            # self.state = 'paired'
+            # if self.state == 'paired':
+            #     getattr(self, frontend_trigger_arr[1])()
             self.write({'frontend_trigger': False})
 
     frontend_trigger = fields.Char(inverse='_inverse_frontend_trigger')
+
+    @api.model_create_multi
+    def create(self,val_list):
+        res = super(ShippingBill, self).create(val_list)
+        if res.site_location_id.name == '无头位置':
+            res.is_no_header = True
+        return res
 
     @api.onchange('name')
     def onchange_name(self):
@@ -34,13 +43,13 @@ class ShippingBill(models.Model):
                 self.update({
                     'sale_order_id': sale_order.id,
                     'no_change': sale_order.no_change,
-                    'frontend_trigger': 'multi_action_match,multi_action_compute',
+                    'frontend_trigger': 'multi_action_match',
                 })
             else:
                 self.update({
                     'sale_order_id': False,
                     'no_change': False,
-                    'frontend_trigger': 'multi_action_match,multi_action_compute',
+                    'frontend_trigger': 'multi_action_match',
                 })
 
     def _compute_site_location(selfs):
