@@ -18,6 +18,7 @@
         'views/shipping_bill.xml',
         'views/shipping_large_parcel_view.xml',
         'views/templates.xml',
+        'data/ir_sequence.xml'
     ],
     'installable': True,
     'auto_install': False,

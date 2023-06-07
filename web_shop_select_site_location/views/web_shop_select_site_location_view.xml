@@ -29,6 +29,8 @@
                                 </t>
                             </optgroup>
                         </select>
+                        <br/>
+                        <div id="site-address"/>
                     </div>
                 </div>
             </div>

@@ -48,6 +48,7 @@
                             <field name="width"/>
                             <field name="height"/>
                             <field name="volume"/>
+                            <field name="weight"/>
                         </group>
                     </group>
                     <notebook>
@@ -69,12 +70,6 @@
                 </sheet>
             </form>
         </field>
-    </record>
-
-    <record model="ir.actions.act_window" id="action_shipping_large_parcel">
-        <field name="name">大包裹</field>
-        <field name="res_model">shipping.large.parcel</field>
-        <field name="view_mode">tree,form</field>
     </record>
 
 </odoo>

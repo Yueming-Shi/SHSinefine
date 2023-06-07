@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data noupdate="0">
+        <record id="ir_actions_server_shipping_large_parcel_sms" model="ir.actions.server">
+            <field name="name">运单大包裹发送短信</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="shipping_bills.model_shipping_bill"/>
+            <field name="binding_model_id" ref="shipping_bills.model_shipping_bill"/>
+            <field name="binding_view_types">list</field>
+            <field name="state">code</field>
+            <field name="code">
+                for record in records:
+                    records.shipping_large_parcel_sms(record.mobile)
+            </field>
+        </record>
+    </data>
+
+    <data noupdate="0">
+        <record id="ir_actions_server_shipping_bill_unpaid_sms" model="ir.actions.server">
+            <field name="name">未付款订单发送短信</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="shipping_bills.model_shipping_bill"/>
+            <field name="binding_model_id" ref="shipping_bills.model_shipping_bill"/>
+            <field name="binding_view_types">list</field>
+            <field name="state">code</field>
+            <field name="code">
+                for record in records:
+                    records.shipping_bill_unpaid_sms(record.mobile)
+            </field>
+        </record>
+    </data>
+
+    <data noupdate="0">
+        <record id="ir_actions_server_new_product_launch_sms" model="ir.actions.server">
+            <field name="name">新品上市发送短信</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="binding_model_id" ref="base.model_res_partner"/>
+            <field name="binding_view_types">list</field>
+            <field name="state">code</field>
+            <field name="code">
+                for record in records:
+                    records.new_product_launch_sms(record.mobile)
+            </field>
+        </record>
+    </data>
+
+    <data noupdate="0">
+        <record id="ir_actions_server_shopping_cart_sms" model="ir.actions.server">
+            <field name="name">遗弃的购物车发送短信</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="binding_model_id" ref="sale.model_sale_order"/>
+            <field name="binding_view_types">list</field>
+            <field name="state">code</field>
+            <field name="code">
+                for record in records:
+                    records.shopping_cart_sms(record.mobile)
+            </field>
+        </record>
+    </data>
+</odoo>

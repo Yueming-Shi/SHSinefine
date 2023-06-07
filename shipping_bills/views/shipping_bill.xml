@@ -15,6 +15,11 @@
                 <field name="actual_weight" digits="[42, 1]"/>
                 <field name="uom_id"/>
                 <field name="discarded_date"/>
+
+                <field name="origin_length" optional="hide"/>
+                <field name="origin_width" optional="hide"/>
+                <field name="origin_height" optional="hide"/>
+                <field name="origin_actual_weight" optional="hide"/>
             </tree>
         </field>
     </record>

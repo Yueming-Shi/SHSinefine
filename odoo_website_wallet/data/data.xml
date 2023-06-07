@@ -2,10 +2,10 @@
 <odoo>
 	<data noupdate="1">
 		<record id="product_product_wallet" model="product.template">
-			<field name="name">Wallet Recharge</field>
+			<field name="name">Point Recharge</field>
 			<field name="website_published" eval="True"/>
 			<field name="type">service</field>
-			<field name="description_sale">Wallet Recharge</field>
+			<field name="description_sale">Point Recharge</field>
 			<field name="taxes_id" eval="False"/>
 		</record>
 

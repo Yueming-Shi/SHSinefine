@@ -2,7 +2,7 @@
 <odoo>
     <template id="sale_portal_fill_order_template" name="包裹预报">
         <t t-call="website.layout">
-          <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+            <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
             <link rel="stylesheet" type="text/css" href="/zhaogu_sale/static/src/css/fill_order.css"/>
             <div style="height:60px;line-height:60px;text-align:center;">
                 <span style="font-weight:bold;font-size:24px;">包裹预报</span>
@@ -55,12 +55,12 @@
                     </t>
                 </table>
                 <div style="display:flex;">
-                	<t t-set="sale_order" t-value="request.env['sale.order'].browse(int(order_id))"/>
-                	<t t-if="not sale_order.shipping_bill_id">
-                		<input type="submit" t-if="not state" class="sub-butn" value="添加明细" formaction="/sale/portal/fill_order_line"/>
-                    	<input type="submit" t-if="not state" class="sub-butn" value="删除" formaction="/sale/portal/delete"/>
-                    	<input type="submit" t-if="not state" class="sub-butn" value="提交" formaction="/sale/portal/save"/>
-                	</t>
+                    <t t-set="sale_order" t-value="request.env['sale.order'].browse(int(order_id))"/>
+                    <t t-if="not sale_order.shipping_bill_id">
+                        <input type="submit" t-if="not state" class="sub-butn" value="添加明细" formaction="/sale/portal/fill_order_line"/>
+                        <input type="submit" t-if="not state" class="sub-butn" value="删除" formaction="/sale/portal/delete"/>
+                        <input type="submit" t-if="not state" class="sub-butn" value="提交" formaction="/sale/portal/save"/>
+                    </t>
                 </div>
             </form>
         </t>
@@ -68,37 +68,12 @@
 
     <template id="sale_portal_fill_order_create_template" name="包裹预报">
         <t t-call="website.layout">
-          <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+            <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
             <link rel="stylesheet" type="text/css" href="/zhaogu_sale/static/src/css/fill_order.css"/>
             <script crossorigin="anonymous" integrity="sha512-n/4gHW3atM3QqRcbCn6ewmpxcLAHGaDjpEBu4xZd47N0W2oQ+6q7oc3PXstrJYXcbNU1OHdQ1T7pAP+gi5Yu8g==" src="https://lib.baomitu.com/jquery/3.6.0/jquery.js"/>
-            <script>
-            	$(document).ready(function() {
-              	$('.clear-button').click(function() {
-                  $('#pop-up-permission').css('display','none')
-                })
-            		$('#sub-mit-btn').click(function() {
-	            		let data = {
-      				      csrf_token: $('#csrf-token').val(),
-      				    }
-            			$.ajax({
-				          type:"post",
-				          url: '/user/detail/edit',
-				          data: data,
-				          async:true,
-				          success:function(res){
-				            if (res == '200') {
-                      $('#sub-mit-btn-ok').click()
-				           } else {
-				             $('#pop-up-permission').css('display', 'block')
-				           }
-				          },
-				          error: function (xhr, textStatus, errorThrown) {
-				
-				          }
-				          })
-            		})
-            	})
-            </script>
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet"/>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"/>
+            <script src="/zhaogu_sale/static/src/js/main.js"/>
             <div style="height:60px;line-height:60px;text-align:center;">
                 <span style="font-weight:bold;font-size:24px;">包裹预报</span>
             </div>
@@ -122,35 +97,68 @@
                         </div>
                     </div>
                 </div>
-
-                <label><input name="no_change" type="checkbox" t-att-checked="no_change" value="1"/>免泡</label>
-
+                <label class="">
+                    <span t-if="no_change" style="display:inline-block;width:13px;height:13px;border:1px solid #C0C0C0;background-color: rgba(128,138,135,0.3);border-radius:2px;margin-top:3px;"/>
+                    <input t-else="" name="no_change" type="checkbox" t-att-disabled="no_change" value="1"/> SVIP预存客户专用免泡</label>
                 <t t-if="error_message">
                     <div>
                         <span>错误信息:</span>
-                        <input type="text" name="error_message" t-att-value="error_message" disabled="disabled" class="form-control-input form-control-sm"/>
+                        <input type="text" name="error_message" t-att-value="error_message" disabled="disabled" class="form-control-input form-control-sm" style="margin-top:3px;"/>
                     </div>
                 </t>
+
+                <div class="row" style="height:30px;line-height:30px;">
+                    <div class="col-8">默认站点：<span t-field="partner.team_id.name"/></div>
+                    <div class="col-4 text-right" style="font-size:14px;">是否修改 <input style="position:relative;top:2px;" type="checkbox" name="site_select" id="site-select-input"/></div>
+                </div>
+
+                <div class="col-lg-12" id="select-site-table" style="margin: 32px 0; padding: 1.25rem; border: 1px solid rgba(0, 0, 0, 0.125);border-radius: 0.25rem;">
+                    <div class="website-select-site">
+                        <div class="checkbox">
+                            <div id="select-header" style="font-size: 16px;">
+                                <label style="font-size: 18px; cursor:auto; color: #337AB7; padding-left: 0px;"> 选择站点 </label>
+                            </div>
+                        </div>
+                        <div style="position:relative;">
+                            <select name="select_site" id="select-site">
+                                <optgroup label="站点">
+                                    <option value="0">请选择</option>
+                                    <t t-foreach="request.env['crm.team'].sudo().search([('site_id', '!=', False)])" t-as="site">
+                                        <option t-if="partner.team_id.site_id.id == site.site_id.id" t-att-value="site.site_id.id" selected="selected">
+                                            <span t-esc="site.name"/>
+                                        </option>
+                                        <option t-else="" t-att-value="site.site_id.id">
+                                            <span t-esc="site.name"/>
+                                        </option>
+                                    </t>
+                                </optgroup>
+                            </select>
+                            <br/>
+                            <div id="site-address"/>
+                        </div>
+                    </div>
+                </div>
+
                 <div style="display:flex;">
                     <input type="button" id="sub-mit-btn" class="sub-butn" value="提交"/>
                     <input style="display:none;" type="submit" id="sub-mit-btn-ok" class="sub-butn" value="提交"/>
                 </div>
             </form>
             <div id="pop-up-permission" class="pop-up-permission">
-              <div class="pop-header">提示</div>
-              <div class="pop-body">
-                为了防止您的包裹丢失，<span style ="color:#E3170D">请准确填写住址</span>。
-              </div>
-              <div class="pop-footer row">
-                <div class="col-6">
-                  <a href="/my/account?redirect=https://trans.sinefine.store/order/nocustomer">
-                    <span class="submit-button">确认</span>
-                  </a>
+                <div class="pop-header">提示</div>
+                <div class="pop-body">
+                    为了防止您的包裹丢失，<span style="color:#E3170D">请准确填写住址</span>。
                 </div>
-                <div class="col-6">
-                  <span class="submit-button clear-button">取消</span>
+                <div class="pop-footer row">
+                    <div class="col-6">
+                        <a href="/my/account?redirect=https://trans.sinefine.store/order/nocustomer">
+                            <span class="submit-button">确认</span>
+                        </a>
+                    </div>
+                    <div class="col-6">
+                        <span class="submit-button clear-button">取消</span>
+                    </div>
                 </div>
-              </div>
             </div>
         </t>
     </template>
@@ -293,9 +301,6 @@
             <script src="https://lib.sinaapp.com/js/jquery/2.0.2/jquery-2.0.2.min.js"/>
             <link rel="stylesheet" type="text/css" href="/zhaogu_sale/static/src/css/sale_portal_orders.css"/>
             <script src="/zhaogu_sale/static/src/js/sale_portal_orders.js"/>
-
-<!--             <t t-set="point_balance" t-value="request.env.user.partner_id.wallet_balance"/> -->
-            <input type="hidden" name="point_balance" t-att-value="point_balance"/>
             <div style="height:60px;line-height:60px;text-align:center;">
                 <span style="font-weight:bold;font-size:24px;">我的订单</span>
             </div>
@@ -336,6 +341,13 @@
                                 <span t-else="">待计算</span>
                             </div>
                         </div>
+
+                        <div class="order-div-line-body row">
+                            <div class="col-6">取货站点：
+                                <span t-esc="line.partner_team_site_id.name"/>
+                            </div>
+                        </div>
+
                         <div class="order-div-line-body">
                             <t t-if="line.shipping_bill_id and line.shipping_bill_id.state == 'valued' and line.shipping_bill_id.sale_invoice_payment_state == '支付未完成'">
                                 <div style="display:flex;">
@@ -350,9 +362,6 @@
                                         <button t-if="not line.shipping_bill_id.has_returned" class="sub-butn return-shipment">退运</button>
                                         <button t-else="" class="sub-butn">退运中</button>
                                     </div>
-<!--                                     <div>
-                                      <button class="sub-butn point-payment" style="width:100px;">点卡支付</button>
-                                    </div> -->
                                 </div>
                             </t>
                         </div>
@@ -389,28 +398,6 @@
                     </div>
                 </div>
             </form>
-
-<!--             <form action="/shpping/point/payment" method="post" id="point-payment-form">
-                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                <input type="hidden" name="order_id" class="point-order-id"/>
-                <div class="point-payment-detail">
-                    <div>
-                      <div>使用点卡支付</div>
-                      <span class="clear-x">×</span>
-                    </div>
-                    <div>
-                      <div>点卡余额：<span t-esc="point_balance"/></div>
-                      <div>本次扣款金额：<span class="deduction-balance"/></div>
-                    </div>
-                    <div class="balance-sufficient">
-                      <button type="submit" style="flex:1;" class="sub-butn">确定</button>
-                      <button type="button" style="flex:1;" id="clear-point" class="sub-butn">取消</button>
-                    </div>
-                    <div>
-                      <button type="button" class="not-balance" readonly="readonly">余额不足</button>
-                    </div>
-                </div>
-            </form> -->
         </t>
     </template>
 

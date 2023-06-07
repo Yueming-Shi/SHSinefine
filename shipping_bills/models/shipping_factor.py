@@ -6,11 +6,18 @@ class ShippingFactor(models.Model):
     _description = '线路敏感性'
 
     name = fields.Char('名称')
-    factor = fields.Float(string='体积重系数')
     currency_id = fields.Many2one('res.currency', string='币种', required=True)
 
+    factor = fields.Float('体积重系数')
     first_weight = fields.Float('首重')
     first_total_price = fields.Float('首重总价')
     next_weight_to_ceil = fields.Float('续重取整')
     next_price_unit = fields.Float('续重单价')
+
+
+    vip_first_weight = fields.Float('SVIP首重')
+    vip_first_total_price = fields.Float('SVIP首重总价')
+    vip_next_weight_to_ceil = fields.Float('SVIP续重取整')
+    vip_next_price_unit = fields.Float('SVIP续重单价')
+
 

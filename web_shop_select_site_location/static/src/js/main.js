@@ -3,14 +3,9 @@ $(document).ready(function() {
   $('#select-site-table').css('display', 'none')
 
   let csrf_token = $("input[name='csrf_token']").val()
-  let site_id = 0
-//  let partner_id = $("input[name='partner_site_id']").val()
-//  let partner_name = $("input[name='site_name']").val()
-//
-//  $('#select-site').val(partner_id)
-//  $('.select2-selection__rendered').text(partner_name)
-//  site_id = partner_id
-//  delivery_type_select_ajax(site_id)
+  let site_id = $('#select-site').val()
+
+  delivery_type_select_ajax(site_id)
 
   $(".o_delivery_carrier_select").click(function() {
     let way = $(this).children('label').text()
@@ -41,7 +36,12 @@ $(document).ready(function() {
       },
       async:true,
       success:function(res){
-        console.log(res)
+        val = JSON.parse(res)
+        if (val['site_address']) {
+          $('#site-address').text(val['site_address'])
+        } else {
+          $('#site-address').text('')
+        }
       },
       error: function (xhr, textStatus, errorThrown) {
         console.log(xhr, textStatus, errorThrown)

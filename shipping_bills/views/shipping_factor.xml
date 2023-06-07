@@ -1,19 +1,58 @@
 <odoo>
-    <record id="shipping_factor_tree" model="ir.ui.view">
-        <field name="name">shipping_factor_tree</field>
-        <field name="model">shipping.factor</field>
-        <field name="arch" type="xml">
-            <tree>
-                <field name="name"/>
-                <field name="factor"/>
-                <field name="first_weight"/>
-                <field name="first_total_price"/>
-                <field name="next_weight_to_ceil"/>
-                <field name="next_price_unit"/>
-            </tree>
-        </field>
-    </record>
+    <data>
+
+        <record id="shipping_factor_tree" model="ir.ui.view">
+            <field name="name">shipping_factor_tree</field>
+            <field name="model">shipping.factor</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="factor"/>
+                    <field name="first_weight"/>
+                    <field name="first_total_price"/>
+                    <field name="next_weight_to_ceil"/>
+                    <field name="next_price_unit"/>
+                    <field name="vip_first_weight"/>
+                    <field name="vip_first_total_price"/>
+                    <field name="vip_next_weight_to_ceil"/>
+                    <field name="vip_next_price_unit"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="shipping_factor_form" model="ir.ui.view">
+            <field name="name">shipping_factor_form</field>
+            <field name="model">shipping.factor</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header></header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="first_weight"/>
+                                <field name="first_total_price"/>
+                                <field name="next_weight_to_ceil"/>
+                                <field name="next_price_unit"/>
+                                <field name="factor"/>
+                            </group>
+                            <group>
+                                <field name="vip_first_weight"/>
+                                <field name="vip_first_total_price"/>
+                                <field name="vip_next_weight_to_ceil"/>
+                                <field name="vip_next_price_unit"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
 
 
+    </data>
 
 </odoo>

@@ -34,12 +34,12 @@
                     </div>
                     <div style="display:flex;">
                         <div style="flex:1;"><label for="has_bought_safety"/><field name="has_bought_safety"/></div>
-                        <div style="flex:1;"><label for="no_change"/><field name="no_change"/></div>
-                        <div style="flex:1;"><label for="can_change"/><field name="can_change"/></div>
-                        <div style="flex:1;"><label for="has_changed"/><field name="has_changed"/></div>
-                        <div style="flex:1;"><label for="is_changed_done"/><field name="is_changed_done"/></div>
-                        <div style="flex:1;"><label for="disposable"/><field name="disposable"/></div>
-                        <div style="flex:1;"><label for="has_returned"/><field name="has_returned"/></div>
+                        <div style="flex:1;"><label for="no_change"/><field name="no_change" readonly="1"/></div>
+                        <div style="flex:1;"><label for="can_change"/><field name="can_change" attrs="{'readonly':[('has_changed','=', True)]}"/></div>
+                        <div style="flex:1;"><label for="has_changed"/><field name="has_changed" readonly="1"/></div>
+                        <div style="flex:1;"><label for="is_changed_done"/><field name="is_changed_done" readonly="1"/></div>
+                        <div style="flex:1;"><label for="disposable"/><field name="disposable" readonly="1"/></div>
+                        <div style="flex:1;"><label for="has_returned"/><field name="has_returned" readonly="1"/></div>
                     </div>
                     <hr/>
                     <group name="1">

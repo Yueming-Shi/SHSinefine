@@ -14,6 +14,8 @@ class ShippingBill(models.Model):
     site_location_id = fields.Many2one('site.location', string="仓库位置", compute="_compute_site_location")
     remark = fields.Char('备注')
     is_no_header = fields.Boolean('无头件')
+    return_cost = fields.Float('退运成本')
+    return_note = fields.Char('退运备注')
 
     def _inverse_frontend_trigger(selfs):
         for self in selfs.filtered(lambda s: s.frontend_trigger):
@@ -54,7 +56,7 @@ class ShippingBill(models.Model):
 
     def _compute_site_location(selfs):
         for self in selfs:
-            if self.sale_order_id:
+            if self.sale_order_id and self.sale_order_id.partner_team_site_id:
                 if self.shipping_factor_id and self.sale_site_id:
                     site_location_id = self.env['site.location'].search([
                         ('factor_id', '=', self.shipping_factor_id.id),

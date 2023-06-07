@@ -121,74 +121,111 @@ class ShippingBill(models.Model):
                         },
                     }
                     self.wx_information_send(token, data)
+                elif vals.get('state') == 'signed':
+                    data = {
+                        "touser": openid,
+                        "template_id": "39cHpuIfpSc6Vi_iclQ1Mg2skCg_-jC3nFNnuVXK4A4",
+                        "url": "",
+                        "miniprogram": {},
+                        "client_msg_id": "",
+                        "data": {
+                            "first": {
+                                "value": "您好，您的包裹已签收。",
+                                "color": "#173177"
+                            },
+                            "keyword1": {
+                                "value": self.sale_site_id.name,
+                                "color": "#173177"
+                            },
+                            "keyword2": {
+                                "value": self.picking_code,
+                                "color": "#173177"
+                            },
+                            "keyword3": {
+                                "value": self.sale_partner_id.name,
+                                "color": "#173177"
+                            },
+                            "keyword4": {
+                                "value": str('{0:,.2f}'.format(self.fee)),
+                                "color": "#173177"
+                            },
+                            "remark": {
+                                "value": "点击查看详情。",
+                                "color": "#173177"
+                            },
+                        },
+                    }
+                    self.wx_information_send(token, data)
         return result
 
     def multi_action_compute(selfs):
         result = super().multi_action_compute()
         for self in selfs:
             openid = self.sale_partner_id.user_ids.wx_openid
-            # 获取token
-            token = selfs.env['ir.config_parameter'].sudo().search([('key', '=', 'wechat.access_token')]).value
-            data = {
-                "touser": openid,
-                "template_id": "nyb0HsFu4oVOyR712tQFurlpt27foVsRwIb9pDge3vA",
-                "url": "https://trans.sinefine.store/order/trans/unpaid",
-                "miniprogram": {},
-                "client_msg_id": "",
-                "data": {
-                    "first": {
-                        "value": "您好，您的包裹已到达仓库。",
-                        "color": "#173177"
+            if openid:
+                # 获取token
+                token = selfs.env['ir.config_parameter'].sudo().search([('key', '=', 'wechat.access_token')]).value
+                data = {
+                    "touser": openid,
+                    "template_id": "nyb0HsFu4oVOyR712tQFurlpt27foVsRwIb9pDge3vA",
+                    "url": "https://trans.sinefine.store/order/trans/unpaid",
+                    "miniprogram": {},
+                    "client_msg_id": "",
+                    "data": {
+                        "first": {
+                            "value": "您好，您的包裹已到达仓库。",
+                            "color": "#173177"
+                        },
+                        "orderno": {
+                            "value": self.name,
+                            "color": "#173177"
+                        },
+                        "amount": {
+                            "value": str('{0:,.2f}'.format(self.fee)),
+                            "color": "#173177"
+                        },
+                        "remark": {
+                            "value": "请在72小时内完成支付，避免延误发货。",
+                            "color": "#173177"
+                        },
                     },
-                    "orderno": {
-                        "value": self.name,
-                        "color": "#173177"
-                    },
-                    "amount": {
-                        "value": str('{0:,.2f}'.format(self.fee)),
-                        "color": "#173177"
-                    },
-                    "remark": {
-                        "value": "请在72小时内完成支付，避免延误发货。",
-                        "color": "#173177"
-                    },
-                },
-            }
-            self.wx_information_send(token, data)
+                }
+                self.wx_information_send(token, data)
         return result
 
     def multi_action_change(selfs):
         result = super().multi_action_change()
         for self in selfs:
-            openid = self.sale_partner_id.user_ids.wx_openid
-            # 获取token
-            token = selfs.env['ir.config_parameter'].sudo().search([('key', '=', 'wechat.access_token')]).value
-            data = {
-                "touser": openid,
-                "template_id": "nyb0HsFu4oVOyR712tQFurlpt27foVsRwIb9pDge3vA",
-                "url": "",
-                "miniprogram": {},
-                "client_msg_id": "",
-                "data": {
-                    "first": {
-                        "value": "您好，您的包裹已完成改泡，请点击信息付款。",
-                        "color": "#173177"
+            if openid:
+                openid = self.sale_partner_id.user_ids.wx_openid
+                # 获取token
+                token = selfs.env['ir.config_parameter'].sudo().search([('key', '=', 'wechat.access_token')]).value
+                data = {
+                    "touser": openid,
+                    "template_id": "nyb0HsFu4oVOyR712tQFurlpt27foVsRwIb9pDge3vA",
+                    "url": "",
+                    "miniprogram": {},
+                    "client_msg_id": "",
+                    "data": {
+                        "first": {
+                            "value": "您好，您的包裹已完成改泡，请点击信息付款。",
+                            "color": "#173177"
+                        },
+                        "orderno": {
+                            "value": self.name,
+                            "color": "#173177"
+                        },
+                        "amount": {
+                            "value": '{0:,.2f}'.format(self.fee),
+                            "color": "#173177"
+                        },
+                        "remark": {
+                            "value": "请在72小时内完成支付，否则订单将被取消。",
+                            "color": "#173177"
+                        },
                     },
-                    "orderno": {
-                        "value": self.name,
-                        "color": "#173177"
-                    },
-                    "amount": {
-                        "value": '{0:,.2f}'.format(self.fee),
-                        "color": "#173177"
-                    },
-                    "remark": {
-                        "value": "请在72小时内完成支付，否则订单将被取消。",
-                        "color": "#173177"
-                    },
-                },
-            }
-            self.wx_information_send(token, data)
+                }
+                self.wx_information_send(token, data)
         return result
 
     def wx_information_send(self, token, data):

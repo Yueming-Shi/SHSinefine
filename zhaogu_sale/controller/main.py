@@ -16,13 +16,18 @@ class Controller(http.Controller):
     @http.route('/order/nocustomer', type='http', auth='public', methods=['GET'], csrf=False, website=True)
     def sale_fill_order_create_view(self, waybill_no=False):
         partner_type = request.env.user.partner_id.partner_vip_type
-        no_change = False
-        if partner_type in ['svip', 'vip']:
-            no_change = True
+        partner = request.env.user.partner_id
+        # 不可改泡
+        no_change = True
+
+        if partner_type == 'svip':
+            no_change = False
+
         values = {
             'user_name': request.env.user.name,
             'waybill_no': waybill_no,
-            'no_change': no_change
+            'no_change': no_change,
+            'partner': partner
         }
         return request.render('zhaogu_sale.sale_portal_fill_order_create_template', values)
 
@@ -30,6 +35,10 @@ class Controller(http.Controller):
     def sale_fill_order_create(self, **kwargs):
         user = request.env.user
         partner_type = request.env.user.partner_id.partner_vip_type
+        if kwargs.get('select_site') != '0':
+            partner_team_site_id = int(kwargs.get('select_site'))
+        else:
+            partner_team_site_id = user.partner_id.team_id.site_id.id
         no_change = False
         if partner_type in ['svip', 'vip']:
             no_change = True
@@ -50,7 +59,7 @@ class Controller(http.Controller):
                 'partner_id': user.partner_id.id,
                 'shipping_no': kwargs.get('shipping_no'),
                 'no_change': bool(kwargs.get('no_change')),
-                'partner_team_site_id': user.partner_id.team_id.site_id.id
+                'partner_team_site_id': partner_team_site_id
             }
             sale_order = request.env['sale.order'].sudo().create(values)
             return request.redirect('/sale/portal/fill_order?order_id=' + str(sale_order.id))
@@ -155,10 +164,6 @@ class Controller(http.Controller):
                                     qty, shipping_no=None,**kwargs):
         sale_order = request.env['sale.order'].sudo().browse(int(order_id))
         try:
-            if product_other:
-                request.env['product.category.determined'].sudo().create({
-                    'name': product_other
-                })
             sale_order.portal_update_line(sale_category_id, product_brand_id, product_material_id, qty, order_line_id, product_other)
         except UserError as e:
             params = {

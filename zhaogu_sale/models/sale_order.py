@@ -32,23 +32,52 @@ class SaleOrder(models.Model):
         brand_id = brand_id and int(brand_id) or False
         material_id = material_id and int(material_id) or False
 
-        product = self.env['product.product'].model_find_from_portal(sale_category_id, material_id)
+        sale_category_name = self.env['product.sale.category'].browse(int(sale_category_id)).name
 
-        if not order_line_id:
-            self.write({'order_line':[(0,0,{
+        if sale_category_name == '其他（请注明）':
+            product = self.env['product.product'].create({
+                'name': sale_category_name + '-' + self.env['ir.sequence'].next_by_code('product.category.determined'),
+                'sale_category_id': sale_category_id,
+                'material_id': material_id,
+                'type': 'service',
+                'list_price': 0.0,
+            })
+
+            self.write({'order_line': [(0, 0, {
                 'product_id': product.id, 'product_uom': product.uom_id.id,
                 'product_uom_qty': qty, 'name': product.name,
                 'product_brand_id': brand_id,
                 'other_remake': product_other
             })]})
-        else:
-            sale_order_line = self.order_line.filtered(lambda l:str(l.id) == order_line_id)
-            sale_order_line.write({
-                'product_id': product.id, 'product_uom': product.uom_id.id,
-                'product_uom_qty': qty, 'name': product.name,
-                'product_brand_id': brand_id.id,
-                'other_remake': product_other
+
+            sale_order_line = self.order_line.filtered(lambda l: l.product_id.id == product.id)
+
+            self.env['product.category.determined'].sudo().create({
+                'name': product_other,
+                'category_id': int(sale_category_id),
+                'material_quality_id': int(material_id),
+                'product_brand_id': int(brand_id),
+                'order_id': self.id,
+                'order_line_id': sale_order_line.id
             })
+        else:
+            product = self.env['product.product'].model_find_from_portal(sale_category_id, material_id)
+
+            if not order_line_id:
+                self.write({'order_line':[(0,0,{
+                    'product_id': product.id, 'product_uom': product.uom_id.id,
+                    'product_uom_qty': qty, 'name': product.name,
+                    'product_brand_id': brand_id,
+                    'other_remake': product_other
+                })]})
+            else:
+                sale_order_line = self.order_line.filtered(lambda l:str(l.id) == order_line_id)
+                sale_order_line.write({
+                    'product_id': product.id, 'product_uom': product.uom_id.id,
+                    'product_uom_qty': qty, 'name': product.name,
+                    'product_brand_id': brand_id.id,
+                    'other_remake': product_other
+                })
 
 
     @api.model

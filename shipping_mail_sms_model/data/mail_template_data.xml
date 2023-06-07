@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="mail_template_shipping_confirm_package" model="mail.template">
+            <field name="name">站点确认包裹到达</field>
+            <field name="model_id" ref="shipping_bills.model_shipping_bill"/>
+            <field name="subject">站点确认包裹到达</field>
+            <field name="email_to">{{ object.sale_partner_id.email }}</field>
+            <field name="body_html" type="html">
+                <div>test</div>
+            </field>
+            <field name="lang">{{ object.sale_partner_id.lang }}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <record id="mail_template_sign_for_shipping_order" model="mail.template">
+            <field name="name">客户签收包裹</field>
+            <field name="model_id" ref="shipping_bills.model_shipping_bill"/>
+            <field name="subject">您的包裹已签收</field>
+            <field name="email_to">{{ object.sale_partner_id.email }}</field>
+            <field name="body_html" type="html">
+                <div>test</div>
+            </field>
+            <field name="lang">{{ object.sale_partner_id.lang }}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+    </data>
+</odoo>

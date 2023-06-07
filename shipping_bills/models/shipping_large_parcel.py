@@ -27,6 +27,8 @@ class ShippingLargeParcel(models.Model):
     site_id = fields.Many2one('res.partner', '站点')
     is_sent = fields.Boolean()
 
+    weight = fields.Float('重量')
+
     @api.model_create_multi
     def create(self, vals_list):
         res = super(ShippingLargeParcel, self).create(vals_list)

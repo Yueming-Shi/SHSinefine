@@ -147,7 +147,7 @@ class WebsiteWalletPayment(WebsiteSale):
 		# if payment.acquirer is credit payment provider
 		for line in order.order_line:
 			if len(order.order_line) == 1:
-				if product and  line.product_id.id == product.id:
+				if product and line.product_id.id == product.id:
 					wallet_transaction_obj = request.env['website.wallet.transaction']        
 					if tx.acquirer_id.need_approval:
 						wallet_create = wallet_transaction_obj.sudo().create({ 
@@ -174,6 +174,9 @@ class WebsiteWalletPayment(WebsiteSale):
 							'wallet_balance': order.partner_id.wallet_balance + order.order_line.price_unit * order.order_line.product_uom_qty})
 					order.with_context(send_email=True).action_confirm()
 					request.website.sale_reset()
+				# 任意充值即为vip
+				if order.partner_id.partner_vip_type not in ['svip', 'vip']:
+					order.partner_id.partner_vip_type = 'vip'
 
 
 		if (not order.amount_total and not tx) or tx.state in ['pending', 'done', 'authorized']:

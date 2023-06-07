@@ -11,6 +11,10 @@
             <xpath expr="//field[@name='sale_invoice_payment_state']" position="after">
                 <field name="remark"/>
             </xpath>
+            <xpath expr="//field[@name='return_name']" position="after">
+                <field name="return_cost"/>
+                <field name="return_note"/>
+            </xpath>
         </field>
     </record>
 </odoo>
