@@ -51,10 +51,10 @@ class ShippingBill(models.Model):
     height = fields.Float(string='高度(cm)', tracking=True, )
     actual_weight = fields.Float('实际重量(KG)', digits=(10, 1), tracking=True, )
 
-    origin_length = fields.Float(string='长度(cm)')
-    origin_width = fields.Float(string='宽度(cm)')
-    origin_height = fields.Float(string='高度(cm)')
-    origin_actual_weight = fields.Float('实际重量(KG)', digits=(10, 1))
+    origin_length = fields.Float(string='原始长度(cm)')
+    origin_width = fields.Float(string='原始宽度(cm)')
+    origin_height = fields.Float(string='原始高度(cm)')
+    origin_actual_weight = fields.Float('原始实际重量(KG)', digits=(10, 1))
 
     uom_id = fields.Many2one('uom.uom', '单位')
     shipping_factor_id = fields.Many2one('shipping.factor', '线路敏感性', required=True, tracking=True, )
