@@ -25,7 +25,7 @@
             <field name="model">shipping.factor</field>
             <field name="arch" type="xml">
                 <form>
-                    <header></header>
+                    <header/>
                     <sheet>
                         <group>
                             <group>
@@ -34,17 +34,17 @@
                         </group>
                         <group>
                             <group>
-                                <field name="first_weight"/>
-                                <field name="first_total_price"/>
+                                <field name="first_weight" />
+                                <field name="first_total_price" digits="[16, 3]"/>
                                 <field name="next_weight_to_ceil"/>
-                                <field name="next_price_unit"/>
+                                <field name="next_price_unit" digits="[16, 3]"/>
                                 <field name="factor"/>
                             </group>
                             <group>
                                 <field name="vip_first_weight"/>
-                                <field name="vip_first_total_price"/>
+                                <field name="vip_first_total_price" digits="[16, 3]"/>
                                 <field name="vip_next_weight_to_ceil"/>
-                                <field name="vip_next_price_unit"/>
+                                <field name="vip_next_price_unit" digits="[16, 3]"/>
                             </group>
                         </group>
                     </sheet>

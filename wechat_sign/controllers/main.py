@@ -16,7 +16,7 @@ from odoo.addons.web.controllers import main
  
 def is_valid_email(email):
     pattern = re.compile(r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$')
-    return pattern.match(email)
+    return pattern.match(email) is not None
 
 SIGN_UP_REQUEST_PARAMS.update({'site_id'})
 _logger = logging.getLogger(__name__)
@@ -136,7 +136,7 @@ class AuthSignupHome(AuthSignupHome):
         value = super()._prepare_signup_values(qcontext)
         if qcontext.get('site_id'):
             value.update({
-                'team_id': qcontext.get('site_id')
+                'team_id': int(qcontext.get('site_id'))
             })
         #base_url = request.httprequest.base_url
         #_logger.info(base_url)
