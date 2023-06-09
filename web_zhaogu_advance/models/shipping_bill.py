@@ -196,8 +196,8 @@ class ShippingBill(models.Model):
     def multi_action_change(selfs):
         result = super().multi_action_change()
         for self in selfs:
+            openid = self.sale_partner_id.user_ids.wx_openid
             if openid:
-                openid = self.sale_partner_id.user_ids.wx_openid
                 # 获取token
                 token = selfs.env['ir.config_parameter'].sudo().search([('key', '=', 'wechat.access_token')]).value
                 data = {
