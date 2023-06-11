@@ -32,9 +32,13 @@ class IoTPayController(http.Controller):
         _logger.info("received IoTPay notification data:\n%s", pprint.pformat(post))
         tx = request.env['payment.transaction'].sudo()._handle_feedback_data('iotpay', post)
 
-        # 判断是否为充值钱包
-        if tx.state == 'done':
-            self.payment_validate_point(tx.id, sale_order_id=None)
+
+        if tx.sale_order_ids:
+            product = request.env['product.product'].browse(8984)
+            order_id = tx.sale_order_ids.order_line.filtered(lambda l:l.product_id.id == product.id)[0].order_id
+            # 判断是否为充值钱包
+            if tx.state == 'done':
+                self.payment_validate_point(tx, order_id, product)
         return 'success'  # Return 'success' to stop receiving notifications for this tx
 
     @http.route('/payment/iotpay/qrcode', type='http', auth="public", website=True, methods=['GET'])
@@ -63,25 +67,7 @@ class IoTPayController(http.Controller):
         return json.dumps({"result": 1, "order": order})
 
 
-    def payment_validate_point(self, transaction_id=None, sale_order_id=None):
-        """ Method that should be called by the server when receiving an update
-        for a transaction. State at this point :
-
-         - UDPATE ME
-        """
-
-        if sale_order_id is None:
-            order = request.website.sale_get_order()
-        else:
-            order = request.env['sale.order'].sudo().browse(sale_order_id)
-            assert order.id == request.session.get('sale_last_order_id')
-
-        if transaction_id:
-            tx = request.env['payment.transaction'].sudo().browse(transaction_id)
-
-        product = request.website.wallet_product_id
-
-        # if payment.acquirer is credit payment provider
+    def payment_validate_point(self, tx, order, product):
         for line in order.order_line:
             if product and line.product_id.id == product.id:
                 wallet_transaction_obj = request.env['website.wallet.transaction']
