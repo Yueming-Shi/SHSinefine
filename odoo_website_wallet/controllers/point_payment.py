@@ -18,16 +18,16 @@ class PointPayment(http.Controller):
         partner = request.env.user.partner_id
 
         invoice_id = post['invoice_id']
-        invoice_order = request.env['account.move'].browse(int(invoice_id))
+        invoice_order = request.env['account.move'].sudo().browse(int(invoice_id))
 
-        all_shipping_bill = request.env['shipping.bill'].search([('sale_partner_id', '=', partner.id)])
+        all_shipping_bill = request.env['shipping.bill'].sudo().search([('sale_partner_id', '=', partner.id)])
         shipping_order = all_shipping_bill.filtered(lambda l: invoice_order.id in l.sale_invoice_ids.ids)
 
         point_balance = partner.wallet_balance
         if shipping_order:
-            shipping_sale = shipping_order.sale_order_id
+            shipping_sale = shipping_order.sudo().sale_order_id
             if point_balance > invoice_order.amount_total:
-                wallet_id = request.env['website.wallet.transaction'].create({
+                wallet_id = request.env['website.wallet.transaction'].sudo().create({
                     'wallet_type': 'debit',
                     'partner_id': partner.id,
                     'sale_order_id': shipping_sale.id,
@@ -37,12 +37,12 @@ class PointPayment(http.Controller):
                     'status': 'done'
                 })
 
-                shipping_sale.write({
+                shipping_sale.sudo().write({
                     'wallet_used': shipping_sale.amount_total,
                     'wallet_transaction_id': wallet_id.id
                 })
 
-                invoice_order.update({
+                invoice_order.sudo().update({
                     'wallet_added': True,
                     'invoice_line_ids': [(0, 0, {
                             'name': 'Wallet Used' + ' ' + str(invoice_order.amount_total),
