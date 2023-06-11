@@ -115,27 +115,28 @@
 						</div>
 					</t>
 				</div>
+				<form action="/shpping/point/payment" method="post" id="point-payment-form">
+					<input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+					<input type="hidden" id="invoice-id" name="invoice_id" t-att-value="invoice.id"/>
+					<div class="point-payment-detail">
+						<div>
+							<div>使用点卡支付</div>
+							<span class="clear-x clear-point-inpt">×</span>
+						</div>
+						<div>
+							<div>点卡余额：<span t-esc="website.currency_id.symbol"/><span t-esc="'{:,.2f}'.format(partner_wallet)"/></div>
+							<div>本次扣款金额：<span t-esc="'{:,.2f}'.format(invoice.amount_total)"/></div>
+						</div>
+						<div class="balance-sufficient">
+							<button type="submit" style="flex:1;" class="sub-butn">确定</button>
+						</div>
+						<div>
+							<button type="button" class="not-balance" readonly="readonly">余额不足</button>
+						</div>
+					</div>
+				</form>
 			</li>
-			<form action="/shpping/point/payment" method="post" id="point-payment-form">
-				<input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-				<input type="hidden" id="invoice-id" name="invoice_id" t-att-value="invoice.id"/>
-				<div class="point-payment-detail">
-					<div>
-						<div>使用点卡支付</div>
-						<span class="clear-x clear-point-inpt">×</span>
-					</div>
-					<div>
-						<div>点卡余额：<span t-esc="website.currency_id.symbol"/><span t-esc="'{:,.2f}'.format(partner_wallet)"/></div>
-						<div>本次扣款金额：<span t-esc="'{:,.2f}'.format(invoice.amount_total)"/></div>
-					</div>
-					<div class="balance-sufficient">
-						<button type="submit" style="flex:1;" class="sub-butn">确定</button>
-					</div>
-					<div>
-						<button type="button" class="not-balance" readonly="readonly">余额不足</button>
-					</div>
-				</div>
-			</form>
+
 		</xpath>
 	</template>
 

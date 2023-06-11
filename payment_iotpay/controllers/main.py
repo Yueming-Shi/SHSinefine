@@ -55,14 +55,14 @@ class IoTPayController(http.Controller):
         tx = request.env['payment.transaction'].sudo().search([('reference', '=', order), ('provider', '=', 'iotpay')])
 
         product = request.website.wallet_product_id
-        order_id = request.env['sale.order'].search([('name', '=', order)])
+        order_id = request.env['sale.order'].sudo().search([('name', '=', order)])
         if not order_id:
             order_id = request.website.sale_get_order()
 
         if tx and tx.state == 'done':
             # 支付成功
             # 判断是否为充值钱包
-            if order_id.order_line.filtered(lambda l:l.product_id.id == product.id) and not request.env['website.wallet.transaction'].search([('sale_order_id', '=', order_id.id)]):
+            if order_id.sudo().order_line.filtered(lambda l:l.product_id.id == product.id) and not request.env['website.wallet.transaction'].sudo().search([('sale_order_id', '=', order_id.id)]):
                 self.payment_validate_point(tx.id, order_id.id)
 
             return json.dumps({"result": 0, "order": order})

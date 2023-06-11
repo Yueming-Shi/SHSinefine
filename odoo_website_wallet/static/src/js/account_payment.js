@@ -19,4 +19,7 @@ $(document).ready(function() {
     $('.clear-point-inpt').click(function () {
       $('#point-payment-form').css('display','none')
     })
+    $('.sub-butn').click(function () {
+      $('#point-payment-form').css('display','none')
+    })
 });

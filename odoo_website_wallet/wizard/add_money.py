@@ -27,12 +27,14 @@ class AddMoney(models.Model):
 		
 		model, template_id = self.env['ir.model.data']._xmlid_lookup(
 			"%s.%s" % ('odoo_website_wallet', 'email_template_wallet_transaction_credit_khush'))[1:3]
-		
+		email_values = {
+                	'email_to': user_id.email,
+		}
 		email_template_obj = self.env['mail.template'].browse(template_id)
 
 		for user in user_id:
 			if email_template_obj:
-				email_template_obj.sudo().send_mail(self.id, force_send=True)
+				email_template_obj.sudo().send_mail(self.id, force_send=True, email_values=email_values)
 													 
 		return True
 
@@ -95,10 +97,13 @@ class AddPayment(models.Model):
 		
 		model, template_id = self.env['ir.model.data']._xmlid_lookup(
 			"%s.%s" % ('odoo_website_wallet', 'email_template_wallet_transaction_credit_payment'))[1:3]
+		email_values = {
+                	'email_to': user_id.email,
+		}
 		email_template_obj = self.env['mail.template'].browse(template_id)
 		for wallet in wallet_id:
 			if email_template_obj:
-				email_template_obj.sudo().send_mail(self.id, force_send=True)
+				email_template_obj.sudo().send_mail(self.id, force_send=True,email_values=email_values)
 													 
 		return True
 
