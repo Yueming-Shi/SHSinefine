@@ -30,7 +30,17 @@ class IoTPayController(http.Controller):
     def iotpay_notify(self, **post):
         """ IoTPay Notify """
         _logger.info("received IoTPay notification data:\n%s", pprint.pformat(post))
-        request.env['payment.transaction'].sudo()._handle_feedback_data('iotpay', post)
+        tx = request.env['payment.transaction'].sudo()._handle_feedback_data('iotpay', post)
+
+        order_id = request.env['sale.order'].sudo().search([('name', '=', post.get('mchOrderNo'))])
+        product = request.website.wallet_product_id
+        if not order_id:
+            order_id = request.website.sale_get_order()
+        # 判断是否为充值钱包
+        if order_id.sudo().order_line.filtered(lambda l: l.product_id.id == product.id) and not request.env[
+            'website.wallet.transaction'].sudo().search([('sale_order_id', '=', order_id.id)]) and tx.state == 'done':
+            self.payment_validate_point(tx.id, order_id.id)
+
         return 'success'  # Return 'success' to stop receiving notifications for this tx
 
     @http.route('/payment/iotpay/qrcode', type='http', auth="public", website=True, methods=['GET'])
@@ -53,18 +63,8 @@ class IoTPayController(http.Controller):
     def iotpay_query(self, order):
         """query payment result from page"""
         tx = request.env['payment.transaction'].sudo().search([('reference', '=', order), ('provider', '=', 'iotpay')])
-
-        product = request.website.wallet_product_id
-        order_id = request.env['sale.order'].sudo().search([('name', '=', order)])
-        if not order_id:
-            order_id = request.website.sale_get_order()
-
         if tx and tx.state == 'done':
             # 支付成功
-            # 判断是否为充值钱包
-            if order_id.sudo().order_line.filtered(lambda l:l.product_id.id == product.id) and not request.env['website.wallet.transaction'].sudo().search([('sale_order_id', '=', order_id.id)]):
-                self.payment_validate_point(tx.id, order_id.id)
-
             return json.dumps({"result": 0, "order": order})
         return json.dumps({"result": 1, "order": order})
 
