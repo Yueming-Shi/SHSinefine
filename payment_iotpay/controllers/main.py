@@ -54,70 +54,7 @@ class IoTPayController(http.Controller):
         """query payment result from page"""
         tx = request.env['payment.transaction'].sudo().search([('reference', '=', order), ('provider', '=', 'iotpay')])
 
-        product = request.website.wallet_product_id
-        order_id = request.env['sale.order'].sudo().search([('name', '=', order)])
-        if not order_id:
-            order_id = request.website.sale_get_order()
-
         if tx and tx.state == 'done':
             # 支付成功
-            # 判断是否为充值钱包
-            if order_id.sudo().order_line.filtered(lambda l:l.product_id.id == product.id) and not request.env['website.wallet.transaction'].sudo().search([('sale_order_id', '=', order_id.id)]):
-                self.payment_validate_point(tx.id, order_id.id)
-
             return json.dumps({"result": 0, "order": order})
         return json.dumps({"result": 1, "order": order})
-
-
-    def payment_validate_point(self, transaction_id=None, sale_order_id=None):
-        """ Method that should be called by the server when receiving an update
-        for a transaction. State at this point :
-
-         - UDPATE ME
-        """
-
-        if sale_order_id is None:
-            order = request.website.sale_get_order()
-        else:
-            order = request.env['sale.order'].sudo().browse(sale_order_id)
-            assert order.id == request.session.get('sale_last_order_id')
-
-        if transaction_id:
-            tx = request.env['payment.transaction'].sudo().browse(transaction_id)
-
-        product = request.website.wallet_product_id
-
-        # if payment.acquirer is credit payment provider
-        for line in order.order_line:
-            if product and line.product_id.id == product.id:
-                wallet_transaction_obj = request.env['website.wallet.transaction']
-                if tx.acquirer_id.need_approval:
-                    wallet_create = wallet_transaction_obj.sudo().create({
-                        'wallet_type': 'credit',
-                        'partner_id': order.partner_id.id,
-                        'sale_order_id': order.id,
-                        'reference': 'sale_order',
-                        'amount': order.order_line.price_unit * order.order_line.product_uom_qty,
-                        'currency_id': order.pricelist_id.currency_id.id,
-                        'status': 'draft'
-                    })
-                else:
-                    wallet_create = wallet_transaction_obj.sudo().create({
-                        'wallet_type': 'credit',
-                        'partner_id': order.partner_id.id,
-                        'sale_order_id': order.id,
-                        'reference': 'sale_order',
-                        'amount': order.order_line.price_unit * order.order_line.product_uom_qty,
-                        'currency_id': order.pricelist_id.currency_id.id,
-                        'status': 'done'
-                    })
-                    wallet_create.wallet_transaction_email_send()  # Mail Send to Customer
-                    order.partner_id.update({
-                        'wallet_balance': order.partner_id.wallet_balance + order.order_line.price_unit * order.order_line.product_uom_qty})
-                order.with_context(send_email=True).action_confirm()
-                request.website.sale_reset()
-            # 任意充值即为vip
-            if order.partner_id.partner_vip_type not in ['svip', 'vip']:
-                order.partner_id.partner_vip_type = 'vip'
-
-        return True
