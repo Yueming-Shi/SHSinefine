@@ -224,7 +224,7 @@ class PaymentTransaction(models.Model):
                     order.partner_id.sudo().update({
                         'wallet_balance': order.partner_id.wallet_balance + order.order_line.price_unit * order.order_line.product_uom_qty})
                 order.with_context(send_email=True).action_confirm()
-                self.website.sale_reset()
+                request.website.sale_reset()
             # 任意充值即为vip
             if order.partner_id.partner_vip_type not in ['svip', 'vip']:
                 order.partner_id.partner_vip_type = 'vip'
