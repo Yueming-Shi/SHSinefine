@@ -32,15 +32,9 @@ class IoTPayController(http.Controller):
         _logger.info("received IoTPay notification data:\n%s", pprint.pformat(post))
         tx = request.env['payment.transaction'].sudo()._handle_feedback_data('iotpay', post)
 
-        order_id = request.env['sale.order'].sudo().search([('name', '=', post.get('mchOrderNo'))])
-        product = request.website.wallet_product_id
-        if not order_id:
-            order_id = request.website.sale_get_order()
         # 判断是否为充值钱包
-        if order_id.sudo().order_line.filtered(lambda l: l.product_id.id == product.id) and not request.env[
-            'website.wallet.transaction'].sudo().search([('sale_order_id', '=', order_id.id)]) and tx.state == 'done':
-            self.payment_validate_point(tx.id, order_id.id)
-
+        if tx.state == 'done':
+            self.payment_validate_point(tx.id, sale_order_id=None)
         return 'success'  # Return 'success' to stop receiving notifications for this tx
 
     @http.route('/payment/iotpay/qrcode', type='http', auth="public", website=True, methods=['GET'])
@@ -116,8 +110,8 @@ class IoTPayController(http.Controller):
                         'wallet_balance': order.partner_id.wallet_balance + order.order_line.price_unit * order.order_line.product_uom_qty})
                 order.with_context(send_email=True).action_confirm()
                 request.website.sale_reset()
-            # 任意充值即为vip
-            if order.partner_id.partner_vip_type not in ['svip', 'vip']:
-                order.partner_id.partner_vip_type = 'vip'
+                # 任意充值即为vip
+                if order.partner_id.partner_vip_type not in ['svip', 'vip']:
+                    order.partner_id.partner_vip_type = 'vip'
 
         return True
