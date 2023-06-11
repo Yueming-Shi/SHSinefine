@@ -31,6 +31,7 @@ class IoTPayController(http.Controller):
         """ IoTPay Notify """
         _logger.info("received IoTPay notification data:\n%s", pprint.pformat(post))
         request.env['payment.transaction'].sudo()._handle_feedback_data('iotpay', post)
+        request.website.sale_reset()
         return 'success'  # Return 'success' to stop receiving notifications for this tx
 
     @http.route('/payment/iotpay/qrcode', type='http', auth="public", website=True, methods=['GET'])
