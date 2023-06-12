@@ -147,7 +147,7 @@
 			<div class="o_portal_my_details">
 				<h4>点卡</h4>
 				<hr class="mt-1 mb-0"/>
-				<div><strong>余额：</strong><span t-esc="request.env.user.partner_id.wallet_balance"/></div>
+				<div><strong>余额：</strong><span t-esc="'{:,.2f}'.format(request.env.user.partner_id.wallet_balance)"/></div>
 				<div><a role="button" target="_blank" href="/add/wallet/balance" class="btn btn-link"><span class="fa fa-diamond" data-original-title="" title="" aria-describedby="tooltip888648"/> 点卡充值</a></div>
 				<div><a role="button" target="_blank" href="/my/wallet-transactions" class="btn btn-link"><span class="fa fa-money"/> 消费记录</a></div>
 			</div>
@@ -157,6 +157,7 @@
 <!--	海淘购物车移除继续购物按钮-->
 	<template id="point_cart_inherit" inherit_id="website_sale.cart" name="Shopping Cart" priority="1">
 		<xpath expr="//a[@class='btn btn-secondary mb32 d-none d-xl-inline-block']" position="replace"></xpath>
+		<xpath expr="//a[@class='btn btn-secondary mb32']" position="replace"/>
 	</template>
 
 	<template id="add_wallet_balance">
