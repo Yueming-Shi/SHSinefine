@@ -187,7 +187,7 @@ class PaymentTransaction(models.Model):
 
         for order in self.sale_order_ids:
             if order.order_line.filtered(lambda l: l.product_id.id == product.id):
-                for line in order_id.order_line:
+                for line in order.order_line:
                     wallet_transaction_obj = request.env['website.wallet.transaction']
                     if self.acquirer_id.need_approval:
                         wallet_create = wallet_transaction_obj.sudo().create({
