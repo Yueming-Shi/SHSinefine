@@ -73,11 +73,7 @@ class PortalAccount(CustomerPortal):
         })
         return request.render("wechat_sign.portal_my_teams", values)
 
-    @http.route(['/my', '/my/home'], type='http', auth="user", website=True)
-    def home(self, **kw):
-        if request.session.uid and request.session.uid != 2 and not is_valid_email(request.env['res.users'].browse(request.session.uid).login):
-            return  request.redirect('/bind/email', 301, False) 
-        return super().home(**kw)
+ 
 
 class AuthSignupHome(AuthSignupHome):
 
@@ -150,13 +146,6 @@ class AuthSignupHome(AuthSignupHome):
  
 class Home(main.Home):
 
-    @http.route('/web', type='http', auth="none")
-    def web_client(self, s_action=None, **kw):
-        #import pdb;pdb.set_trace()
-        
-        if request.session.uid and request.session.uid != 2 and not is_valid_email(request.env['res.users'].browse(request.session.uid).login):
-            return  request.redirect('/bind/email', 301, False) 
-        return super().web_client(s_action, **kw)
 
     @http.route('/bind/email', type='http',auth='public', website=True)
     def bind_email(self, **kw):
