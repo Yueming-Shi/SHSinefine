@@ -177,10 +177,12 @@ class PaymentTransaction(models.Model):
 
     @api.model
     def _handle_feedback_data(self, provider, data):
-        self.payment_validate_point()
-        return super(PaymentTransaction, self)._handle_feedback_data(provider, data)
+        res = super()._handle_feedback_data(provider, data)
+        res.payment_validate_point()
+        return res
 
     def payment_validate_point(self):
+        _logger.info("test,测试数据")
         product = request.env['product.product'].browse(8984)
 
         for order in self.sale_order_ids:
@@ -207,7 +209,8 @@ class PaymentTransaction(models.Model):
                             'currency_id': order.pricelist_id.currency_id.id,
                             'status': 'done'
                         })
-                        wallet_create.wallet_transaction_email_send()  # Mail Send to Customer
+                        # wallet_create.wallet_transaction_email_send()  # Mail Send to Customer
+                        _logger.info(wallet_create)
                     order.with_context(send_email=True).action_confirm()
                 # 任意充值即为vip
                 if order.partner_id.partner_vip_type not in ['svip', 'vip']:
