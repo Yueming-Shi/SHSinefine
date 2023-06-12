@@ -33,12 +33,12 @@ class PointPayment(http.Controller):
                     'sale_order_id': shipping_sale.id,
                     'reference': 'sale_order',
                     'amount': invoice_order.amount_total,
-                    'currency_id': shipping_order.currency_id.id,
+                    'currency_id': invoice_order.currency_id.id,
                     'status': 'done'
                 })
 
                 shipping_sale.sudo().write({
-                    'wallet_used': shipping_sale.amount_total,
+                    'wallet_used': invoice_order.amount_total,
                     'wallet_transaction_id': wallet_id.id
                 })
 
