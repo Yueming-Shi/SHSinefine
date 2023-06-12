@@ -174,3 +174,42 @@ class PaymentTransaction(models.Model):
                 self.reference, status
             )
             self._set_error("IoTPay: " + _("received invalid transaction status: %s", status))
+
+    @api.model
+    def _handle_feedback_data(self, provider, data):
+        self.payment_validate_point()
+        return super(PaymentTransaction, self)._handle_feedback_data(provider, data)
+
+    def payment_validate_point(self):
+        product = request.env['product.product'].browse(8984)
+
+        for order in self.sale_order_ids:
+            if order.order_line.filtered(lambda l: l.product_id.id == product.id):
+                for line in order_id.order_line:
+                    wallet_transaction_obj = request.env['website.wallet.transaction']
+                    if self.acquirer_id.need_approval:
+                        wallet_create = wallet_transaction_obj.sudo().create({
+                            'wallet_type': 'credit',
+                            'partner_id': order.partner_id.id,
+                            'sale_order_id': order.id,
+                            'reference': 'sale_order',
+                            'amount': line.price_unit * line.product_uom_qty,
+                            'currency_id': order.pricelist_id.currency_id.id,
+                            'status': 'draft'
+                        })
+                    else:
+                        wallet_create = wallet_transaction_obj.sudo().create({
+                            'wallet_type': 'credit',
+                            'partner_id': order.partner_id.id,
+                            'sale_order_id': order.id,
+                            'reference': 'sale_order',
+                            'amount': line.price_unit * line.product_uom_qty,
+                            'currency_id': order.pricelist_id.currency_id.id,
+                            'status': 'done'
+                        })
+                        wallet_create.wallet_transaction_email_send()  # Mail Send to Customer
+                    order.with_context(send_email=True).action_confirm()
+                # 任意充值即为vip
+                if order.partner_id.partner_vip_type not in ['svip', 'vip']:
+                    order.partner_id.partner_vip_type = 'vip'
+        return True

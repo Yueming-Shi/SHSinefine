@@ -114,13 +114,12 @@ class WebsiteWalletPayment(WebsiteSale):
 		return super(WebsiteWalletPayment, self).confirm_order(**post)
 
 	@http.route('/shop/payment/validate', type='http', auth="public", website=True)
-	def payment_validate(self, transaction_id=None, sale_order_id=None, **post):
+	def shop_payment_validate(self, transaction_id=None, sale_order_id=None, **post):
 		""" Method that should be called by the server when receiving an update
-		for a transaction. State at this point :
+        for a transaction. State at this point :
 
-		 - UDPATE ME
-		"""
-
+         - UDPATE ME
+        """
 		if sale_order_id is None:
 			order = request.website.sale_get_order()
 		else:
@@ -138,52 +137,14 @@ class WebsiteWalletPayment(WebsiteSale):
 		if not order or (order.amount_total and not tx):
 			return request.redirect('/my/home')
 
-		product = request.website.wallet_product_id
-
-		# if payment.acquirer is credit payment provider
-		for line in order.order_line:
-			if len(order.order_line) == 1:
-				if product and line.product_id.id == product.id:
-					wallet_transaction_obj = request.env['website.wallet.transaction']
-					if tx.acquirer_id.need_approval:
-						wallet_create = wallet_transaction_obj.sudo().create({
-							'wallet_type': 'credit',
-							'partner_id': order.partner_id.id,
-							'sale_order_id': order.id,
-							'reference': 'sale_order',
-							'amount': order.order_line.price_unit * order.order_line.product_uom_qty,
-							'currency_id': order.pricelist_id.currency_id.id,
-							'status': 'draft'
-						})
-					else:
-						wallet_create = wallet_transaction_obj.sudo().create({
-							'wallet_type': 'credit',
-							'partner_id': order.partner_id.id,
-							'sale_order_id': order.id,
-							'reference': 'sale_order',
-							'amount': order.order_line.price_unit * order.order_line.product_uom_qty,
-							'currency_id': order.pricelist_id.currency_id.id,
-							'status': 'done'
-						})
-						wallet_create.wallet_transaction_email_send()  # Mail Send to Customer
-						order.partner_id.update({
-							'wallet_balance': order.partner_id.wallet_balance + order.order_line.price_unit * order.order_line.product_uom_qty})
-					order.with_context(send_email=True).action_confirm()
-					request.website.sale_reset()
-
-		if (not order.amount_total and not tx) or tx.state in ['pending', 'done', 'authorized']:
-			if (not order.amount_total and not tx):
-				# Orders are confirmed by payment transactions, but there is none for free orders,
-				# (e.g. free events), so confirm immediately
-				order.with_context(send_email=True).action_confirm()
-		elif tx and tx.state == 'cancel':
-			# cancel the quotation
-			order.action_cancel()
+		if order and not order.amount_total and not tx:
+			order.with_context(send_email=True).action_confirm()
+			return request.redirect(order.get_portal_url())
 
 		# clean context and session, then redirect to the confirmation page
 		request.website.sale_reset()
 		if tx and tx.state == 'draft':
-			return request.redirect('/shop')
+			return request.redirect('/my/home')
 
 		PaymentPostProcessing.remove_transactions(tx)
 		return request.redirect('/shop/confirmation')

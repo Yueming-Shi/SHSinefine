@@ -68,7 +68,7 @@ class Controller(http.Controller):
     def user_detail_edit(self):
         user = request.env.user
         partner = user.partner_id
-        if not partner.street or not partner.city or not partner.state_id or not partner.zip or not partner.phone or not partner.country_id:
+        if not partner.email and not partner.street or not partner.city or not partner.state_id or not partner.zip or not partner.phone or not partner.country_id:
             return '400'
         else:
             return '200'
@@ -197,6 +197,15 @@ class Controller(http.Controller):
 
         values = {'sale_orders':sale_orders}
         return request.render('zhaogu_sale.sale_portal_orders_template', values)
+
+    @http.route(['/my/account'], type='http', auth='user', website=True)
+    def account(self, redirect=None, **post):
+        user = request.env.user
+        if post and request.httprequest.method == 'POST':
+                user.sudo().write({
+                    'email': post['email']
+                })
+        return super().account(redirect=None, **post)
 
 
 
