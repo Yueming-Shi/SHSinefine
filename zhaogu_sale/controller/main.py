@@ -5,8 +5,9 @@ import logging
 
 from odoo import http
 from odoo.exceptions import UserError
-from odoo.http import request
+from odoo.http import request, content_disposition, Controller, route
 from werkzeug.urls import url_join, url_encode
+from odoo.addons.portal.controllers.portal import CustomerPortal, pager as portal_pager
 
 _logger = logging.getLogger(__name__)
 
@@ -198,14 +199,55 @@ class Controller(http.Controller):
         values = {'sale_orders':sale_orders}
         return request.render('zhaogu_sale.sale_portal_orders_template', values)
 
-    @http.route(['/my/account'], type='http', auth='user', website=True)
+class CustomerPortal2(CustomerPortal):
+
+    @http.route()
     def account(self, redirect=None, **post):
+        values = self._prepare_portal_layout_values()
+        partner = request.env.user.partner_id
         user = request.env.user
+        values.update({
+            'error': {},
+            'error_message': [],
+        })
+
         if post and request.httprequest.method == 'POST':
+            error, error_message = self.details_form_validate(post)
+            values.update({'error': error, 'error_message': error_message})
+            values.update(post)
+            if not error:
+                values = {key: post[key] for key in self.MANDATORY_BILLING_FIELDS}
+                values.update({key: post[key] for key in self.OPTIONAL_BILLING_FIELDS if key in post})
+                for field in set(['country_id', 'state_id']) & set(values.keys()):
+                    try:
+                        values[field] = int(values[field])
+                    except:
+                        values[field] = False
+                values.update({'zip': values.pop('zipcode', '')})
+                partner.sudo().write(values)
                 user.sudo().write({
-                    'email': post['email']
+                    'email': post['email'],
+                    'login': post['email']
                 })
-        return super().account(redirect=None, **post)
+                if redirect:
+                    return request.redirect(redirect)
+                return request.redirect('/my/home')
+
+        countries = request.env['res.country'].sudo().search([])
+        states = request.env['res.country.state'].sudo().search([])
+
+        values.update({
+            'partner': partner,
+            'countries': countries,
+            'states': states,
+            'has_check_vat': hasattr(request.env['res.partner'], 'check_vat'),
+            'redirect': redirect,
+            'page_name': 'my_details',
+        })
+
+        response = request.render("portal.portal_my_details", values)
+        response.headers['X-Frame-Options'] = 'DENY'
+        return response
 
 
 

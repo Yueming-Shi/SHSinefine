@@ -11,7 +11,7 @@
 
 		<record id="email_template_wallet_transaction_debit" model="mail.template">
 			<field name="name">Customer Debit Point Transaction Email</field>
-			<field name="email_from">{{user.email or user.email_formatted }}</field>
+			<field name="email_from"></field>
 			<field name="subject">{{user.company_id.name}} Customer Debit Point Transaction Email</field>
 			<field name="email_from">{{user.email or user.email_formatted or '' }}</field>
 			<field name="lang">{{ object.partner_id.lang }}</field>
@@ -42,7 +42,7 @@
 
 		<record id="email_template_wallet_transaction_credit" model="mail.template">
 			<field name="name">Customer Credit Point Transaction Email</field>
-			<field name="email_from">{{user.email or user.email_formatted }}</field>
+			<field name="email_from"></field>
 			<field name="subject">{{user.company_id.name}} Customer Credit Point Transaction Email</field>
 			<field name="email_to">{{user.email or user.email_formatted or ''}}</field>
 			<field name="lang">{{ object.partner_id.lang }}</field>
@@ -72,9 +72,9 @@
 			</field>
 		</record>
 
-<record id="email_template_wallet_transaction_credit_khush" model="mail.template">
+		<record id="email_template_wallet_transaction_credit_khush" model="mail.template">
 			<field name="name">Customer Credit Point Transaction Email</field>
-			<field name="email_from">{{user.email or user.email_formatted }}</field>
+			<field name="email_from"></field>
 			<field name="subject">{{user.company_id.name}} Customer Credit Point Transaction Email</field>
 			<field name="email_to">{{user.email or user.email_formatted or '' }}</field>
 			<field name="model_id" ref="odoo_website_wallet.model_add_money"/>
@@ -100,9 +100,9 @@
 			</field>
 		</record>
 
-<record id="email_template_wallet_transaction_credit_payment" model="mail.template">
+		<record id="email_template_wallet_transaction_credit_payment" model="mail.template">
 			<field name="name">Customer Credit Point Transaction Email</field>
-			<field name="email_from">{{user.email or user.email_formatted }}</field>
+			<field name="email_from"></field>
 			<field name="subject">{{user.company_id.name}} Customer Credit Point Transaction Email</field>
 			<field name="email_to">{{user.email or user.email_formatted or '' }}</field>
 			<field name="model_id" ref="odoo_website_wallet.model_add_payment"/>
@@ -124,7 +124,7 @@
 					<br/>
 					<br/>
 				</div>
-</field>
+			</field>
 		</record>
 
 	</data>
