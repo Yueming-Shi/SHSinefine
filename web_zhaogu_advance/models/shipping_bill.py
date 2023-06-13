@@ -15,6 +15,7 @@ class ShippingBill(models.Model):
     def write(selfs, vals):
         result = super().write(vals)
         for self in selfs:
+            fee = sum(self.sale_invoice_ids.filtered(lambda l: l.payment_state not in ['paid', 'reversed', 'invoicing_legacy']  and l.state != 'cancel').mapped('amount_total'))
             openid = self.sale_partner_id.user_ids.wx_openid
             # 获取token
             token = self.env['ir.config_parameter'].sudo().search([('key', '=', 'wechat.access_token')]).value
@@ -111,7 +112,7 @@ class ShippingBill(models.Model):
                                 "color": "#173177"
                             },
                             "keyword4": {
-                                "value": str('{0:,.2f}'.format(self.fee)),
+                                "value": str('{0:,.2f}'.format(fee)),
                                 "color": "#173177"
                             },
                             "remark": {
@@ -146,7 +147,7 @@ class ShippingBill(models.Model):
                                 "color": "#173177"
                             },
                             "keyword4": {
-                                "value": str('{0:,.2f}'.format(self.fee)),
+                                "value": str('{0:,.2f}'.format(fee)),
                                 "color": "#173177"
                             },
                             "remark": {
@@ -161,6 +162,7 @@ class ShippingBill(models.Model):
     def multi_action_compute(selfs):
         result = super().multi_action_compute()
         for self in selfs:
+            fee = sum(self.sale_invoice_ids.filtered(lambda l: l.payment_state not in ['paid', 'reversed', 'invoicing_legacy']  and l.state != 'cancel').mapped('amount_total'))
             openid = self.sale_partner_id.user_ids.wx_openid
             if openid:
                 # 获取token
@@ -181,7 +183,7 @@ class ShippingBill(models.Model):
                             "color": "#173177"
                         },
                         "amount": {
-                            "value": str('{0:,.2f}'.format(self.fee)),
+                            "value": str('{0:,.2f}'.format(fee)),
                             "color": "#173177"
                         },
                         "remark": {
@@ -196,6 +198,7 @@ class ShippingBill(models.Model):
     def multi_action_change(selfs):
         result = super().multi_action_change()
         for self in selfs:
+            fee = sum(self.sale_invoice_ids.filtered(lambda l: l.payment_state not in ['paid', 'reversed', 'invoicing_legacy']  and l.state != 'cancel').mapped('amount_total'))
             openid = self.sale_partner_id.user_ids.wx_openid
             if openid:
                 # 获取token
@@ -216,7 +219,7 @@ class ShippingBill(models.Model):
                             "color": "#173177"
                         },
                         "amount": {
-                            "value": '{0:,.2f}'.format(self.fee),
+                            "value": '{0:,.2f}'.format(fee),
                             "color": "#173177"
                         },
                         "remark": {
