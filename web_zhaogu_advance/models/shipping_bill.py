@@ -16,7 +16,7 @@ class ShippingBill(models.Model):
         result = super().write(vals)
         for self in selfs:
             invoice_id = self.sale_invoice_ids.filtered(lambda l: l.payment_state not in ['paid', 'reversed', 'invoicing_legacy'] and l.state != 'cancel')
-            point_price = -sum(invoice_id.invoice_line_ids.filtered(lambda l: 'wallet' in l.name).mapped('price_subtotal'))
+            point_price = -sum(invoice_id.invoice_line_ids.filtered(lambda l: 'Wallet' in l.name).mapped('price_subtotal'))
             fee = sum(invoice_id.mapped('amount_total')) + (point_price or 0)
             openid = self.sale_partner_id.user_ids.wx_openid
             # 获取token
@@ -167,7 +167,7 @@ class ShippingBill(models.Model):
             invoice_id = self.sale_invoice_ids.filtered(
                 lambda l: l.payment_state not in ['paid', 'reversed', 'invoicing_legacy'] and l.state != 'cancel')
             point_price = -sum(
-                invoice_id.invoice_line_ids.filtered(lambda l: 'wallet' in l.name).mapped('price_subtotal'))
+                invoice_id.invoice_line_ids.filtered(lambda l: 'Wallet' in l.name).mapped('price_subtotal'))
             fee = sum(invoice_id.mapped('amount_total')) + (point_price or 0)
             openid = self.sale_partner_id.user_ids.wx_openid
             if openid:
@@ -207,7 +207,7 @@ class ShippingBill(models.Model):
             invoice_id = self.sale_invoice_ids.filtered(
                 lambda l: l.payment_state not in ['paid', 'reversed', 'invoicing_legacy'] and l.state != 'cancel')
             point_price = -sum(
-                invoice_id.invoice_line_ids.filtered(lambda l: 'wallet' in l.name).mapped('price_subtotal'))
+                invoice_id.invoice_line_ids.filtered(lambda l: 'Wallet' in l.name).mapped('price_subtotal'))
             fee = sum(invoice_id.mapped('amount_total')) + (point_price or 0)
             openid = self.sale_partner_id.user_ids.wx_openid
             if openid:
