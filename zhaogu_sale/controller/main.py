@@ -186,12 +186,15 @@ class Controller(http.Controller):
         if ytype == 'draft':
             sale_orders = request.env['sale.order'].sudo().search([('partner_id', '=', partner), ('state', '=', 'draft'), ('shipping_bill_id', '=' , False)])
         elif ytype == 'valuedno':
-            sale_orders = request.env['shipping.bill'].sudo().search([('state', '=', 'valued'), ('sale_invoice_payment_state', '=', '支付未完成'), ('sale_partner_id', '=', partner)]).mapped('sale_order_id')
+            sale_orders = request.env['sale.order'].sudo().search([('shipping_bill_state', '=', 'valued'),
+                                                                   ('partner_id', '=', partner)]).filtered(lambda l:l.shipping_bill_id.sale_invoice_payment_state == '支付未完成')
         elif ytype == 'valued':
-            sale_orders = request.env['shipping.bill'].sudo().search(
-                [('state', '=', 'valued'), ('sale_invoice_payment_state', '=', '支付已完成'), ('sale_partner_id', '=', partner)]).mapped('sale_order_id')
+            sale_orders = request.env['sale.order'].sudo().search(
+                [('shipping_bill_state', '=', 'valued'), ('partner_id', '=', partner)]).filtered(
+                lambda l: l.shipping_bill_id.sale_invoice_payment_state == '支付已完成')
         elif ytype == 'arrived':
-            sale_orders = request.env['shipping.bill'].sudo().search([('state', 'in', ['arrived', 'transported']), ('sale_partner_id', '=', partner)]).mapped('sale_order_id')
+            sale_orders = request.env['sale.order'].sudo().search(
+                [('shipping_bill_state', 'in', ['arrived', 'transported']), ('partner_id', '=', partner)])
         else:
             return request.redirect(request.httprequest.referrer)
 
