@@ -36,6 +36,7 @@ class Controller(http.Controller):
     def sale_fill_order_create(self, **kwargs):
         user = request.env.user
         partner_type = request.env.user.partner_id.partner_vip_type
+        partner = request.env.user.partner_id
         if kwargs.get('select_site') != '0':
             partner_team_site_id = int(kwargs.get('select_site'))
         else:
@@ -50,7 +51,9 @@ class Controller(http.Controller):
             values = {
                 'user_name': request.env.user.name,
                 'error_message': '运单号已存在。',
+                'waybill_no': False,
                 'no_change': no_change,
+                'partner': partner
             }
             return request.render('zhaogu_sale.sale_portal_fill_order_create_template', values)
         elif sale_shipping_no and sale_shipping_no.partner_id.user_ids.id == user.id and not sale_shipping_no.shipping_bill_id:
@@ -59,7 +62,9 @@ class Controller(http.Controller):
             values = {
                 'user_name': request.env.user.name,
                 'error_message': '运单号已存在。',
+                'waybill_no': False,
                 'no_change': no_change,
+                'partner': partner
             }
             return request.render('zhaogu_sale.sale_portal_fill_order_create_template', values)
         else:
