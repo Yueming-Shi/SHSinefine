@@ -197,7 +197,7 @@ class Controller(http.Controller):
             redirect_url = '/sale/portal/orders'
             return request.redirect('/web/login?redirect=%s'%redirect_url)
         if ytype == 'draft':
-            sale_orders = request.env['sale.order'].sudo().search([('partner_id', '=', partner), ('state', '=', 'draft'), ('shipping_bill_id', '=' , False)])
+            sale_orders = request.env['sale.order'].sudo().search([('partner_id', '=', partner), ('state', '=', 'draft'), ('shipping_bill_id', '=' , False), ('shipping_no', '!=', False)])
         elif ytype == 'valuedno':
             sale_orders = request.env['sale.order'].sudo().search([('shipping_bill_state', '=', 'valued'),
                                                                    ('partner_id', '=', partner)]).filtered(lambda l:l.shipping_bill_id.sale_invoice_payment_state == '支付未完成')
