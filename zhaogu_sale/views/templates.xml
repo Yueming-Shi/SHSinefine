@@ -124,10 +124,10 @@
                                 <optgroup label="站点">
                                     <option value="0">请选择</option>
                                     <t t-foreach="request.env['crm.team'].sudo().search([('site_id', '!=', False)])" t-as="site">
-                                        <option t-if="partner.team_id.site_id.id == site.site_id.id" t-att-value="site.site_id.id" selected="selected">
+                                        <option t-if="partner.team_id.site_id.id == site.site_id.id" t-att-value="site.id" selected="selected">
                                             <span t-esc="site.name"/>
                                         </option>
-                                        <option t-else="" t-att-value="site.site_id.id">
+                                        <option t-else="" t-att-value="site.id">
                                             <span t-esc="site.name"/>
                                         </option>
                                     </t>

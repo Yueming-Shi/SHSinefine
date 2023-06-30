@@ -26,13 +26,18 @@
                   <div class="col-6 text-right"><span t-field="shipping.tracking_no"/></div>
                 </div>
                 <div class="row">
-                  <div class="col-6">站点编号：</div>
-                  <div class="col-6 text-right"><span t-field="shipping.sale_site_id.name"/></div>
-                </div>
-                <div class="row">
                   <div class="col-6">取件码：</div>
                   <div class="col-6 text-right"><span t-field="shipping.sale_fetch_no"/></div>
                 </div>
+                <div class="row">
+                  <div class="col-6">站点名称：</div>
+                  <div class="col-6 text-right"><span t-field="shipping.sale_site_id.name"/></div>
+                </div>
+                <div class="row">
+                  <div class="col-6">站点地址：</div>
+                  <div class="col-6 text-right"><span t-field="shipping.sale_site_contact_address"/></div>
+                </div>
+
                 <div class="row">
                   <div class="col-6">是否购买保险：</div>
                   <div class="col-6 text-right">
@@ -49,18 +54,6 @@
                   <div class="col-6 text-right"><t t-esc="'{0:,.2f}'.format(shipping.fee)"/></div>
                 </div>
                 <div class="row">
-                  <div class="col-6">体积：</div>
-                  <div class="col-6 text-right"><span t-esc="shipping.length * shipping.width * shipping.height"/></div>
-                </div>
-                <div class="row">
-                  <div class="col-6">入库日期：</div>
-                  <div class="col-6 text-right"><span t-field="shipping.in_date" t-options="{'widget':'date'}"/></div>
-                </div>
-                <div class="row">
-                  <div class="col-6">实重（kg）：</div>
-                  <div class="col-6 text-right"><span t-field="shipping.actual_weight"/></div>
-                </div>
-                <div class="row">
                   <div class="col-6">包裹长度（cm）：</div>
                   <div class="col-6 text-right"><span t-field="shipping.length"/></div>
                 </div>
@@ -73,19 +66,32 @@
                   <div class="col-6 text-right"><span t-field="shipping.height"/></div>
                 </div>
                 <div class="row">
-                  <div class="col-6">是否可改泡：</div>
-                  <div class="col-6 text-right">
-                    <t t-if="shipping.can_change">
-                        <span>是</span>
-                      </t>
-                      <t t-else="">
-                        <span>否</span>
-                      </t>
-                  </div>
+                  <div class="col-6">实重（kg）：</div>
+                  <div class="col-6 text-right"><span t-field="shipping.actual_weight"/></div>
+                </div>
+                <div class="row">
+                  <div class="col-6">体积重（kg）：</div>
+                  <div class="col-6 text-right"><span t-field="shipping.volume_weight"/></div>
+                </div>
+                <!--<div class="row">-->
+                <!--  <div class="col-6">体积：</div>-->
+                <!--  <div class="col-6 text-right"><span t-esc="shipping.length * shipping.width * shipping.height"/></div>-->
+                <!--</div>-->
+                <div class="row">
+                  <div class="col-6">入库日期：</div>
+                  <div class="col-6 text-right"><span t-field="shipping.in_date" t-options="{'widget':'date'}"/></div>
                 </div>
                 <div class="row">
                   <div class="col-6">发货日期：</div>
                   <div class="col-6 text-right"><span t-field="shipping.out_date"/></div>
+                </div>
+                <div class="row">
+                  <div class="col-6">站点签收日期：</div>
+                  <div class="col-6 text-right"><span t-if="shipping.arrived_date"><span t-field="shipping.arrived_date"/></span></div>
+                </div>
+                <div class="row">
+                  <div class="col-6">客户签收日期：</div>
+                  <div class="col-6 text-right"><span t-if="shipping.signed_date"><span t-field="shipping.signed_date"/></span></div>
                 </div>
                 <div class="row">
                   <div class="col-6">站点签收状态：</div>
@@ -93,12 +99,6 @@
                     <span t-if="shipping.arrived_date">已签收</span>
                     <span t-else="">未签收</span>
                   </div>
-                  <span>
-                </span>
-                </div>
-                <div class="row">
-                  <div class="col-6">站点签收日期：</div>
-                  <div class="col-6 text-right"><span t-if="shipping.arrived_date"><span t-field="shipping.arrived_date"/></span></div>
                 </div>
                 <div class="row">
                   <div class="col-6">客户包裹签收：</div>
@@ -107,23 +107,18 @@
                     <span t-else="">未签收</span>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col-6">客户签收日期：</div>
-                  <div class="col-6 text-right"><span t-if="shipping.signed_date"><span t-field="shipping.signed_date"/></span></div>
-                </div>
-                <div class="row">
-                  <div class="col-12">
-                    <div>入库包裹内容：</div>
-                    <div>
-                      <t t-foreach="shipping.sale_order_id.order_line" t-as="line">
-                     		<div t-if="line.product_id.detailed_type != 'service'" style="text-indent: 2em;">
-                     			<span t-esc="line_index + 1"/>: <span t-field="line.product_material_id.name"/> , <span t-field="line.product_brand_id.name"/>,<span t-field="line.product_sale_category_id.name"/>, <span t-field="line.product_qty"/><span t-field="line.product_uom.name"/>
-                     		</div>
-                     	</t>
-                    </div>
-                  </div>
-                </div>
-
+                <!--<div class="row">-->
+                <!--  <div class="col-12">-->
+                <!--    <div>入库包裹内容：</div>-->
+                <!--    <div>-->
+                <!--      <t t-foreach="shipping.sale_order_id.order_line" t-as="line">-->
+                <!--     		<div t-if="line.product_id.detailed_type != 'service'" style="text-indent: 2em;">-->
+                <!--     			<span t-esc="line_index + 1"/>: <span t-field="line.product_material_id.name"/> , <span t-field="line.product_brand_id.name"/>,<span t-field="line.product_sale_category_id.name"/>, <span t-field="line.product_qty"/><span t-field="line.product_uom.name"/>-->
+                <!--     		</div>-->
+                <!--     	</t>-->
+                <!--    </div>-->
+                <!--  </div>-->
+                <!--</div>-->
             </div>
           </div>
         </t>

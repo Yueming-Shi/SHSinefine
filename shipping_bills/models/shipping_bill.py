@@ -70,7 +70,12 @@ class ShippingBill(models.Model):
     # 已计费
     size_weight = fields.Float('计费重量', tracking=True, )
     fee = fields.Float(string='费用', tracking=True, )
-    currency_id = fields.Many2one('res.currency', '币种', tracking=True, )
+    currency_id = fields.Many2one('res.currency', '币种', tracking=True)
+
+    def _compute_size_weight(selfs):
+        for self in selfs:
+            self.volume_weight = (self.length * self.width * self.height) / self.shipping_factor_id.factor
+    volume_weight = fields.Float('体积重', compute="_compute_size_weight")
 
     # 已付款
     sale_invoice_ids = fields.Many2many('account.move', string='结算单号', related='sale_order_id.invoice_ids')
@@ -104,11 +109,11 @@ class ShippingBill(models.Model):
 
     # 已退运
     has_bought_safety = fields.Boolean('购买保险')
-    no_change = fields.Boolean('免泡')
+    no_change = fields.Boolean('免泡', tracking=True)
     can_change = fields.Boolean('可改泡')
     has_changed = fields.Boolean('申请改泡')
     is_changed_done = fields.Boolean('改泡完成')
-    has_returned = fields.Boolean('退运')
+    has_returned = fields.Boolean('退运', tracking=True)
     return_address = fields.Char('退运地址')
     return_contact = fields.Char('退运收件人')
     return_mobile = fields.Char('退运联系电话')
@@ -129,7 +134,7 @@ class ShippingBill(models.Model):
     signed_date = fields.Date('客户签收日期')
 
     # 丢弃
-    disposable = fields.Boolean('可丢弃')
+    disposable = fields.Boolean('可丢弃', tracking=True)
     discarded_date = fields.Date('丢弃日期')
 
     @api.model

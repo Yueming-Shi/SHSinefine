@@ -32,13 +32,22 @@
         <field name="view_mode">tree,form</field>
     </record>
 
+    <record id="action_sale_order_to_be_stored" model="ir.actions.act_window">
+        <field name="name">运单(待入库)</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="to_be_stored_sale_order_form_view"/>
+        <field name="domain">[('shipping_no','!=', False), ('shipping_bill_id', '=', False)]</field>
+    </record>
+
     <record id="action_shipping_bill_out" model="ir.actions.act_window">
         <field name="name">运单(待出库)</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">shipping.bill</field>
         <field name="view_mode">tree</field>
         <field name="view_id" ref="shipping_bill_tree_out"/>
-        <field name="domain">[('sale_invoice_payment_state','=','支付已完成')]</field>
+        <field name="domain">[('sale_invoice_payment_state','=','支付已完成'), ('state', '=', 'valued')]</field>
     </record>
 
     <record id="action_shipping_bill_arrived" model="ir.actions.act_window">

@@ -57,6 +57,9 @@
     <menuitem id="menu_shipping_bills_signed" name="签收订单" parent="menu_shipping_bills_order_inquiry"
               action="action_shipping_bill_signed" sequence="3"/>
 
+    <menuitem id="menu_sale_order_to_be_stored" name="待入库订单" parent="menu_shipping_bills_order_inquiry"
+      action="action_sale_order_to_be_stored" sequence="8"/>
+
 <!--sale运费参数-->
     <menuitem id="menu_shipping_factor_sale" name="运费参数" parent="sale.menu_sale_general_settings"
         action="action_shipping_factor" sequence="3"/>

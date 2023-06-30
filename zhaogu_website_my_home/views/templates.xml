@@ -46,22 +46,22 @@
           </li>
           <li>
             <a href="">
-              <p class="p1">0.00</p>
+              <p class="p1">0</p>
               <p class="p2">足迹</p>
             </a>
           </li>
-          <li>
-            <a href="/wallet">
-              <p class="p1"><span t-esc="partner.wallet_balance"/></p>
-              <p class="p2">点卡</p>
-            </a>
-          </li>
-          <li>
-            <a href="/my/wallet-transactions">
-              <img t-attf-src="/zhaogu_website_my_home/static/src/img/my01.png"/>
-              <p class="p2">消费记录</p>
-            </a>
-          </li>
+          <!--<li>-->
+          <!--  <a href="/wallet">-->
+          <!--    <p class="p1"><span t-esc="partner.wallet_balance"/></p>-->
+          <!--    <p class="p2">点卡</p>-->
+          <!--  </a>-->
+          <!--</li>-->
+          <!--<li>-->
+          <!--  <a href="/my/wallet-transactions">-->
+          <!--    <img t-attf-src="/zhaogu_website_my_home/static/src/img/my01.png"/>-->
+          <!--    <p class="p2">消费记录</p>-->
+          <!--  </a>-->
+          <!--</li>-->
         </ul>
       </div>
       <div class="clear"/>
@@ -75,7 +75,7 @@
             <li>
               <a href="/shop/cart">
                 <div class="ddimg">
-                  <img t-attf-src="/zhaogu_website_my_home/static/src/img/my02.png" />
+                  <img t-attf-src="/zhaogu_website_my_home/static/src/img/my02.png"/>
                 </div>
                 <p>待付款</p>
               </a>
@@ -83,7 +83,7 @@
             <li>
               <a href="">
                 <div class="ddimg">
-                  <img t-attf-src="/zhaogu_website_my_home/static/src/img/my03.png" />
+                  <img t-attf-src="/zhaogu_website_my_home/static/src/img/my03.png"/>
                 </div>
                 <p>待发货</p>
               </a>
@@ -91,7 +91,7 @@
             <li>
               <a href="">
                 <div class="ddimg">
-                  <img t-attf-src="/zhaogu_website_my_home/static/src/img/my04.png" />
+                  <img t-attf-src="/zhaogu_website_my_home/static/src/img/my04.png"/>
                 </div>
                 <p>待收货</p>
               </a>
@@ -99,8 +99,8 @@
             <li>
               <a href="">
                 <div class="ddimg">
-                  <img t-attf-src="/zhaogu_website_my_home/static/src/img/my05.png" />
-                  <div class="num">2</div>
+                  <img t-attf-src="/zhaogu_website_my_home/static/src/img/my05.png"/>
+                  <!--<div class="num">2</div>-->
                 </div>
                 <p>待评价</p>
               </a>

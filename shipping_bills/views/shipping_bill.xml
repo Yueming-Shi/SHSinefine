@@ -79,6 +79,7 @@
                     <group name="2">
                         <group name="21">
                             <field name="size_weight" digits="[42, 1]"/>
+                            <field name="volume_weight" digits="[42, 1]"/>
                             <field name="fee"/>
                             <field name="currency_id"/>
                         </group>
@@ -171,7 +172,7 @@
         <field name="model">shipping.bill</field>
         <field name="priority">20</field>
         <field name="arch" type="xml">
-            <tree editable="bottom">
+            <tree editable="bottom"  default_order="create_date asc">
                 <field name="ref" readonly="1"/>
                 <field name="in_date" readonly="1"/>
                 <field name="name" readonly="1"/>
