@@ -38,7 +38,7 @@ class Controller(http.Controller):
         partner_type = request.env.user.partner_id.partner_vip_type
         partner = request.env.user.partner_id
         if kwargs.get('select_site') != '0':
-            partner_team_site_id = int(kwargs.get('select_site'))
+            partner_team_site_id = request.env['crm.team'].sudo().browse(int(kwargs.get('select_site'))).site_id.id
         else:
             partner_team_site_id = user.partner_id.team_id.site_id.id
         no_change = False
