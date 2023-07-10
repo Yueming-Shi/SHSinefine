@@ -61,13 +61,13 @@ class ShippingBill(models.Model):
                         code = ''
                     data = {
                         "touser": openid,
-                        "template_id": "K61LcyZbCm8ge3hsrPkr20EAOjsH6ZkKumOSERi9qPo",
+                        "template_id": "fKRko5U-JjPalqSmtG6nlTeuezIpTAD41hGM7JX3NQw",
                         "url": "",
                         "miniprogram": {},
                         "client_msg_id": "",
                         "data": {
                             "first": {
-                                "value": "您好，您的包裹已发货，取件码：" + code + '。',
+                                "value": "您的包裹已发出:",
                                 "color": "#173177"
                             },
                             "keyword1": {
@@ -83,7 +83,7 @@ class ShippingBill(models.Model):
                                 "color": "#173177"
                             },
                             "remark": {
-                                "value": "点击查看详情。",
+                                "value": "取件码[%s]" % self.picking_code,
                                 "color": "#173177"
                             },
                         },
@@ -92,33 +92,29 @@ class ShippingBill(models.Model):
                 elif vals.get('state') == 'arrived':
                     data = {
                         "touser": openid,
-                        "template_id": "39cHpuIfpSc6Vi_iclQ1Mg2skCg_-jC3nFNnuVXK4A4",
+                        "template_id": "9_5NzQ0d9DVm-Cn75NaSTAgLviYftpaBRCCbS70ZhfI-jC3nFNnuVXK4A4",
                         "url": "",
                         "miniprogram": {},
                         "client_msg_id": "",
                         "data": {
                             "first": {
-                                "value": "您好，您的包裹已到站。",
+                                "value": "您的包裹已到站:",
                                 "color": "#173177"
                             },
                             "keyword1": {
-                                "value": self.sale_site_id.name,
+                                "value": "空运包裹",
                                 "color": "#173177"
                             },
                             "keyword2": {
-                                "value": self.picking_code,
+                                "value": self.tracking_no,
                                 "color": "#173177"
                             },
                             "keyword3": {
-                                "value": self.sale_partner_id.name,
-                                "color": "#173177"
-                            },
-                            "keyword4": {
-                                "value": str('{0:,.2f}'.format(fee)),
+                                "value": "请及时到站领取您的包裹",
                                 "color": "#173177"
                             },
                             "remark": {
-                                "value": "点击查看详情。",
+                                "value": "取件码[%s]" % self.picking_code,
                                 "color": "#173177"
                             },
                         },
@@ -127,33 +123,29 @@ class ShippingBill(models.Model):
                 elif vals.get('state') == 'signed':
                     data = {
                         "touser": openid,
-                        "template_id": "39cHpuIfpSc6Vi_iclQ1Mg2skCg_-jC3nFNnuVXK4A4",
+                        "template_id": "0mHcAQerXuBjqJsV5ZydUTY3QfURh9m8gXojKFklGkk-jC3nFNnuVXK4A4",
                         "url": "",
                         "miniprogram": {},
                         "client_msg_id": "",
                         "data": {
                             "first": {
-                                "value": "您好，您的包裹已签收。",
+                                "value": "您的包裹已成功签收:",
                                 "color": "#173177"
                             },
                             "keyword1": {
-                                "value": self.sale_site_id.name,
+                                "value": "空运包裹",
                                 "color": "#173177"
                             },
                             "keyword2": {
-                                "value": self.picking_code,
+                                "value": self.tracking_no,
                                 "color": "#173177"
                             },
                             "keyword3": {
-                                "value": self.sale_partner_id.name,
-                                "color": "#173177"
-                            },
-                            "keyword4": {
-                                "value": str('{0:,.2f}'.format(fee)),
+                                "value": self.signed_date,
                                 "color": "#173177"
                             },
                             "remark": {
-                                "value": "点击查看详情。",
+                                "value": "感谢您的使用。期待您下次使用。",
                                 "color": "#173177"
                             },
                         },
@@ -181,7 +173,7 @@ class ShippingBill(models.Model):
                     "client_msg_id": "",
                     "data": {
                         "first": {
-                            "value": "您好，您的包裹已到达仓库。",
+                            "value": "您的订单已到仓:",
                             "color": "#173177"
                         },
                         "orderno": {
@@ -189,11 +181,11 @@ class ShippingBill(models.Model):
                             "color": "#173177"
                         },
                         "amount": {
-                            "value": str('{0:,.2f}'.format(fee)),
+                            "value": "%s%s" % (self.currency_id.symbol, '{0:,.2f}'.format(fee)),
                             "color": "#173177"
                         },
                         "remark": {
-                            "value": "请在72小时内完成支付，避免延误发货。",
+                            "value": "取件码[%s]" % self.picking_code,
                             "color": "#173177"
                         },
                     },
@@ -221,7 +213,7 @@ class ShippingBill(models.Model):
                     "client_msg_id": "",
                     "data": {
                         "first": {
-                            "value": "您好，您的包裹已完成改泡，请点击信息付款。",
+                            "value": "您的订单已改泡:",
                             "color": "#173177"
                         },
                         "orderno": {
@@ -229,11 +221,11 @@ class ShippingBill(models.Model):
                             "color": "#173177"
                         },
                         "amount": {
-                            "value": '{0:,.2f}'.format(fee),
+                            "value": "%s%s" % (self.currency_id.symbol, '{0:,.2f}'.format(fee)),
                             "color": "#173177"
                         },
                         "remark": {
-                            "value": "请在72小时内完成支付，否则订单将被取消。",
+                            "value": "取件码[%s]" % self.picking_code,
                             "color": "#173177"
                         },
                     },
