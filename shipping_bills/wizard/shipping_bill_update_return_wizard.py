@@ -40,3 +40,34 @@ class ShippingBillUpdateReturnWizard(models.TransientModel):
 #                'return_mobile': return_mobile,
                 'return_name': return_name,
             })
+
+            # 发送微信消息
+            openid = shipping_bill.sale_partner_id.user_ids.wx_openid
+            # 获取token
+            token = self.env['ir.config_parameter'].sudo().search([('key', '=', 'wechat.access_token')]).value
+            if openid:
+                tmpl_id = "3yfETXzY9V-3xPLWlxOGc7ItkNWPLCyusqKaLQkQgDI"
+                tmpl_data = {
+                    "first": {
+                        "value": "尊敬的客户" + ' ' + shipping_bill.sale_partner_id.name + ',' + '您的包裹已退运。',
+                        "color": "#173177"
+                    },
+                    "keyword1": {
+                        "value": shipping_bill.name,
+                        "color": "#173177"
+                    },
+                    "keyword2": {
+                        "value": shipping_bill.shipping_factor_id.name,
+                        "color": "#173177"
+                    },
+                    "keyword3": {
+                        "value": "订单已退运",
+                        "color": "#173177"
+                    },
+                    "remark": {
+                        "value": "退运快递单号：" + shipping_bill.tracking_no,
+                        "color": "#173177"
+                    },
+                }
+                shipping_bill.wx_information_send(token, openid, tmpl_data, tmpl_id)
+

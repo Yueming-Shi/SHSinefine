@@ -1,11 +1,15 @@
 # import logging
+import json
 from datetime import datetime, date
+
+import requests
 
 from odoo import models, fields, api, _, SUPERUSER_ID
 from odoo.exceptions import UserError
 import logging, math
 
 _logger = logging.getLogger(__name__)
+odoo_session = requests.Session()
 
 
 class ShippingBill(models.Model):
@@ -287,6 +291,35 @@ class ShippingBill(models.Model):
         for self in cls.search([]):
             if self.in_date:
                 self.in_days = (date.today() - self.in_date).days
+
+    # 微信公众号消息发送
+    def wx_information_send(self, token, openid, tmpl_data, tmpl_id):
+        data = {
+            "touser": openid,
+            "template_id": tmpl_id,
+            "url": "",
+            "miniprogram": {},
+            "client_msg_id": "",
+            "data": tmpl_data
+        }
+
+        send_url = 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=%s' % token
+
+        headers = {
+            'Content-Type': 'application/json'
+        }
+        data_json = json.dumps(data)
+
+        return odoo_session.post(url=send_url, data=bytes(data_json, 'utf-8'), headers=headers)
+
+    # 国际短信发送
+    def send_message_post(self, msg):
+        send_sms = self.env['sms.sms'].sudo().create({
+            'number': self.sale_partner_id.phone,
+            'partner_id': self.sale_partner_id.id,
+            'body': msg,
+        })
+        # send_sms.send()
 
 
 
