@@ -2,4 +2,3 @@
 
 from . import ir_config_parameter
 from . import shipping_bill
-# from . import account_move
