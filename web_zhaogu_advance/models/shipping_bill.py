@@ -239,9 +239,7 @@ class ShippingBill(models.Model):
         }
         data_json = json.dumps(data)
 
-        res = odoo_session.post(url=send_url, data=bytes(data_json, 'utf-8'), headers=headers)
-
-        return True
+        return odoo_session.post(url=send_url, data=bytes(data_json, 'utf-8'), headers=headers)
 
     def send_message_post(self, msg):
         send_sms = self.env['sms.sms'].sudo().create({
@@ -249,5 +247,5 @@ class ShippingBill(models.Model):
             'partner_id': self.sale_partner_id.id,
             'body': msg,
         })
-        send_sms.send()
+        # send_sms.send()
 
