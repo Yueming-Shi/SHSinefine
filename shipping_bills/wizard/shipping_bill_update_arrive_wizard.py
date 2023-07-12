@@ -57,6 +57,10 @@ class ShippingBillUpdateArriveWizard(models.TransientModel):
                     },
                 }
                 shipping_bill.wx_information_send(token, openid, tmpl_data, tmpl_id)
+
+            # 发送邮件
+            self.env.ref('shipping_bills.mail_template_data_shipping_bill_reach').send_mail(shipping_bill.id)
+
             # 发送短信
             if shipping_bill.sale_partner_id.phone:
                 msg = 'Your package [%s] is ready for pick-up at [%s].' \

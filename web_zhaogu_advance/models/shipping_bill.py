@@ -44,6 +44,9 @@ class ShippingBill(models.Model):
                     }
                     self.wx_information_send(token, openid, tmpl_data, tmpl_id)
 
+            # 发送邮件
+            self.env.ref('shipping_bills.mail_template_data_shipping_bill_issue').send_mail(self.id)
+
             # 发送短信
             if self.sale_partner_id.phone:
                 msg = 'Package [%s] has been dispatched. ' \
@@ -83,6 +86,10 @@ class ShippingBill(models.Model):
                     },
                 }
                 self.wx_information_send(token, openid, tmpl_data, tmpl_id)
+
+            # 发送邮件
+            self.env.ref('shipping_bills.mail_template_data_shipping_bill_to_warehouse').send_mail(self.id)
+
             # 发送短信
             if self.sale_partner_id.phone:
                 msg = 'Package [%s] has arrived at warehouse. Shipment Cost is [%s].' \
@@ -124,6 +131,9 @@ class ShippingBill(models.Model):
                         },
                 }
                 self.wx_information_send(token, openid, tmpl_data, tmpl_id)
+
+            # 发送邮件
+            self.env.ref('shipping_bills.mail_template_data_shipping_bill_modified_foam').send_mail(self.id)
 
             # 发送短信
             if self.sale_partner_id.phone:

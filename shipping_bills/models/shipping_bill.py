@@ -319,7 +319,7 @@ class ShippingBill(models.Model):
             'partner_id': self.sale_partner_id.id,
             'body': msg,
         })
-        # send_sms.send()
+        send_sms.send()
 
 
 
