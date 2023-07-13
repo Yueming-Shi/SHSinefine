@@ -33,7 +33,7 @@
     <record id="mail_template_data_shipping_bill_to_warehouse" model="mail.template">
         <field name="name">包裹到仓</field>
         <field name="model_id" ref="model_shipping_bill"/>
-        <field name="subject">Your Parcel [{{ object.tracking_no }}] Has Arrived</field>
+        <field name="subject">Your Parcel [{{ object.name }}] Has Arrived</field>
         <field name="email_from"></field>
         <field name="email_to">{{ object.sale_partner_id.email }}</field>
         <field name="body_html" type="html">
@@ -44,7 +44,7 @@
                             <!-- CONTENT -->
                             <tr style="box-sizing:border-box;">
                                 <td align="left" style="box-sizing:border-box;min-width: 590px;">
-                                    Subject: Your Parcel [<span t-esc="object.tracking_no"/>] Has Arrived
+                                    Subject: Your Parcel [<span t-esc="object.name"/>] Has Arrived
                                     <br style="box-sizing:border-box;"/><br style="box-sizing:border-box;"/>
                                 </td>
                             </tr>
@@ -56,7 +56,7 @@
                             </tr>
                             <tr style="box-sizing:border-box;">
                                 <td style="box-sizing:border-box;">
-                                    Tracking Number: [<span t-esc="object.tracking_no"/>]
+                                    Tracking Number: [<span t-esc="object.name"/>]
                                 </td>
                             </tr>
                             <tr style="box-sizing:border-box;">
@@ -83,7 +83,7 @@
                             </tr>
                             <tr style="box-sizing:border-box;">
                                 <td style="box-sizing:border-box;">
-                                    [{{ <span t-esc="object.sale_partner_id.company_id.name"/> }}]
+                                    [<span t-esc="object.sale_partner_id.company_id.name"/>]
                                 </td>
                             </tr>
                         </tbody>
@@ -99,7 +99,7 @@
     <record id="mail_template_data_shipping_bill_modified_foam" model="mail.template">
         <field name="name">包裹改泡</field>
         <field name="model_id" ref="model_shipping_bill"/>
-        <field name="subject">Package Status Update for [{{ object.tracking_no }}]</field>
+        <field name="subject">Package Status Update for [{{ object.name }}]</field>
         <field name="email_from"></field>
         <field name="email_to">{{ object.sale_partner_id.email }}</field>
         <field name="body_html" type="html">
@@ -110,7 +110,7 @@
                             <!-- CONTENT -->
                             <tr style="box-sizing:border-box;">
                                 <td align="left" style="box-sizing:border-box;min-width: 590px;">
-                                    Subject: Package Status Update for [<span t-esc="object.tracking_no"/>]
+                                    Subject: Package Status Update for [<span t-esc="object.name"/>]
                                     <br style="box-sizing:border-box;"/><br style="box-sizing:border-box;"/>
                                 </td>
                             </tr>
@@ -122,7 +122,7 @@
                             </tr>
                             <tr style="box-sizing:border-box;">
                                 <td style="box-sizing:border-box;">
-                                    Tracking Number: [<span t-esc="object.tracking_no"/>]
+                                    Tracking Number: [<span t-esc="object.name"/>]
                                 </td>
                             </tr>
                             <tr style="box-sizing:border-box;">
@@ -165,7 +165,7 @@
     <record id="mail_template_data_shipping_bill_issue" model="mail.template">
         <field name="name">包裹已发出</field>
         <field name="model_id" ref="model_shipping_bill"/>
-        <field name="subject">Dispatch Confirmation for Package [{{ object.tracking_no }}]</field>
+        <field name="subject">Dispatch Confirmation for Package [{{ object.name }}]</field>
         <field name="email_from"></field>
         <field name="email_to">{{ object.sale_partner_id.email }}</field>
         <field name="body_html" type="html">
@@ -176,19 +176,19 @@
                             <!-- CONTENT -->
                             <tr style="box-sizing:border-box;">
                                 <td align="left" style="box-sizing:border-box;min-width: 590px;">
-                                    Subject: Dispatch Confirmation for Package [<span t-esc="object.tracking_no"/>]
+                                    Subject: Dispatch Confirmation for Package [<span t-esc="object.name"/>]
                                     <br style="box-sizing:border-box;"/><br style="box-sizing:border-box;"/>
                                 </td>
                             </tr>
 
                             <tr style="box-sizing:border-box;">
                                 <td style="box-sizing:border-box;">
-                                    Package Status: Dispatched Tracking Number: [<span t-esc="object.tracking_no"/>]
+                                    Package Status: Dispatched Tracking Number: [<span t-esc="object.name"/>]
                                 </td>
                             </tr>
                             <tr style="box-sizing:border-box;">
                                 <td style="box-sizing:border-box;">
-                                    Tracking Number: [<span t-esc="object.tracking_no"/>]
+                                    Tracking Number: [<span t-esc="object.name"/>]
                                 </td>
                             </tr>
                             <tr style="box-sizing:border-box;">
@@ -226,7 +226,7 @@
     <record id="mail_template_data_shipping_bill_reach" model="mail.template">
         <field name="name">包裹到站并且可以通过取件码领取</field>
         <field name="model_id" ref="model_shipping_bill"/>
-        <field name="subject">Parcel [{{ object.tracking_no }}] Ready for Pick-up at [{{ object.sale_site_id.name }}]</field>
+        <field name="subject">Parcel [{{ object.name }}] Ready for Pick-up at [{{ object.sale_site_id.name }}]</field>
         <field name="email_from"></field>
         <field name="email_to">{{ object.sale_partner_id.email }}</field>
         <field name="body_html" type="html">
@@ -237,7 +237,7 @@
                             <!-- CONTENT -->
                             <tr style="box-sizing:border-box;">
                                 <td align="left" style="box-sizing:border-box;min-width: 590px;">
-                                    Subject: Parcel [<span t-esc="object.tracking_no"/>] Ready for Pick-up at [<span t-esc="object.sale_site_id.name"/>]
+                                    Subject: Parcel [<span t-esc="object.name"/>] Ready for Pick-up at [<span t-esc="object.sale_site_id.name"/>]
                                     <br style="box-sizing:border-box;"/><br style="box-sizing:border-box;"/>
                                 </td>
                             </tr>
@@ -249,7 +249,7 @@
                             </tr>
                             <tr style="box-sizing:border-box;">
                                 <td style="box-sizing:border-box;">
-                                    Tracking Number: [<span t-esc="object.tracking_no"/>]
+                                    Tracking Number: [<span t-esc="object.name"/>]
                                 </td>
                             </tr>
                             <tr style="box-sizing:border-box;">
@@ -299,7 +299,7 @@
     <record id="mail_template_data_shipping_bill_sign_for" model="mail.template">
         <field name="name">包裹已签收</field>
         <field name="model_id" ref="model_shipping_bill"/>
-        <field name="subject">Successful Delivery for Package [{{ object.tracking_no }}]</field>
+        <field name="subject">Successful Delivery for Package [{{ object.name }}]</field>
         <field name="email_from"></field>
         <field name="email_to">{{ object.sale_partner_id.email }}</field>
         <field name="body_html" type="html">
@@ -310,7 +310,7 @@
                             <!-- CONTENT -->
                             <tr style="box-sizing:border-box;">
                                 <td align="left" style="box-sizing:border-box;min-width: 590px;">
-                                    Subject: Successful Delivery for Package [<span t-esc="object.tracking_no"/>]
+                                    Subject: Successful Delivery for Package [<span t-esc="object.name"/>]
                                     <br style="box-sizing:border-box;"/><br style="box-sizing:border-box;"/>
                                 </td>
                             </tr>
@@ -322,7 +322,7 @@
                             </tr>
                             <tr style="box-sizing:border-box;">
                                 <td style="box-sizing:border-box;">
-                                    Tracking Number: [<span t-esc="object.tracking_no"/>]
+                                    Tracking Number: [<span t-esc="object.name"/>]
                                 </td>
                             </tr>
                             <tr style="box-sizing:border-box;">
