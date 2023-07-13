@@ -42,12 +42,6 @@
                     <table border="0" cellpadding="0" cellspacing="0" width="590" style="box-sizing:border-box;padding: 50px; background-color: white; color: #454748; border-collapse:separate;">
                         <tbody style="box-sizing:border-box;">
                             <!-- CONTENT -->
-                            <tr style="box-sizing:border-box;">
-                                <td align="left" style="box-sizing:border-box;min-width: 590px;">
-                                    Subject: Your Parcel [<span t-esc="object.name"/>] Has Arrived
-                                    <br style="box-sizing:border-box;"/><br style="box-sizing:border-box;"/>
-                                </td>
-                            </tr>
 
                             <tr style="box-sizing:border-box;">
                                 <td style="box-sizing:border-box;">
@@ -108,12 +102,6 @@
                     <table border="0" cellpadding="0" cellspacing="0" width="590" style="box-sizing:border-box;padding: 50px; background-color: white; color: #454748; border-collapse:separate;">
                         <tbody style="box-sizing:border-box;">
                             <!-- CONTENT -->
-                            <tr style="box-sizing:border-box;">
-                                <td align="left" style="box-sizing:border-box;min-width: 590px;">
-                                    Subject: Package Status Update for [<span t-esc="object.name"/>]
-                                    <br style="box-sizing:border-box;"/><br style="box-sizing:border-box;"/>
-                                </td>
-                            </tr>
 
                             <tr style="box-sizing:border-box;">
                                 <td style="box-sizing:border-box;">
@@ -174,12 +162,6 @@
                     <table border="0" cellpadding="0" cellspacing="0" width="590" style="box-sizing:border-box;padding: 50px; background-color: white; color: #454748; border-collapse:separate;">
                         <tbody style="box-sizing:border-box;">
                             <!-- CONTENT -->
-                            <tr style="box-sizing:border-box;">
-                                <td align="left" style="box-sizing:border-box;min-width: 590px;">
-                                    Subject: Dispatch Confirmation for Package [<span t-esc="object.name"/>]
-                                    <br style="box-sizing:border-box;"/><br style="box-sizing:border-box;"/>
-                                </td>
-                            </tr>
 
                             <tr style="box-sizing:border-box;">
                                 <td style="box-sizing:border-box;">
@@ -235,12 +217,6 @@
                     <table border="0" cellpadding="0" cellspacing="0" width="590" style="box-sizing:border-box;padding: 50px; background-color: white; color: #454748; border-collapse:separate;">
                         <tbody style="box-sizing:border-box;">
                             <!-- CONTENT -->
-                            <tr style="box-sizing:border-box;">
-                                <td align="left" style="box-sizing:border-box;min-width: 590px;">
-                                    Subject: Parcel [<span t-esc="object.name"/>] Ready for Pick-up at [<span t-esc="object.sale_site_id.name"/>]
-                                    <br style="box-sizing:border-box;"/><br style="box-sizing:border-box;"/>
-                                </td>
-                            </tr>
 
                             <tr style="box-sizing:border-box;">
                                 <td style="box-sizing:border-box;">
@@ -308,12 +284,6 @@
                     <table border="0" cellpadding="0" cellspacing="0" width="590" style="box-sizing:border-box;padding: 50px; background-color: white; color: #454748; border-collapse:separate;">
                         <tbody style="box-sizing:border-box;">
                             <!-- CONTENT -->
-                            <tr style="box-sizing:border-box;">
-                                <td align="left" style="box-sizing:border-box;min-width: 590px;">
-                                    Subject: Successful Delivery for Package [<span t-esc="object.name"/>]
-                                    <br style="box-sizing:border-box;"/><br style="box-sizing:border-box;"/>
-                                </td>
-                            </tr>
 
                             <tr style="box-sizing:border-box;">
                                 <td style="box-sizing:border-box;">
