@@ -33,7 +33,7 @@ class ShippingBillUpdateArriveWizard(models.TransientModel):
             if openid:
                 # 获取token
                 token = shipping_bill.env['ir.config_parameter'].sudo().search([('key', '=', 'wechat.access_token')]).value
-                tmpl_id = "9_5NzQ0d9DVm-Cn75NaSTAgLviYftpaBRCCbS70ZhfI-jC3nFNnuVXK4A4"
+                tmpl_id = "9_5NzQ0d9DVm-Cn75NaSTAgLviYftpaBRCCbS70ZhfI"
                 tmpl_data = {
                     "first": {
                         "value": "您的包裹已到站:",
