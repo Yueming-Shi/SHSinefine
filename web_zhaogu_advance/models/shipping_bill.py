@@ -17,8 +17,8 @@ class ShippingBill(models.Model):
             openid = self.sale_partner_id.user_ids.wx_openid
             # 获取token
             token = self.env['ir.config_parameter'].sudo().search([('key', '=', 'wechat.access_token')]).value
-            if openid:
-                if vals.get('state') == 'transported':
+            if vals.get('state') == 'transported':
+                if openid:
                     tmpl_id = "fKRko5U-JjPalqSmtG6nlTeuezIpTAD41hGM7JX3NQw"
                     tmpl_data = {
                         "first": {
@@ -44,14 +44,14 @@ class ShippingBill(models.Model):
                     }
                     self.wx_information_send(token, openid, tmpl_data, tmpl_id)
 
-            # 发送邮件
-            self.env.ref('shipping_bills.mail_template_data_shipping_bill_issue').send_mail(self.id)
+                # 发送邮件
+                self.env.ref('shipping_bills.mail_template_data_shipping_bill_issue').send_mail(self.id)
 
-            # 发送短信
-            if self.sale_partner_id.phone:
-                msg = 'Package [%s] has been dispatched. ' \
-                      'For queries, contact our customer service.' % self.tracking_no
-                self.send_message_post(msg)
+                # 发送短信
+                if self.sale_partner_id.phone:
+                    msg = 'Package [%s] has been dispatched. ' \
+                          'For queries, contact our customer service.' % self.tracking_no
+                    self.send_message_post(msg)
         return result
 
     def multi_action_compute(selfs):
