@@ -26,19 +26,19 @@ class ShippingBill(models.Model):
                             "color": "#173177"
                         },
                         "keyword1": {
-                            "value": self.name,
+                            "value": self.name or "",
                             "color": "#173177"
                         },
                         "keyword2": {
-                            "value": self.logistics,
+                            "value": self.logistics or "",
                             "color": "#173177"
                         },
                         "keyword3": {
-                            "value": self.tracking_no,
+                            "value": self.tracking_no or "",
                             "color": "#173177"
                         },
                         "remark": {
-                            "value": "取件码[%s]" % self.picking_code,
+                            "value": "取件码[%s]" % self.picking_code or "",
                             "color": "#173177"
                         },
                     }
@@ -74,15 +74,15 @@ class ShippingBill(models.Model):
                             "color": "#173177"
                         },
                         "orderno": {
-                            "value": self.name,
+                            "value": self.name or "",
                             "color": "#173177"
                         },
                         "amount": {
-                            "value": "%s%s" % (self.currency_id.symbol, '{0:,.2f}'.format(fee)),
+                            "value": "%s%s" % (self.currency_id.symbol or "", '{0:,.2f}'.format(fee) or ""),
                             "color": "#173177"
                         },
                         "remark": {
-                            "value": "取件码[%s]" % self.picking_code,
+                            "value": "取件码[%s]" % self.picking_code or "",
                             "color": "#173177"
                         },
                     }
@@ -120,15 +120,15 @@ class ShippingBill(models.Model):
                                 "color": "#173177"
                             },
                             "orderno": {
-                                "value": self.name,
+                                "value": self.name or "",
                                 "color": "#173177"
                             },
                             "amount": {
-                                "value": "%s%s" % (self.currency_id.symbol, '{0:,.2f}'.format(fee)),
+                                "value": "%s%s" % (self.currency_id.symbol or "", '{0:,.2f}'.format(fee) or ""),
                                 "color": "#173177"
                             },
                             "remark": {
-                                "value": "取件码[%s]" % self.picking_code,
+                                "value": "取件码[%s]" % self.picking_code or "",
                                 "color": "#173177"
                             },
                     }

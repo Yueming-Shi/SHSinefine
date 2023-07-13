@@ -40,15 +40,15 @@ class ShippingBillUpdateSignWizard(models.TransientModel):
                         "color": "#173177"
                     },
                     "keyword1": {
-                        "value": "空运包裹",
+                        "value": shipping_bill.tracking_no or "",
                         "color": "#173177"
                     },
                     "keyword2": {
-                        "value": shipping_bill.tracking_no,
+                        "value": shipping_bill.sale_partner_id.name or "",
                         "color": "#173177"
                     },
                     "keyword3": {
-                        "value": shipping_bill.signed_date.strftime('%Y-%m-%d'),
+                        "value": shipping_bill.signed_date.strftime('%Y-%m-%d') or "",
                         "color": "#173177"
                     },
                     "remark": {

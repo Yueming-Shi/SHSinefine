@@ -53,11 +53,11 @@ class ShippingBillUpdateReturnWizard(models.TransientModel):
                         "color": "#173177"
                     },
                     "keyword1": {
-                        "value": shipping_bill.name,
+                        "value": shipping_bill.name or "",
                         "color": "#173177"
                     },
                     "keyword2": {
-                        "value": shipping_bill.shipping_factor_id.name,
+                        "value": shipping_bill.shipping_factor_id.name or "",
                         "color": "#173177"
                     },
                     "keyword3": {
@@ -65,7 +65,7 @@ class ShippingBillUpdateReturnWizard(models.TransientModel):
                         "color": "#173177"
                     },
                     "remark": {
-                        "value": "退运快递单号：" + shipping_bill.tracking_no,
+                        "value": "退运快递单号：" + shipping_bill.tracking_no or "",
                         "color": "#173177"
                     },
                 }

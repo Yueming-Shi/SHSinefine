@@ -44,7 +44,7 @@ class ShippingBillUpdateArriveWizard(models.TransientModel):
                         "color": "#173177"
                     },
                     "keyword2": {
-                        "value": shipping_bill.tracking_no,
+                        "value": shipping_bill.tracking_no or "",
                         "color": "#173177"
                     },
                     "keyword3": {
