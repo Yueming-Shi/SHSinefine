@@ -309,8 +309,9 @@ class ShippingBill(models.Model):
             'Content-Type': 'application/json'
         }
         data_json = json.dumps(data)
-
-        return odoo_session.post(url=send_url, data=bytes(data_json, 'utf-8'), headers=headers)
+        res = odoo_session.post(url=send_url, data=bytes(data_json, 'utf-8'), headers=headers)
+        _logger.info(res.data)
+        return True
 
     # 国际短信发送
     def send_message_post(self, msg):
