@@ -48,7 +48,7 @@ class ShippingBillUpdateSignWizard(models.TransientModel):
                         "color": "#173177"
                     },
                     "keyword3": {
-                        "value": shipping_bill.signed_datex.strftime('%Y-%m-%d'),
+                        "value": shipping_bill.signed_date.strftime('%Y-%m-%d'),
                         "color": "#173177"
                     },
                     "remark": {
