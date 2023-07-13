@@ -78,7 +78,7 @@ class ShippingBill(models.Model):
                             "color": "#173177"
                         },
                         "amount": {
-                            "value": "%s%s" % (self.currency_id.symbol or "", '{0:,.2f}'.format(fee) or ""),
+                            "value": '{0:,.2f}'.format(fee),
                             "color": "#173177"
                         },
                         "remark": {
@@ -124,7 +124,7 @@ class ShippingBill(models.Model):
                                 "color": "#173177"
                             },
                             "amount": {
-                                "value": "%s%s" % (self.currency_id.symbol or "", '{0:,.2f}'.format(fee) or ""),
+                                "value": '{0:,.2f}'.format(fee),
                                 "color": "#173177"
                             },
                             "remark": {
