@@ -44,7 +44,7 @@
                             <!-- CONTENT -->
                             <tr style="box-sizing:border-box;">
                                 <td align="left" style="box-sizing:border-box;min-width: 590px;">
-                                    Subject: Your Parcel [{{ object.tracking_no }}] Has Arrived
+                                    Subject: Your Parcel [<span t-esc="object.tracking_no"/>] Has Arrived
                                     <br style="box-sizing:border-box;"/><br style="box-sizing:border-box;"/>
                                 </td>
                             </tr>
@@ -56,12 +56,12 @@
                             </tr>
                             <tr style="box-sizing:border-box;">
                                 <td style="box-sizing:border-box;">
-                                    Tracking Number: [{{ object.tracking_no }}]
+                                    Tracking Number: [<span t-esc="object.tracking_no"/>]
                                 </td>
                             </tr>
                             <tr style="box-sizing:border-box;">
                                 <td style="box-sizing:border-box;">
-                                    Shipment Cost: [{{ object.fee }}]
+                                    Shipment Cost: [<span t-esc="object.fee"/>]
                                     <br style="box-sizing:border-box;"/><br style="box-sizing:border-box;"/>
                                 </td>
                             </tr>
@@ -83,7 +83,7 @@
                             </tr>
                             <tr style="box-sizing:border-box;">
                                 <td style="box-sizing:border-box;">
-                                    [{{ object.sale_partner_id.company_id.name }}]
+                                    [{{ <span t-esc="object.sale_partner_id.company_id.name"/> }}]
                                 </td>
                             </tr>
                         </tbody>
@@ -110,7 +110,7 @@
                             <!-- CONTENT -->
                             <tr style="box-sizing:border-box;">
                                 <td align="left" style="box-sizing:border-box;min-width: 590px;">
-                                    Subject: Package Status Update for [{{ object.tracking_no }}]
+                                    Subject: Package Status Update for [<span t-esc="object.tracking_no"/>]
                                     <br style="box-sizing:border-box;"/><br style="box-sizing:border-box;"/>
                                 </td>
                             </tr>
@@ -122,12 +122,12 @@
                             </tr>
                             <tr style="box-sizing:border-box;">
                                 <td style="box-sizing:border-box;">
-                                    Tracking Number: [{{ object.tracking_no }}]
+                                    Tracking Number: [<span t-esc="object.tracking_no"/>]
                                 </td>
                             </tr>
                             <tr style="box-sizing:border-box;">
                                 <td style="box-sizing:border-box;">
-                                    New Shipment Cost: [{{ '{0:,.2f}'.format(sum(object.sale_invoice_ids.filtered(lambda l: l.payment_state not in ['paid', 'reversed', 'invoicing_legacy']  and l.state != 'cancel').mapped('amount_total'))) }}]
+                                    New Shipment Cost: [<span t-esc="'{0:,.2f}'.format(sum(object.sale_invoice_ids.filtered(lambda l: l.payment_state not in ['paid', 'reversed', 'invoicing_legacy']  and l.state != 'cancel').mapped('amount_total')))"/>]
                                     <br style="box-sizing:border-box;"/><br style="box-sizing:border-box;"/>
                                 </td>
                             </tr>
@@ -149,7 +149,7 @@
                             </tr>
                             <tr style="box-sizing:border-box;">
                                 <td style="box-sizing:border-box;">
-                                    [{{ object.sale_partner_id.company_id.name }}]
+                                    [<span t-esc="object.sale_partner_id.company_id.name"/>]
                                 </td>
                             </tr>
                         </tbody>
@@ -176,24 +176,24 @@
                             <!-- CONTENT -->
                             <tr style="box-sizing:border-box;">
                                 <td align="left" style="box-sizing:border-box;min-width: 590px;">
-                                    Subject: Dispatch Confirmation for Package [{{ object.tracking_no }}]
+                                    Subject: Dispatch Confirmation for Package [<span t-esc="object.tracking_no"/>]
                                     <br style="box-sizing:border-box;"/><br style="box-sizing:border-box;"/>
                                 </td>
                             </tr>
 
                             <tr style="box-sizing:border-box;">
                                 <td style="box-sizing:border-box;">
-                                    Package Status: Dispatched Tracking Number: [{{ object.tracking_no }}]
+                                    Package Status: Dispatched Tracking Number: [<span t-esc="object.tracking_no"/>]
                                 </td>
                             </tr>
                             <tr style="box-sizing:border-box;">
                                 <td style="box-sizing:border-box;">
-                                    Tracking Number: [{{ object.tracking_no }}]
+                                    Tracking Number: [<span t-esc="object.tracking_no"/>]
                                 </td>
                             </tr>
                             <tr style="box-sizing:border-box;">
                                 <td style="box-sizing:border-box;">
-                                    Pick-up Code: [{{ object.picking_code }}]
+                                    Pick-up Code: [<span t-esc="object.picking_code"/>]
                                     <br style="box-sizing:border-box;"/><br style="box-sizing:border-box;"/>
                                 </td>
                             </tr>
@@ -210,7 +210,7 @@
                             </tr>
                             <tr style="box-sizing:border-box;">
                                 <td style="box-sizing:border-box;">
-                                    [{{ object.sale_partner_id.company_id.name }}]
+                                    [<span t-esc="object.sale_partner_id.company_id.name"/>]
                                 </td>
                             </tr>
                         </tbody>
@@ -237,7 +237,7 @@
                             <!-- CONTENT -->
                             <tr style="box-sizing:border-box;">
                                 <td align="left" style="box-sizing:border-box;min-width: 590px;">
-                                    Subject: Parcel [{{ object.tracking_no }}] Ready for Pick-up at [{{ object.sale_site_id.name }}]
+                                    Subject: Parcel [<span t-esc="object.tracking_no"/>] Ready for Pick-up at [<span t-esc="object.sale_site_id.name"/>]
                                     <br style="box-sizing:border-box;"/><br style="box-sizing:border-box;"/>
                                 </td>
                             </tr>
@@ -249,24 +249,24 @@
                             </tr>
                             <tr style="box-sizing:border-box;">
                                 <td style="box-sizing:border-box;">
-                                    Tracking Number: [{{ object.tracking_no }}]
+                                    Tracking Number: [<span t-esc="object.tracking_no"/>]
                                 </td>
                             </tr>
                             <tr style="box-sizing:border-box;">
                                 <td style="box-sizing:border-box;">
-                                    Station Name: [{{ object.sale_site_id.name }}]
+                                    Station Name: [<span t-esc="object.sale_site_id.name"/>]
                                     <br style="box-sizing:border-box;"/><br style="box-sizing:border-box;"/>
                                 </td>
                             </tr>
                             <tr style="box-sizing:border-box;">
                                 <td style="box-sizing:border-box;">
-                                    Station Address: [{{ object.sale_site_contact_address }}]
+                                    Station Address: [<span t-esc="object.sale_site_contact_address"/>]
                                     <br style="box-sizing:border-box;"/><br style="box-sizing:border-box;"/>
                                 </td>
                             </tr>
                             <tr style="box-sizing:border-box;">
                                 <td style="box-sizing:border-box;">
-                                    Pick-up Code: [{{ object.picking_code }}]
+                                    Pick-up Code: [<span t-esc="object.picking_code"/>]
                                     <br style="box-sizing:border-box;"/><br style="box-sizing:border-box;"/>
                                 </td>
                             </tr>
@@ -283,7 +283,7 @@
                             </tr>
                             <tr style="box-sizing:border-box;">
                                 <td style="box-sizing:border-box;">
-                                    [{{ object.sale_partner_id.company_id.name }}]
+                                    [<span t-esc="object.sale_partner_id.company_id.name"/>]
                                 </td>
                             </tr>
                         </tbody>
@@ -310,7 +310,7 @@
                             <!-- CONTENT -->
                             <tr style="box-sizing:border-box;">
                                 <td align="left" style="box-sizing:border-box;min-width: 590px;">
-                                    Subject: Successful Delivery for Package [{{ object.tracking_no }}]
+                                    Subject: Successful Delivery for Package [<span t-esc="object.tracking_no"/>]
                                     <br style="box-sizing:border-box;"/><br style="box-sizing:border-box;"/>
                                 </td>
                             </tr>
@@ -322,7 +322,7 @@
                             </tr>
                             <tr style="box-sizing:border-box;">
                                 <td style="box-sizing:border-box;">
-                                    Tracking Number: [{{ object.tracking_no }}]
+                                    Tracking Number: [<span t-esc="object.tracking_no"/>]
                                 </td>
                             </tr>
                             <tr style="box-sizing:border-box;">
@@ -338,7 +338,7 @@
                             </tr>
                             <tr style="box-sizing:border-box;">
                                 <td style="box-sizing:border-box;">
-                                    [{{ object.sale_partner_id.company_id.name }}]
+                                    [<span t-esc="object.sale_partner_id.company_id.name"/>]
                                 </td>
                             </tr>
                         </tbody>
