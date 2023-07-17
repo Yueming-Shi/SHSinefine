@@ -7,3 +7,4 @@ from . import shipping_large_parcel
 from . import shipping_state
 from . import product_product
 from . import modification_fee
+from . import res_partner
