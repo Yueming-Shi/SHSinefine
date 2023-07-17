@@ -168,18 +168,25 @@ class ShippingBill(models.Model):
             volume = self.length * self.width * self.height  # 体积
             shipping_factor = self.shipping_factor_id
 
-            if self.no_change:
+            if not self.sale_partner_id.is_agent:
+                if self.no_change:
+                    size_weight = self.actual_weight
+                    first_weight = shipping_factor.vip_first_weight
+                    first_total_price = shipping_factor.vip_first_total_price
+                    next_price_unit = shipping_factor.vip_next_price_unit
+                    next_weight_to_ceil = shipping_factor.vip_next_weight_to_ceil
+                else:
+                    size_weight = max([self.actual_weight, volume / shipping_factor.factor])
+                    first_weight = shipping_factor.first_weight
+                    first_total_price = shipping_factor.first_total_price
+                    next_price_unit = shipping_factor.next_price_unit
+                    next_weight_to_ceil = shipping_factor.next_weight_to_ceil
+            else:
                 size_weight = self.actual_weight
-                first_weight = shipping_factor.vip_first_weight
-                first_total_price = shipping_factor.vip_first_total_price
+                first_weight = shipping_factor.agent_first_weight
+                first_total_price = shipping_factor.agent_first_total_price
                 next_price_unit = shipping_factor.vip_next_price_unit
                 next_weight_to_ceil = shipping_factor.vip_next_weight_to_ceil
-            else:
-                size_weight = max([self.actual_weight, volume / shipping_factor.factor])
-                first_weight = shipping_factor.first_weight
-                first_total_price = shipping_factor.first_total_price
-                next_price_unit = shipping_factor.next_price_unit
-                next_weight_to_ceil = shipping_factor.next_weight_to_ceil
 
             weight = math.ceil(
                 size_weight * 1000 / next_weight_to_ceil) * next_weight_to_ceil

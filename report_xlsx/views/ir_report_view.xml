@@ -7,6 +7,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='paperformat_id']" position="after">
                 <field name="excel_attachment_id" attrs="{'invisible': [('report_type', '!=', 'xlsx')]}"/>
+                <field name="is_split_sheet"/>
             </xpath>
             <xpath expr="//page[@name='advanced']" position="after">
                 <page name="code" string="Python Code">
