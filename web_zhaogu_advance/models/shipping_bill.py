@@ -67,14 +67,14 @@ class ShippingBill(models.Model):
                 if openid:
                     # 获取token
                     token = selfs.env['ir.config_parameter'].sudo().search([('key', '=', 'wechat.access_token')]).value
-                    tmpl_id = "nyb0HsFu4oVOyR712tQFurlpt27foVsRwIb9pDge3vA",
+                    tmpl_id = "nyb0HsFu4oVOyR712tQFurlpt27foVsRwIb9pDge3vA"
                     tmpl_data = {
                         "first": {
                             "value": "您的订单已到仓:",
                             "color": "#173177"
                         },
                         "orderno": {
-                            "value": self.name,
+                            "value": self.name or "",
                             "color": "#173177"
                         },
                         "amount": {
@@ -82,7 +82,7 @@ class ShippingBill(models.Model):
                             "color": "#173177"
                         },
                         "remark": {
-                            "value": "取件码[%s]" % self.picking_code,
+                            "value": "取件码[%s]" % self.picking_code or "",
                             "color": "#173177"
                         },
                     }
@@ -113,7 +113,7 @@ class ShippingBill(models.Model):
                 if openid:
                     # 获取token
                     token = selfs.env['ir.config_parameter'].sudo().search([('key', '=', 'wechat.access_token')]).value
-                    tmpl_id = "nyb0HsFu4oVOyR712tQFurlpt27foVsRwIb9pDge3vA",
+                    tmpl_id = "nyb0HsFu4oVOyR712tQFurlpt27foVsRwIb9pDge3vA"
                     tmpl_data = {
                         "first": {
                                 "value": "您的订单已改泡:",
