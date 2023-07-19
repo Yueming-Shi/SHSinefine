@@ -45,7 +45,7 @@ class ShippingBill(models.Model):
                     self.wx_information_send(token, openid, tmpl_data, tmpl_id)
 
                 # 发送邮件
-                self.env.ref('shipping_bills.mail_template_data_shipping_bill_issue').send_mail(self.id)
+                self.env.ref('shipping_bills.mail_template_data_shipping_bill_issue').send_mail(self.id, force_send=True)
 
                 # 发送短信
                 if self.sale_partner_id.phone:
@@ -89,7 +89,7 @@ class ShippingBill(models.Model):
                     self.wx_information_send(token, openid, tmpl_data, tmpl_id)
 
                 # 发送邮件
-                self.env.ref('shipping_bills.mail_template_data_shipping_bill_to_warehouse').send_mail(self.id)
+                self.env.ref('shipping_bills.mail_template_data_shipping_bill_to_warehouse').send_mail(self.id, force_send=True)
 
                 # 发送短信
                 if self.sale_partner_id.phone:
@@ -135,7 +135,7 @@ class ShippingBill(models.Model):
                     self.wx_information_send(token, openid, tmpl_data, tmpl_id)
 
                 # 发送邮件
-                self.env.ref('shipping_bills.mail_template_data_shipping_bill_modified_foam').send_mail(self.id)
+                self.env.ref('shipping_bills.mail_template_data_shipping_bill_modified_foam').send_mail(self.id, force_send=True)
 
                 # 发送短信
                 if self.sale_partner_id.phone:
