@@ -55,7 +55,7 @@
                             </tr>
                             <tr style="box-sizing:border-box;">
                                 <td style="box-sizing:border-box;">
-                                    Shipment Cost: [<span t-esc="object.fee"/>]
+                                    Shipment Cost: [<span t-esc="object.currency_id.name"/> <span t-esc="'{0:,.2f}'.format(object.fee)"/>]
                                     <br style="box-sizing:border-box;"/><br style="box-sizing:border-box;"/>
                                 </td>
                             </tr>
@@ -115,7 +115,7 @@
                             </tr>
                             <tr style="box-sizing:border-box;">
                                 <td style="box-sizing:border-box;">
-                                    New Shipment Cost: [<span t-esc="'{0:,.2f}'.format(sum(object.sale_invoice_ids.filtered(lambda l: l.payment_state not in ['paid', 'reversed', 'invoicing_legacy']  and l.state != 'cancel').mapped('amount_total')))"/>]
+                                    New Shipment Cost: [<span t-esc="object.currency_id.name"/> <span t-esc="'{0:,.2f}'.format(sum(object.sale_invoice_ids.filtered(lambda l: l.payment_state not in ['paid', 'reversed', 'invoicing_legacy']  and l.state != 'cancel').mapped('amount_total')))"/>]
                                     <br style="box-sizing:border-box;"/><br style="box-sizing:border-box;"/>
                                 </td>
                             </tr>
