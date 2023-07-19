@@ -48,11 +48,11 @@ class ShippingBillUpdateArriveWizard(models.TransientModel):
                         "color": "#173177"
                     },
                     "keyword3": {
-                        "value": "请及时到站领取您的包裹",
+                        "value": "请及时到站领取您的包裹，取件码：[%s]" % shipping_bill.picking_code,
                         "color": "#173177"
                     },
                     "remark": {
-                        "value": "取件码[%s]" % shipping_bill.picking_code,
+                        "value": "",
                         "color": "#173177"
                     },
                 }
