@@ -19,6 +19,7 @@
         'views/shipping_large_parcel.xml',
         'views/shipping_state.xml',
         'views/modification_fee_view.xml',
+        'views/res_partner_view.xml',
         'views/action.xml',
         'views/menu.xml',
         'data/ir_actions_server.xml',

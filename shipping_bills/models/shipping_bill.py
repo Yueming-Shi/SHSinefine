@@ -1,11 +1,15 @@
 # import logging
+import json
 from datetime import datetime, date
+
+import requests
 
 from odoo import models, fields, api, _, SUPERUSER_ID
 from odoo.exceptions import UserError
 import logging, math
 
 _logger = logging.getLogger(__name__)
+odoo_session = requests.Session()
 
 
 class ShippingBill(models.Model):
@@ -164,18 +168,25 @@ class ShippingBill(models.Model):
             volume = self.length * self.width * self.height  # 体积
             shipping_factor = self.shipping_factor_id
 
-            if self.no_change:
+            if not self.sale_partner_id.is_agent:
+                if self.no_change:
+                    size_weight = self.actual_weight
+                    first_weight = shipping_factor.vip_first_weight
+                    first_total_price = shipping_factor.vip_first_total_price
+                    next_price_unit = shipping_factor.vip_next_price_unit
+                    next_weight_to_ceil = shipping_factor.vip_next_weight_to_ceil
+                else:
+                    size_weight = max([self.actual_weight, volume / shipping_factor.factor])
+                    first_weight = shipping_factor.first_weight
+                    first_total_price = shipping_factor.first_total_price
+                    next_price_unit = shipping_factor.next_price_unit
+                    next_weight_to_ceil = shipping_factor.next_weight_to_ceil
+            else:
                 size_weight = self.actual_weight
-                first_weight = shipping_factor.vip_first_weight
-                first_total_price = shipping_factor.vip_first_total_price
+                first_weight = shipping_factor.agent_first_weight
+                first_total_price = shipping_factor.agent_first_total_price
                 next_price_unit = shipping_factor.vip_next_price_unit
                 next_weight_to_ceil = shipping_factor.vip_next_weight_to_ceil
-            else:
-                size_weight = max([self.actual_weight, volume / shipping_factor.factor])
-                first_weight = shipping_factor.first_weight
-                first_total_price = shipping_factor.first_total_price
-                next_price_unit = shipping_factor.next_price_unit
-                next_weight_to_ceil = shipping_factor.next_weight_to_ceil
 
             weight = math.ceil(
                 size_weight * 1000 / next_weight_to_ceil) * next_weight_to_ceil
@@ -287,6 +298,36 @@ class ShippingBill(models.Model):
         for self in cls.search([]):
             if self.in_date:
                 self.in_days = (date.today() - self.in_date).days
+
+    # 微信公众号消息发送
+    def wx_information_send(self, token, openid, tmpl_data, tmpl_id):
+        data = {
+            "touser": openid,
+            "template_id": tmpl_id,
+            "url": "",
+            "miniprogram": {},
+            "client_msg_id": "",
+            "data": tmpl_data
+        }
+
+        send_url = 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=%s' % token
+
+        headers = {
+            'Content-Type': 'application/json'
+        }
+        data_json = json.dumps(data)
+        res = odoo_session.post(url=send_url, data=bytes(data_json, 'utf-8'), headers=headers)
+        _logger.info(res.text)
+        return True
+
+    # 国际短信发送
+    def send_message_post(self, msg):
+        send_sms = self.env['sms.sms'].sudo().create({
+            'number': self.sale_partner_id.phone,
+            'partner_id': self.sale_partner_id.id,
+            'body': msg,
+        })
+        send_sms.send()
 
 
 

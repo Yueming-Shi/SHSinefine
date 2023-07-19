@@ -152,7 +152,9 @@ class ReportAction(models.Model):
 
     report_type = fields.Selection(selection_add=[("xlsx", "XLSX")], ondelete={'xlsx': lambda recs: recs.write({'report_type': 'txt'})})
     excel_attachment_id = fields.Many2one("ir.attachment", "Excel模板")
+    is_split_sheet = fields.Boolean('是否拆分')
     code = fields.Text(string='Python Code', default="""# 
+    
 #Variant you can use
 #'env': self.env,
 #'Warning': odoo.exceptions.Warning,
@@ -233,14 +235,20 @@ class ReportAction(models.Model):
             'ws': ws,
             })
 
-        for obj in record_ids:
-            if len(record_ids) > 1:
-                ws = wb.copy_worksheet(ws)
-            else:
-                ws = ws
-            ws.title = ws.title or "Sheet"
+        if not self.is_split_sheet:
+            for obj in record_ids:
+                if len(record_ids) > 1:
+                    ws = wb.copy_worksheet(ws)
+                else:
+                    ws = ws
+                ws.title = ws.title or "Sheet"
 
-            eval_context['obj'] = obj
+                eval_context['obj'] = obj
+                eval_context['ws'] = ws
+                exec(self.code.strip(), eval_context)
+        else:
+            ws.title = ws.title or "Sheet"
+            eval_context['obj'] = record_ids
             eval_context['ws'] = ws
             exec(self.code.strip(), eval_context)
 

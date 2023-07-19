@@ -16,6 +16,8 @@
                     <field name="vip_first_total_price"/>
                     <field name="vip_next_weight_to_ceil"/>
                     <field name="vip_next_price_unit"/>
+                    <field name="agent_first_weight"/>
+                    <field name="agent_first_total_price"/>
                 </tree>
             </field>
         </record>
@@ -45,6 +47,12 @@
                                 <field name="vip_first_total_price" digits="[16, 3]"/>
                                 <field name="vip_next_weight_to_ceil"/>
                                 <field name="vip_next_price_unit" digits="[16, 3]"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="agent_first_weight"/>
+                                <field name="agent_first_total_price" digits="[16, 3]"/>
                             </group>
                         </group>
                     </sheet>

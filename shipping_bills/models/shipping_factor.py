@@ -20,4 +20,9 @@ class ShippingFactor(models.Model):
     vip_next_weight_to_ceil = fields.Float('SVIP续重取整')
     vip_next_price_unit = fields.Float('SVIP续重单价')
 
+    agent_first_weight = fields.Float('代理商首重')
+    agent_first_total_price = fields.Float('代理商首重总价')
+
+
+
 

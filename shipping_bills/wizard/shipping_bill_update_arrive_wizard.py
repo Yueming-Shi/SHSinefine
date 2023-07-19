@@ -27,3 +27,44 @@ class ShippingBillUpdateArriveWizard(models.TransientModel):
                 'arrived_date': _today,
                 'state': 'arrived',
             })
+
+            # 发送微信消息
+            openid = shipping_bill.sale_partner_id.user_ids.wx_openid
+            if openid:
+                # 获取token
+                token = shipping_bill.env['ir.config_parameter'].sudo().search([('key', '=', 'wechat.access_token')]).value
+                tmpl_id = "9_5NzQ0d9DVm-Cn75NaSTAgLviYftpaBRCCbS70ZhfI"
+                tmpl_data = {
+                    "first": {
+                        "value": "您的包裹已到站:",
+                        "color": "#173177"
+                    },
+                    "keyword1": {
+                        "value": "空运包裹",
+                        "color": "#173177"
+                    },
+                    "keyword2": {
+                        "value": shipping_bill.tracking_no or "",
+                        "color": "#173177"
+                    },
+                    "keyword3": {
+                        "value": "请及时到站领取您的包裹",
+                        "color": "#173177"
+                    },
+                    "remark": {
+                        "value": "取件码[%s]" % shipping_bill.picking_code,
+                        "color": "#173177"
+                    },
+                }
+                shipping_bill.wx_information_send(token, openid, tmpl_data, tmpl_id)
+
+            # 发送邮件
+            self.env.ref('shipping_bills.mail_template_data_shipping_bill_reach').send_mail(shipping_bill.id)
+
+            # 发送短信
+            if shipping_bill.sale_partner_id.phone:
+                msg = 'Your package [%s] is ready for pick-up at [%s].' \
+                      'Your Pick-up Code is [Pick-Up Code]. For assistance,' \
+                      'contact our customer service. [%s]' % (
+                          shipping_bill.tracking_no, shipping_bill.sale_site_id.name, shipping_bill.sale_partner_id.company_id.name)
+                shipping_bill.send_message_post(msg)
