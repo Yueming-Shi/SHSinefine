@@ -74,7 +74,7 @@ class ShippingBill(models.Model):
                             "color": "#173177"
                         },
                         "orderno": {
-                            "value": self.name or "",
+                            "value": self.name,
                             "color": "#173177"
                         },
                         "amount": {
@@ -82,7 +82,7 @@ class ShippingBill(models.Model):
                             "color": "#173177"
                         },
                         "remark": {
-                            "value": "取件码[%s]" % self.picking_code or "",
+                            "value": "取件码[%s]" % self.picking_code,
                             "color": "#173177"
                         },
                     }
