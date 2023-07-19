@@ -64,6 +64,6 @@ class ShippingBillUpdateSignWizard(models.TransientModel):
             # 发送短信
             if shipping_bill.sale_partner_id.phone:
                 msg = 'Successful delivery for package [%s]. It has been signed for. ' \
-                      'For any feedback or assistance, reach out to our customer service. [%s]' % (
-                          shipping_bill.tracking_no, shipping_bill.sale_partner_id.company_id.name)
+                      'For any feedback or assistance, reach out to our customer service.     Sinefine' % (
+                          shipping_bill.tracking_no)
                 shipping_bill.send_message_post(msg)

@@ -65,6 +65,6 @@ class ShippingBillUpdateArriveWizard(models.TransientModel):
             if shipping_bill.sale_partner_id.phone:
                 msg = 'Your package [%s] is ready for pick-up at [%s].' \
                       'Your Pick-up Code is [Pick-Up Code]. For assistance,' \
-                      'contact our customer service. [%s]' % (
-                          shipping_bill.tracking_no, shipping_bill.sale_site_id.name, shipping_bill.sale_partner_id.company_id.name)
+                      'contact our customer service.     Sinefine' % (
+                          shipping_bill.tracking_no, shipping_bill.sale_site_id.name)
                 shipping_bill.send_message_post(msg)
