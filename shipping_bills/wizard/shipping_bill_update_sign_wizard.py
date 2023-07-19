@@ -59,11 +59,11 @@ class ShippingBillUpdateSignWizard(models.TransientModel):
                 shipping_bill.wx_information_send(token, openid, tmpl_data, tmpl_id)
 
             # 发送邮件
-            self.env.ref('shipping_bills.mail_template_data_shipping_bill_sign_for').send_mail(shipping_bill.id)
+            self.env.ref('shipping_bills.mail_template_data_shipping_bill_sign_for').send_mail(shipping_bill.id, force_send=True)
 
             # 发送短信
             if shipping_bill.sale_partner_id.phone:
                 msg = 'Successful delivery for package [%s]. It has been signed for. ' \
-                      'For any feedback or assistance, reach out to our customer service. [%s]' % (
-                          shipping_bill.tracking_no, shipping_bill.sale_partner_id.company_id.name)
+                      'For any feedback or assistance, reach out to our customer service.     Sinefine' % (
+                          shipping_bill.tracking_no)
                 shipping_bill.send_message_post(msg)

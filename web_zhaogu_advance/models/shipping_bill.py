@@ -45,12 +45,12 @@ class ShippingBill(models.Model):
                     self.wx_information_send(token, openid, tmpl_data, tmpl_id)
 
                 # 发送邮件
-                self.env.ref('shipping_bills.mail_template_data_shipping_bill_issue').send_mail(self.id)
+                self.env.ref('shipping_bills.mail_template_data_shipping_bill_issue').send_mail(self.id, force_send=True)
 
                 # 发送短信
                 if self.sale_partner_id.phone:
                     msg = 'Package [%s] has been dispatched. ' \
-                          'For queries, contact our customer service.' % self.tracking_no
+                          'For queries, contact our customer service.    Sinefine' % self.tracking_no
                     self.send_message_post(msg)
         return result
 
@@ -67,7 +67,7 @@ class ShippingBill(models.Model):
                 if openid:
                     # 获取token
                     token = selfs.env['ir.config_parameter'].sudo().search([('key', '=', 'wechat.access_token')]).value
-                    tmpl_id = "nyb0HsFu4oVOyR712tQFurlpt27foVsRwIb9pDge3vA",
+                    tmpl_id = "nyb0HsFu4oVOyR712tQFurlpt27foVsRwIb9pDge3vA"
                     tmpl_data = {
                         "first": {
                             "value": "您的订单已到仓:",
@@ -78,7 +78,7 @@ class ShippingBill(models.Model):
                             "color": "#173177"
                         },
                         "amount": {
-                            "value": '{0:,.2f}'.format(fee),
+                            "value": str('{0:,.2f}'.format(fee)),
                             "color": "#173177"
                         },
                         "remark": {
@@ -89,13 +89,13 @@ class ShippingBill(models.Model):
                     self.wx_information_send(token, openid, tmpl_data, tmpl_id)
 
                 # 发送邮件
-                self.env.ref('shipping_bills.mail_template_data_shipping_bill_to_warehouse').send_mail(self.id)
+                self.env.ref('shipping_bills.mail_template_data_shipping_bill_to_warehouse').send_mail(self.id, force_send=True)
 
                 # 发送短信
                 if self.sale_partner_id.phone:
                     msg = 'Package [%s] has arrived at warehouse. Shipment Cost is [%s].' \
                           'Please make payment via your registered account.' \
-                          'For queries, contact our customer service. [%s]' % (self.tracking_no, fee, self.sale_partner_id.company_id.name)
+                          'For queries, contact our customer service.     Sinefine' % (self.tracking_no, fee)
                     self.send_message_post(msg)
 
         return result
@@ -113,7 +113,7 @@ class ShippingBill(models.Model):
                 if openid:
                     # 获取token
                     token = selfs.env['ir.config_parameter'].sudo().search([('key', '=', 'wechat.access_token')]).value
-                    tmpl_id = "nyb0HsFu4oVOyR712tQFurlpt27foVsRwIb9pDge3vA",
+                    tmpl_id = "nyb0HsFu4oVOyR712tQFurlpt27foVsRwIb9pDge3vA"
                     tmpl_data = {
                         "first": {
                                 "value": "您的订单已改泡:",
@@ -124,7 +124,7 @@ class ShippingBill(models.Model):
                                 "color": "#173177"
                             },
                             "amount": {
-                                "value": '{0:,.2f}'.format(fee),
+                                "value": str('{0:,.2f}'.format(fee)),
                                 "color": "#173177"
                             },
                             "remark": {
@@ -135,13 +135,13 @@ class ShippingBill(models.Model):
                     self.wx_information_send(token, openid, tmpl_data, tmpl_id)
 
                 # 发送邮件
-                self.env.ref('shipping_bills.mail_template_data_shipping_bill_modified_foam').send_mail(self.id)
+                self.env.ref('shipping_bills.mail_template_data_shipping_bill_modified_foam').send_mail(self.id, force_send=True)
 
                 # 发送短信
                 if self.sale_partner_id.phone:
                     msg = 'Package [%s] has been repackaged. New shipment cost is [%s].' \
                           'Please adjust your payment. For any concerns, ' \
-                          'contact our customer service. [%s]' % (self.tracking_no, fee, self.sale_partner_id.company_id.name)
+                          'contact our customer service.     Sinefine' % (self.tracking_no, fee)
                     self.send_message_post(msg)
         return result
 

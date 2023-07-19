@@ -48,23 +48,23 @@ class ShippingBillUpdateArriveWizard(models.TransientModel):
                         "color": "#173177"
                     },
                     "keyword3": {
-                        "value": "请及时到站领取您的包裹",
+                        "value": "请及时到站领取您的包裹，取件码：[%s]" % shipping_bill.picking_code,
                         "color": "#173177"
                     },
                     "remark": {
-                        "value": "取件码[%s]" % shipping_bill.picking_code,
+                        "value": "",
                         "color": "#173177"
                     },
                 }
                 shipping_bill.wx_information_send(token, openid, tmpl_data, tmpl_id)
 
             # 发送邮件
-            self.env.ref('shipping_bills.mail_template_data_shipping_bill_reach').send_mail(shipping_bill.id)
+            self.env.ref('shipping_bills.mail_template_data_shipping_bill_reach').send_mail(shipping_bill.id, force_send=True)
 
             # 发送短信
             if shipping_bill.sale_partner_id.phone:
                 msg = 'Your package [%s] is ready for pick-up at [%s].' \
                       'Your Pick-up Code is [Pick-Up Code]. For assistance,' \
-                      'contact our customer service. [%s]' % (
-                          shipping_bill.tracking_no, shipping_bill.sale_site_id.name, shipping_bill.sale_partner_id.company_id.name)
+                      'contact our customer service.     Sinefine' % (
+                          shipping_bill.tracking_no, shipping_bill.sale_site_id.name)
                 shipping_bill.send_message_post(msg)
