@@ -95,7 +95,7 @@ class ShippingBill(models.Model):
                 if self.sale_partner_id.phone:
                     msg = 'Package [%s] has arrived at warehouse. Shipment Cost is [%s].' \
                           'Please make payment via your registered account.' \
-                          'For queries, contact our customer service.     Sinefine' % (self.tracking_no, fee)
+                          'For queries, contact our customer service.     Sinefine' % (self.tracking_no, self.currency_id.name,fee)
                     self.send_message_post(msg)
 
         return result
@@ -141,7 +141,7 @@ class ShippingBill(models.Model):
                 if self.sale_partner_id.phone:
                     msg = 'Package [%s] has been repackaged. New shipment cost is [%s].' \
                           'Please adjust your payment. For any concerns, ' \
-                          'contact our customer service.     Sinefine' % (self.tracking_no, fee)
+                          'contact our customer service.     Sinefine' % (self.tracking_no, self.currency_id.name, fee)
                     self.send_message_post(msg)
         return result
 
