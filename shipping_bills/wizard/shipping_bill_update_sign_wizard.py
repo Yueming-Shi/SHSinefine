@@ -40,7 +40,7 @@ class ShippingBillUpdateSignWizard(models.TransientModel):
                         "color": "#173177"
                     },
                     "keyword1": {
-                        "value": shipping_bill.tracking_no or "",
+                        "value": "%s（%s）" % (shipping_bill.picking_code, shipping_bill.name),
                         "color": "#173177"
                     },
                     "keyword2": {
