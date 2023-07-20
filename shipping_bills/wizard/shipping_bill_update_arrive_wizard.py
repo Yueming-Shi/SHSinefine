@@ -44,7 +44,7 @@ class ShippingBillUpdateArriveWizard(models.TransientModel):
                         "color": "#173177"
                     },
                     "keyword2": {
-                        "value": "取件码（%s）" % shipping_bill.name or "",
+                        "value": "%s（%s）" % (shipping_bill.picking_code, shipping_bill.name),
                         "color": "#173177"
                     },
                     "keyword3": {
