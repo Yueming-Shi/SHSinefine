@@ -26,7 +26,7 @@ class ShippingBill(models.Model):
                             "color": "#173177"
                         },
                         "keyword1": {
-                            "value": self.name or "",
+                            "value": "取件码（%s）" % self.name or "",
                             "color": "#173177"
                         },
                         "keyword2": {
