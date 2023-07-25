@@ -79,6 +79,12 @@
             </div>
             <form action="/sale/create/documents" method="post">
                 <input type="hidden" name="csrf_token" id="csrf-token" t-att-value="request.csrf_token()"/>
+                <t t-if="error_message">
+                    <div>
+                        <span>错误信息:</span>
+                        <input type="text" name="error_message" t-att-value="error_message" disabled="disabled" class="form-control-input form-control-sm" style="margin-top:3px;"/>
+                    </div>
+                </t>
                 <div class="form-group field-name" style="margin:10px 0;">
                     <label for="name">用户</label>
                     <span class="s_website_form_mark" style="color:#1A67FF;"> *</span>
@@ -100,12 +106,6 @@
                 <label class="">
                     <span t-if="no_change" style="display:inline-block;width:13px;height:13px;border:1px solid #C0C0C0;background-color: rgba(128,138,135,0.3);border-radius:2px;margin-top:3px;"/>
                     <input t-else="" name="no_change" type="checkbox" t-att-disabled="no_change" value="1"/> SVIP预存客户专用免泡</label>
-                <t t-if="error_message">
-                    <div>
-                        <span>错误信息:</span>
-                        <input type="text" name="error_message" t-att-value="error_message" disabled="disabled" class="form-control-input form-control-sm" style="margin-top:3px;"/>
-                    </div>
-                </t>
 
                 <div class="row" style="height:30px;line-height:30px;">
                     <div class="col-8">默认站点：<span t-field="partner.team_id.name"/></div>
