@@ -9,9 +9,6 @@
   <template id="haitao_website_my_home" name="个人中心">
     <t t-call="website.layout">
       <link type="text/css" rel="stylesheet" href="/zhaogu_website_my_home/static/src/css/style.css"/>
-      <style>
-        .mypart1 ul li{ float:left; width:33%; text-align:center}
-      </style>
       <div class="m0myheader">
         <div class="conbox">
           <div class="conboxL">
@@ -33,6 +30,36 @@
         </div>
       </div>
       <div class="clear"/>
+
+      <section class="s_carousel_wrapper" data-vxml="001" data-snippet="s_carousel" data-name="Carousel" t-if="banner['banner_top']">
+        <div class="s_carousel s_carousel_default carousel slide" data-interval="4000" id="myCarousel1690255624440" style="background-image: none;">
+          <ol class="carousel-indicators o_we_no_overlay">
+            <li data-slide-to="0" data-target="#myCarousel1690255624440" class="active"/>
+            <t t-foreach="range(len(banner['banner_top']) -1)" t-as="i">
+              <li t-att-data-slide-to="i" data-target="#myCarousel1690255624440"/>
+            </t>
+          </ol>
+          <div class="carousel-inner">
+            <div class="carousel-item o_colored_level oe_img_bg o_bg_img_center pb0 pt0 active" data-name="Slide" data-original-title="" title="" aria-describedby="tooltip497698">
+              <img style="width:100%;" t-attf-src="data:image/png;base64,{{banner['banner_top'][0].banner_img}}"/>
+            </div>
+            <t t-foreach="banner['banner_top'][1:]" t-as="line">
+              <div class="carousel-item o_colored_level oe_img_bg o_bg_img_center pb0 pt0" data-name="Slide" data-original-title="" title="" aria-describedby="tooltip497698">
+                <img style="width:100%;" t-attf-src="data:image/png;base64,{{line.banner_img}}"/>
+              </div>
+            </t>
+          </div>
+          <a class="carousel-control-prev o_not_editable o_we_no_overlay" data-slide="prev" role="img" aria-label="上一页" title="上一页" href="#myCarousel1690255624440">
+            <span class="carousel-control-prev-icon"/>
+            <span class="sr-only o_default_snippet_text">上一页</span>
+          </a>
+          <a class="carousel-control-next o_not_editable o_we_no_overlay" data-slide="next" role="img" aria-label="下一页" title="下一页" href="#myCarousel1690255624440">
+            <span class="carousel-control-next-icon"/>
+            <span class="sr-only o_default_snippet_text">下一页</span>
+          </a>
+        </div>
+      </section>
+      <br/>
       <div class="mypart1">
         <ul>
           <li>
@@ -106,72 +133,34 @@
       <div class="kbox"/>
       <div class="kbox"/>
       <div class="clear"/>
-      <!--<div class="mypart3">-->
-      <!--  <div class="con">-->
-      <!--    <div class="pa2_tit">-->
-      <!--      <p>更多</p>-->
-      <!--    </div>-->
-      <!--    <ul>-->
-      <!--      <li>-->
-      <!--        <a href="">-->
-      <!--          <img t-attf-src="/zhaogu_website_my_home/static/src/img/my11.png"/>-->
-      <!--          <p>我的活动</p>-->
-      <!--        </a>-->
-      <!--      </li>-->
-      <!--      <li>-->
-      <!--        <a href="">-->
-      <!--          <img t-attf-src="/zhaogu_website_my_home/static/src/img/my12.png"/>-->
-      <!--          <p>社区</p>-->
-      <!--        </a>-->
-      <!--      </li>-->
-      <!--      <li>-->
-      <!--        <a href="">-->
-      <!--          <img t-attf-src="/zhaogu_website_my_home/static/src/img/my13.png"/>-->
-      <!--          <p>客户服务</p>-->
-      <!--        </a>-->
-      <!--      </li>-->
-      <!--      <li>-->
-      <!--        <a href="">-->
-      <!--          <img t-attf-src="/zhaogu_website_my_home/static/src/img/my14.png"/>-->
-      <!--          <p>京东超市</p>-->
-      <!--        </a>-->
-      <!--      </li>-->
-      <!--      <li>-->
-      <!--        <a href="">-->
-      <!--          <img t-attf-src="/zhaogu_website_my_home/static/src/img/my7.png"/>-->
-      <!--          <p>我的优惠券</p>-->
-      <!--        </a>-->
-      <!--      </li>-->
-      <!--      <li>-->
-      <!--        <a href="">-->
-      <!--          <img t-attf-src="/zhaogu_website_my_home/static/src/img/my8.png"/>-->
-      <!--          <p>收获地址</p>-->
-      <!--        </a>-->
-      <!--      </li>-->
-      <!--      <li>-->
-      <!--        <a href="">-->
-      <!--          <img t-attf-src="/zhaogu_website_my_home/static/src/img/my9.png"/>-->
-      <!--          <p>我的积分</p>-->
-      <!--        </a>-->
-      <!--      </li>-->
-      <!--      <li>-->
-      <!--        <a href="">-->
-      <!--          <img t-attf-src="/zhaogu_website_my_home/static/src/img/my10.png"/>-->
-      <!--          <p>我的客服</p>-->
-      <!--        </a>-->
-      <!--      </li>-->
-      <!--    </ul>-->
-      <!--  </div>-->
-      <!--</div>-->
-      <!--<div class="clear"/>-->
-      <!--<div class="kbox"/>-->
-      <!--<div class="kbox"/>-->
-      <!--<div class="clear"/>-->
-      <div>
-        <a t-att-href="banner.url">
-          <img style="width:100%;" t-attf-src="data:image/png;base64,{{banner.banner_img}}"/>
-        </a>
-      </div>
+      <section class="s_carousel_wrapper" data-vxml="001" data-snippet="s_carousel" data-name="Carousel" t-if="banner['banner_bottom']">
+        <div class="s_carousel s_carousel_default carousel slide" data-interval="4000" id="myCarousel1690255624440" style="background-image: none;">
+          <ol class="carousel-indicators o_we_no_overlay">
+            <li data-slide-to="0" data-target="#myCarousel1690255624440" class="active"/>
+            <t t-foreach="range(len(banner['banner_bottom']) -1)" t-as="i">
+              <li t-att-data-slide-to="i" data-target="#myCarousel1690255624440"/>
+            </t>
+          </ol>
+          <div class="carousel-inner">
+            <div class="carousel-item o_colored_level oe_img_bg o_bg_img_center pb0 pt0 active" data-name="Slide" data-original-title="" title="" aria-describedby="tooltip497698">
+              <img style="width:100%;" t-attf-src="data:image/png;base64,{{banner['banner_bottom'][0].banner_img}}"/>
+            </div>
+            <t t-foreach="banner['banner_bottom'][1:]" t-as="line">
+              <div class="carousel-item o_colored_level oe_img_bg o_bg_img_center pb0 pt0" data-name="Slide" data-original-title="" title="" aria-describedby="tooltip497698">
+                <img style="width:100%;" t-attf-src="data:image/png;base64,{{line.banner_img}}"/>
+              </div>
+            </t>
+          </div>
+          <a class="carousel-control-prev o_not_editable o_we_no_overlay" data-slide="prev" role="img" aria-label="上一页" title="上一页" href="#myCarousel1690255624440">
+            <span class="carousel-control-prev-icon"/>
+            <span class="sr-only o_default_snippet_text">上一页</span>
+          </a>
+          <a class="carousel-control-next o_not_editable o_we_no_overlay" data-slide="next" role="img" aria-label="下一页" title="下一页" href="#myCarousel1690255624440">
+            <span class="carousel-control-next-icon"/>
+            <span class="sr-only o_default_snippet_text">下一页</span>
+          </a>
+        </div>
+      </section>
     </t>
   </template>
 </odoo>
