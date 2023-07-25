@@ -25,7 +25,7 @@ class Controller(http.Controller):
         if banner:
             banner_top = request.env['web.protal.img'].search([('banner_position', '=', '0')], limit=5)
             banner_bottom = request.env['web.protal.img'].search([('banner_position', '=', '1')], limit=5)
-        banner_obj = {'banner_top', banner_top, 'banner_bottom', banner_bottom}
+        banner_obj = {'banner_top': banner_top, 'banner_bottom': banner_bottom}
         values = {
             'partner': partner,
             'website_sale_order': order,
