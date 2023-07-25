@@ -74,7 +74,7 @@ class Controller(http.Controller):
                 'no_change': bool(kwargs.get('no_change')),
                 'partner_team_site_id': partner_team_site_id.site_id.id,
                 'website_id': request.website.id,
-                'user_id': partner_team_site_id.site_id.user_id.id,
+                'user_id': partner_team_site_id.site_id.user_ids.id,
                 'team_id': partner_team_site_id.id
             }
             sale_order = request.env['sale.order'].sudo().create(values)
