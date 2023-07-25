@@ -7,6 +7,7 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="name"/>
+                <field name="banner_position"/>
                 <field name="url"/>
             </tree>
         </field>
@@ -24,6 +25,7 @@
                     </group>
                     <group>
                         <field name="banner_img" widget="image"/>
+                        <field name="banner_position"/>
                     </group>
                 </group>
             </form>
