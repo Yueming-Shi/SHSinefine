@@ -9,5 +9,6 @@ class WebProtalImg(models.Model):
     name = fields.Char('名称')
     url = fields.Char('跳转链接')
     banner_img = fields.Image("图片", max_width=1920, max_height=1920)
+    banner_position = fields.Selection([('0', '上方banner'), ('1', '下方banner')], string="位置")
 
 

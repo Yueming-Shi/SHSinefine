@@ -20,15 +20,17 @@ class Controller(http.Controller):
         order = request.website.sale_get_order()
         wishlist = request.env['product.wishlist'].with_context(display_default_code=False).current()
         banner = request.env['web.protal.img'].search([])
+        banner_top = []
+        banner_bottom = []
         if banner:
-            banner = choice(request.env['web.protal.img'].search([]))
-        else:
-            banner=[]
+            banner_top = request.env['web.protal.img'].search([('banner_position', '=', '0')], limit=5)
+            banner_bottom = request.env['web.protal.img'].search([('banner_position', '=', '1')], limit=5)
+        banner_obj = {'banner_top': banner_top, 'banner_bottom': banner_bottom}
         values = {
             'partner': partner,
             'website_sale_order': order,
             'wishlist': wishlist,
-            'banner': banner
+            'banner': banner_obj
         }
         return request.render('zhaogu_website_my_home.haitao_website_my_home', values)
 
