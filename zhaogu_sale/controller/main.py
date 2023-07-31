@@ -21,7 +21,7 @@ class Controller(http.Controller):
         # 不可改泡
         no_change = True
 
-        if partner_type == 'svip':
+        if partner_type in ['svip', 'vip']:
             no_change = False
 
         values = {

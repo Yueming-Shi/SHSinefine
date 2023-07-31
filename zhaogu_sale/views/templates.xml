@@ -105,7 +105,7 @@
                 </div>
                 <label class="">
                     <span t-if="no_change" style="display:inline-block;width:13px;height:13px;border:1px solid #C0C0C0;background-color: rgba(128,138,135,0.3);border-radius:2px;margin-top:3px;"/>
-                    <input t-else="" name="no_change" type="checkbox" t-att-disabled="no_change" value="1"/> SVIP预存客户专用免泡</label>
+                    <input t-else="" name="no_change" type="checkbox" t-att-disabled="no_change" value="1"/> VIP及SVIP预存客户专用免泡</label>
 
                 <div class="row" style="height:30px;line-height:30px;">
                     <div class="col-8">默认站点：<span t-field="partner.team_id.name"/></div>
