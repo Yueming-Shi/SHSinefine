@@ -17,7 +17,8 @@
 
 .footprint ul li img {
    margin: 0 15px 0 0;
-   width:20%;
+   width:100px;
+   height:100px;
  }
 
 .footprint ul li p {

@@ -1,13 +1,12 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 # Original Copyright 2015 Eezee-It, modified and maintained by Odoo.
-
+import datetime
 import logging
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
 from odoo import http
-from random import choice
-from odoo.exceptions import UserError
 from odoo.http import request
-from werkzeug.urls import url_join, url_encode
 
 _logger = logging.getLogger(__name__)
 
@@ -21,7 +20,7 @@ class Controller(http.Controller):
         wishlist = request.env['product.wishlist'].with_context(display_default_code=False).current()
         banner = request.env['web.protal.img'].sudo().search([])
 
-        website_footprint = request.env['website.visitor'].sudo().search([('partner_id', '=', partner.id)])
+        website_footprint = request.env['website.visitor'].sudo().search([('partner_id', '=', partner.id), ('visit_datetime', '>', datetime.now() + relativedelta(days=-5))])
         product_website_footprint = website_footprint.website_track_ids.filtered(lambda l: l.product_id)
 
         banner_top = []
@@ -42,7 +41,7 @@ class Controller(http.Controller):
     @http.route('/my/footprint', type='http', auth='public', methods=['GET'], website=True)
     def show_my_footprint(self):
         partner = request.env.user.partner_id
-        website_footprint = request.env['website.visitor'].sudo().search([('partner_id', '=', partner.id)])
+        website_footprint = request.env['website.visitor'].sudo().search([('partner_id', '=', partner.id), ('visit_datetime', '>', datetime.now() + relativedelta(days=-5))])
         product_website_footprint = website_footprint.website_track_ids.filtered(lambda l:l.product_id)
         values = {
             'partner': partner,
