@@ -171,16 +171,16 @@
           <hr/>
           <ul>
             <t t-foreach="product_website_footprint.sorted(key=lambda ml: ml.visit_datetime, reverse=True)" t-as="line">
-              <a t-attf-href="/shop/{{line.product_id.product_tmpl_id.id}}">
+              <a t-attf-href="/shop/{{line.sudo().product_id.product_tmpl_id.id}}">
                 <li>
-                  <img t-attf-src="data:image/png;base64,{{line.product_id.image_1920}}"/>
+                  <img t-attf-src="data:image/png;base64,{{line.sudo().product_id.image_1920}}"/>
                   <div>
-                    <strong><p><span t-field="line.product_id.name"/></p></strong>
-                    <p><span t-field="line.product_id.description_sale"/></p>
+                    <strong><p><span t-field="line.sudo().product_id.name"/></p></strong>
+                    <p><span t-field="line.sudo().product_id.description_sale"/></p>
                     <br/>
-                    <p class="mobile-access-date"><span t-field="line.visit_datetime"/></p>
+                    <p class="mobile-access-date"><span t-field="line.sudo().visit_datetime"/></p>
                   </div>
-                  <p class="access-date"><span t-field="line.visit_datetime"/></p>
+                  <p class="access-date"><span t-field="line.sudo().visit_datetime"/></p>
                 </li>
               </a>
             </t>
@@ -238,12 +238,12 @@
           <hr/>
           <ul>
             <t t-foreach="product_ids.sorted(key=lambda ml: ml.create_date, reverse=True)" t-as="line">
-              <a t-attf-href="/shop/{{line.product_id.product_tmpl_id.id}}">
+              <a t-attf-href="/shop/{{line.sudo().product_id.product_tmpl_id.id}}">
                 <li>
-                  <img t-attf-src="data:image/png;base64,{{line.product_id.image_1920}}"/>
+                  <img t-attf-src="data:image/png;base64,{{line.sudo().product_id.image_1920}}"/>
                   <div>
-                    <strong><p><span t-field="line.product_id.name"/></p></strong>
-                    <p><span t-field="line.product_id.description_sale"/></p>
+                    <strong><p><span t-field="line.sudo().product_id.name"/></p></strong>
+                    <p><span t-field="line.sudo().product_id.description_sale"/></p>
                     <br/>
                     <p class="mobile-access-date"><span t-field="line.create_date"/></p>
                   </div>
