@@ -2,10 +2,11 @@
 # Original Copyright 2015 Eezee-It, modified and maintained by Odoo.
 import datetime
 import logging
-from datetime import datetime
+from datetime import timedelta, datetime
+
 from dateutil.relativedelta import relativedelta
 
-from odoo import http
+from odoo import http, fields
 from odoo.http import request
 
 _logger = logging.getLogger(__name__)
@@ -20,8 +21,8 @@ class Controller(http.Controller):
         wishlist = request.env['product.wishlist'].with_context(display_default_code=False).current()
         banner = request.env['web.protal.img'].sudo().search([])
 
-        website_footprint = request.env['website.visitor'].sudo().search([('partner_id', '=', partner.id), ('visit_datetime', '>', datetime.now() + relativedelta(days=-5))])
-        product_website_footprint = website_footprint.website_track_ids.filtered(lambda l: l.product_id)
+        website_footprint = request.env['website.visitor'].sudo().search([('partner_id', '=', partner.id)])
+        product_website_footprint = website_footprint.website_track_ids.filtered(lambda l:l.product_id and l.visit_datetime > datetime.now() - timedelta(days=5))
 
         banner_top = []
         banner_bottom = []
@@ -41,8 +42,8 @@ class Controller(http.Controller):
     @http.route('/my/footprint', type='http', auth='public', methods=['GET'], website=True)
     def show_my_footprint(self):
         partner = request.env.user.partner_id
-        website_footprint = request.env['website.visitor'].sudo().search([('partner_id', '=', partner.id), ('visit_datetime', '>', datetime.now() + relativedelta(days=-5))])
-        product_website_footprint = website_footprint.website_track_ids.filtered(lambda l:l.product_id)
+        website_footprint = request.env['website.visitor'].sudo().search([('partner_id', '=', partner.id)])
+        product_website_footprint = website_footprint.website_track_ids.filtered(lambda l:l.product_id and l.visit_datetime > datetime.now() - timedelta(days=5))
         values = {
             'partner': partner,
             'product_website_footprint': product_website_footprint
