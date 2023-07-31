@@ -20,6 +20,10 @@ class Controller(http.Controller):
         order = request.website.sale_get_order()
         wishlist = request.env['product.wishlist'].with_context(display_default_code=False).current()
         banner = request.env['web.protal.img'].search([])
+
+        website_footprint = request.env['website.visitor'].search([('partner_id', '=', partner.id)])
+        product_website_footprint = website_footprint.website_track_ids.filtered(lambda l: l.product_id)
+
         banner_top = []
         banner_bottom = []
         if banner:
@@ -30,9 +34,47 @@ class Controller(http.Controller):
             'partner': partner,
             'website_sale_order': order,
             'wishlist': wishlist,
-            'banner': banner_obj
+            'banner': banner_obj,
+            'product_website_footprint_len': len(product_website_footprint)
         }
         return request.render('zhaogu_website_my_home.haitao_website_my_home', values)
 
+    @http.route('/my/footprint', type='http', auth='public', methods=['GET'], website=True)
+    def show_my_footprint(self):
+        partner = request.env.user.partner_id
+        website_footprint = request.env['website.visitor'].search([('partner_id', '=', partner.id)])
+        product_website_footprint = website_footprint.website_track_ids.filtered(lambda l:l.product_id)
+        values = {
+            'partner': partner,
+            'product_website_footprint': product_website_footprint
+        }
+        return request.render('zhaogu_website_my_home.my_footprint', values)
 
+    @http.route('/my/order', type='http', auth='public', methods=['GET'], website=True)
+    def show_my_order(self, type):
+        partner = request.env.user.partner_id
+        orders_list = request.env['sale.order'].search([('partner_id', '=', partner.id), ('website_id', '=', 1)])
+        if type == 'dfh':
+            orders = orders_list.filtered(lambda l: l.picking_ids and ('cancel' not in l.picking_ids.mapped('state') or 'done' not in l.picking_ids.mapped('state')) ) + orders_list.filtered(lambda l: not l.picking_ids)
+            type = '待发货'
+        else:
+            orders = orders_list.filtered(lambda l: 'cancel' in l.picking_ids.mapped('state'))
+            type = '待收货'
+        values = {
+            'partner': partner,
+            'orders': orders,
+            'type': type
+        }
+        return request.render('zhaogu_website_my_home.my_shop_sale_order', values)
+
+    @http.route('/my/evaluated', type='http', auth='public', methods=['GET'], website=True)
+    def show_my_evaluated(self):
+        partner = request.env.user.partner_id
+        orders_list = request.env['sale.order'].search([('partner_id', '=', partner.id), ('website_id', '=', 1)])
+        product_ids = orders_list.order_line.filtered(lambda l: l.product_id.detailed_type != 'service' and l.state == 'sale')
+        values = {
+            'partner': partner,
+            'product_ids': product_ids
+        }
+        return request.render('zhaogu_website_my_home.my_be_evaluated_order', values)
 
