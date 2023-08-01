@@ -13,7 +13,7 @@ class ShippingFactor(models.Model):
     first_total_price = fields.Float('首重总价')
     next_weight_to_ceil = fields.Float('续重取整')
     next_price_unit = fields.Float('续重单价')
-
+    double_difference = fields.Float('倍差')
 
     vip_first_weight = fields.Float('SVIP首重')
     vip_first_total_price = fields.Float('SVIP首重总价')

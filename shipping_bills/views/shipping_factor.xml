@@ -41,6 +41,7 @@
                                 <field name="next_weight_to_ceil"/>
                                 <field name="next_price_unit" digits="[16, 3]"/>
                                 <field name="factor"/>
+                                <field name="double_difference"/>
                             </group>
                             <group>
                                 <field name="vip_first_weight"/>
