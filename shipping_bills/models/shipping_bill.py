@@ -169,12 +169,7 @@ class ShippingBill(models.Model):
             shipping_factor = self.shipping_factor_id
 
             if not self.sale_partner_id.is_agent:
-                if self.no_change:
-                    if (self.volume_weight / self.actual_weight) > shipping_factor.double_difference:
-                        size_weight = self.volume_weight
-                    else:
-                        size_weight = self.actual_weight
-
+                if self.no_change and (self.volume_weight / self.actual_weight) < shipping_factor.double_difference:
                     if self.sale_partner_id.partner_vip_type == 'svip':
                         first_weight = shipping_factor.vip_first_weight
                         first_total_price = shipping_factor.vip_first_total_price
