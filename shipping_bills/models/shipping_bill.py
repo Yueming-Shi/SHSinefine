@@ -170,11 +170,18 @@ class ShippingBill(models.Model):
 
             if not self.sale_partner_id.is_agent:
                 if self.no_change:
-                    size_weight = self.actual_weight
-                    first_weight = shipping_factor.vip_first_weight
-                    first_total_price = shipping_factor.vip_first_total_price
-                    next_price_unit = shipping_factor.vip_next_price_unit
-                    next_weight_to_ceil = shipping_factor.vip_next_weight_to_ceil
+                    if self.sale_partner_id.partner_vip_type == 'svip':
+                        size_weight = self.actual_weight
+                        first_weight = shipping_factor.vip_first_weight
+                        first_total_price = shipping_factor.vip_first_total_price
+                        next_price_unit = shipping_factor.vip_next_price_unit
+                        next_weight_to_ceil = shipping_factor.vip_next_weight_to_ceil
+                    else:
+                        size_weight = self.actual_weight
+                        first_weight = shipping_factor.vip_t_first_weight
+                        first_total_price = shipping_factor.vip_t_first_total_price
+                        next_price_unit = shipping_factor.vip_t_next_price_unit
+                        next_weight_to_ceil = shipping_factor.vip_t_next_weight_to_ceil
                 else:
                     size_weight = max([self.actual_weight, volume / shipping_factor.factor])
                     first_weight = shipping_factor.first_weight
