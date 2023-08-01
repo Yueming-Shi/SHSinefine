@@ -1,0 +1,59 @@
+.footprint {
+  width:80%;
+  margin:20px auto;
+  position:relative;
+ }
+.footprint ul {
+   list-style-type: none;
+   width: 100%;
+   margin:0;
+   padding:0;
+ }
+
+.footprint ul li h3 {
+   font-weight:bold;
+   font-size:20px;
+ }
+
+.footprint ul li img {
+   margin: 0 15px 0 0;
+   width:100px;
+   height:100px;
+ }
+
+.footprint ul li p {
+   font-size:16px;
+ }
+
+.footprint ul li div {
+   overflow: hidden;
+ }
+
+.footprint ul li {
+   width:100%;
+   padding: 10px;
+   overflow: auto;
+   display:flex;
+ }
+
+.footprint ul li:hover {
+   background: #eee;
+   cursor: pointer;
+ }
+ .access-date {
+  position:absolute;
+  right:5%;
+ }
+ .mobile-access-date {
+  display:none;
+ }
+
+ @media screen and (max-width: 750px) {
+    .access-date {
+      display:none;
+     }
+
+    .mobile-access-date {
+      display:block;
+     }
+  }

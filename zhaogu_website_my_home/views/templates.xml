@@ -75,15 +75,14 @@
             </a>
           </li>
           <li>
-            <a href="">
-              <p class="p1">0</p>
+            <a href="/my/footprint">
+              <p class="p1"><span t-esc="product_website_footprint_len"/></p>
               <p class="p2">足迹</p>
             </a>
           </li>
         </ul>
       </div>
       <div class="clear"/>
-      <!--<div style="width:100%;padding:0 1rem;"><img style="width:100%;" t-attf-src="/zhaogu_website_my_home/static/src/img/my00.jpg"/></div>-->
       <div class="mypart2">
         <div class="con">
           <div class="pa2_tit">
@@ -99,7 +98,7 @@
               </a>
             </li>
             <li>
-              <a href="">
+              <a href="/my/order?type=dfh">
                 <div class="ddimg">
                   <img t-attf-src="/zhaogu_website_my_home/static/src/img/my03.png"/>
                 </div>
@@ -107,7 +106,7 @@
               </a>
             </li>
             <li>
-              <a href="">
+              <a href="/my/order?type=dsh">
                 <div class="ddimg">
                   <img t-attf-src="/zhaogu_website_my_home/static/src/img/my04.png"/>
                 </div>
@@ -115,10 +114,9 @@
               </a>
             </li>
             <li>
-              <a href="">
+              <a href="/my/evaluated">
                 <div class="ddimg">
                   <img t-attf-src="/zhaogu_website_my_home/static/src/img/my05.png"/>
-                  <!--<div class="num">2</div>-->
                 </div>
                 <p>待评价</p>
               </a>
@@ -161,6 +159,101 @@
           </a>
         </div>
       </section>
+    </t>
+  </template>
+
+  <template id="my_footprint" name="足迹">
+    <t t-call="website.layout">
+      <link type="text/css" rel="stylesheet" href="/zhaogu_website_my_home/static/src/css/footprint.css"/>
+      <div class="page">
+        <div class="footprint">
+          <h3 class="text-center">足迹</h3>
+          <hr/>
+          <ul>
+            <t t-foreach="product_website_footprint.sorted(key=lambda ml: ml.visit_datetime, reverse=True)" t-as="line">
+              <a t-attf-href="/shop/{{line.sudo().product_id.product_tmpl_id.id}}">
+                <li>
+                  <img t-attf-src="data:image/png;base64,{{line.sudo().product_id.image_1920}}"/>
+                  <div>
+                    <strong><p><span t-field="line.sudo().product_id.name"/></p></strong>
+                    <p><span t-field="line.sudo().product_id.description_sale"/></p>
+                    <br/>
+                    <p class="mobile-access-date"><span t-field="line.sudo().visit_datetime"/></p>
+                  </div>
+                  <p class="access-date"><span t-field="line.sudo().visit_datetime"/></p>
+                </li>
+              </a>
+            </t>
+          </ul>
+        </div>
+      </div>
+    </t>
+  </template>
+
+  <template id="my_shop_sale_order" name="我的订单">
+    <t t-call="website.layout">
+      <link type="text/css" rel="stylesheet" href="/zhaogu_website_my_home/static/src/css/shop_sale_order.css"/>
+      <div class="page">
+        <div class="order-div">
+          <h3 class="text-center">我的订单（<span t-esc="type"/>）</h3>
+          <hr/>
+          <table>
+            <thead>
+                    <tr class="active">
+                        <th>销售单号</th>
+                        <th class="text-right">订单日期</th>
+                        <th class="text-center"/>
+                        <th class="text-right">金额</th>
+                    </tr>
+                </thead>
+            <tbody>
+              <t t-foreach="orders.sorted(key=lambda ml: ml.date_order, reverse=True)" t-as="order">
+                    <tr>
+                        <td><a t-att-href="order.get_portal_url()"><t t-esc="order.name"/></a></td>
+                        <td class="text-right">
+                            <span t-field="order.date_order" t-options="{'widget': 'date'}"/>&amp;nbsp;
+                            <span class="d-none d-md-inline" t-field="order.date_order" t-options="{'time_only': True}"/>
+                        </td>
+                        <td class="text-center">
+                            <span t-if="order.state == 'done'" class="badge badge-pill badge-success">
+                                <i class="fa fa-fw fa-check" role="img" aria-label="Done" title="Done"/>Done
+                            </span>
+                        </td>
+                        <td class="text-right"><span t-field="order.amount_total"/></td>
+                    </tr>
+                </t>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </t>
+  </template>
+
+  <template id="my_be_evaluated_order" name="待评价">
+    <t t-call="website.layout">
+      <link type="text/css" rel="stylesheet" href="/zhaogu_website_my_home/static/src/css/footprint.css"/>
+      <div class="page">
+        <div class="footprint">
+          <h3 class="text-center">待评价</h3>
+          <hr/>
+          <ul>
+            <t t-foreach="product_ids.sorted(key=lambda ml: ml.create_date, reverse=True)" t-as="line">
+              <a t-attf-href="/shop/{{line.sudo().product_id.product_tmpl_id.id}}">
+                <li>
+                  <img t-attf-src="data:image/png;base64,{{line.sudo().product_id.image_1920}}"/>
+                  <div>
+                    <strong><p><span t-field="line.sudo().product_id.name"/></p></strong>
+                    <p><span t-field="line.sudo().product_id.description_sale"/></p>
+                    <br/>
+                    <p class="mobile-access-date"><span t-field="line.create_date"/></p>
+                  </div>
+                  <p class="access-date"><span t-field="line.create_date"/></p>
+                </li>
+              </a>
+            </t>
+          </ul>
+        </div>
+      </div>
     </t>
   </template>
 </odoo>
