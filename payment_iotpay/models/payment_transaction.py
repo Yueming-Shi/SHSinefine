@@ -184,9 +184,10 @@ class PaymentTransaction(models.Model):
 
     def payment_validate_point(self):
         product = request.env['product.product'].browse(8984)
-
         for order in self.sale_order_ids:
-            if order.order_line.filtered(lambda l: l.product_id.id == product.id):
+            wallet_order_line = request.env['website.wallet.transaction'].sudo().search(
+                [('sale_order_line_id', 'in', order.order_line.ids)])
+            if not wallet_order_line and order.order_line.filtered(lambda l: l.product_id.id == product.id):
                 for line in order.order_line:
                     wallet_transaction_obj = request.env['website.wallet.transaction']
                     if self.acquirer_id.need_approval:
@@ -194,6 +195,7 @@ class PaymentTransaction(models.Model):
                             'wallet_type': 'credit',
                             'partner_id': order.partner_id.id,
                             'sale_order_id': order.id,
+                            'sale_order_line_id': line.id,
                             'reference': 'sale_order',
                             'amount': line.price_unit * line.product_uom_qty,
                             'currency_id': order.pricelist_id.currency_id.id,
@@ -204,6 +206,7 @@ class PaymentTransaction(models.Model):
                             'wallet_type': 'credit',
                             'partner_id': order.partner_id.id,
                             'sale_order_id': order.id,
+                            'sale_order_line_id': line.id,
                             'reference': 'sale_order',
                             'amount': line.price_unit * line.product_uom_qty,
                             'currency_id': order.pricelist_id.currency_id.id,

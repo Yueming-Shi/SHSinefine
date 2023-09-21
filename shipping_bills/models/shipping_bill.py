@@ -205,7 +205,7 @@ class ShippingBill(models.Model):
                         weight - first_weight) / next_weight_to_ceil * next_price_unit
 
             self.write({'fee': fee, 'currency_id': shipping_factor.currency_id.id, 'state': 'valued',
-                        'size_weight': weight / 1000, })
+                        'size_weight': max([weight, first_weight]) / 1000, })
 
         if not selfs._context.get('force_stop'):
             selfs.action_remind_payment()
