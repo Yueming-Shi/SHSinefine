@@ -41,7 +41,7 @@ class Home(Home):
             'Content-Type': 'application/json',
             "Authorization":"Basic" + user_info.decode()
         }
-        params = _unit_params(','.join([str(number) for number in numbers]), message,'YX')
+        params = _unit_params(','.join([str(number).replace('+', '').replace(' ', '') for number in numbers]), message, 'YX')
 
         response = requests.post(url=url, data=json.dumps(params), headers=headers)
         result = json.loads(response.text)
