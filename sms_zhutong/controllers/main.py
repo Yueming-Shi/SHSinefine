@@ -26,6 +26,7 @@ class Home(Home):
             reg_result = self._sms_zhuong_phone_regex(str(message.get('number'))) 
             _logger.info("获取reg_result结果%s",str(message.get('number')))
             if reg_result:
+                _logger.info(reg_result)
                 result = self._sms_zhutong_unit_message_send([message['number']], message['content'])
                 result['res_id'] = message['res_id']
                 results.append(result)
