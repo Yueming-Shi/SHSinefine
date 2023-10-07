@@ -15,7 +15,7 @@ class Home(Home):
     @http.route('/iap/message_send', type='json', auth='none', csrf=False)
     def sms_zhutong_message_send(self, numbers, message):
         for number in numbers:
-            self._sms_zhutong_unit_message_send(number, message)
+            self._sms_zhutong_unit_message_send(str(number).replace('+', '').replace(' ', ''), message)
 
     @http.route('/iap/sms/2/send', type='json', auth='none', csrf=False)
     def sms_zhutong_message_batch_send(self, messages, account_token):
@@ -23,9 +23,10 @@ class Home(Home):
         for message in messages: 
             _logger.info("正则表达式测试开始")
             _logger.info("获取电话号码%s",str(message.get('number')))
-            reg_result = self._sms_zhuong_phone_regex(str(message.get('number'))) 
+            reg_result = self._sms_zhuong_phone_regex(str(message.get('number')).replace('+', '').replace(' ', ''))
             _logger.info("获取reg_result结果%s",str(message.get('number')))
             if reg_result:
+                _logger.info(reg_result)
                 result = self._sms_zhutong_unit_message_send([message['number']], message['content'])
                 result['res_id'] = message['res_id']
                 results.append(result)
@@ -41,7 +42,7 @@ class Home(Home):
             'Content-Type': 'application/json',
             "Authorization":"Basic" + user_info.decode()
         }
-        params = _unit_params(','.join([str(number) for number in numbers]), message,'YX')
+        params = _unit_params(','.join([str(number).replace('+', '').replace(' ', '') for number in numbers]), message, 'YX')
 
         response = requests.post(url=url, data=json.dumps(params), headers=headers)
         result = json.loads(response.text)
