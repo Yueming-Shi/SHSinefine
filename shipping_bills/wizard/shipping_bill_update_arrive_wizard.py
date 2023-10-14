@@ -33,7 +33,8 @@ class ShippingBillUpdateArriveWizard(models.TransientModel):
             if openid:
                 # 获取token
                 token = shipping_bill.env['ir.config_parameter'].sudo().search([('key', '=', 'wechat.access_token')]).value
-                sale_prodcut = shipping_bill.sale_order_line_ids.sudo().filtered(lambda l:l.product_sale_category_id and l.product_material_id).mapped('product_sale_category_id').mapped('name')
+                sale_order = shipping_bill.sale_order_id.sudo()
+                sale_prodcut = sale_order.order_line.sudo().filtered(lambda l:l.product_sale_category_id and l.product_material_id).mapped('product_sale_category_id').mapped('name')
                 tmpl_id = "9_5NzQ0d9DVm-Cn75NaSTAgLviYftpaBRCCbS70ZhfI"
                 tmpl_data = {
                     "first": {
