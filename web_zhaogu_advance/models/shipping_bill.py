@@ -17,7 +17,7 @@ class ShippingBill(models.Model):
             openid = self.sale_partner_id.user_ids.wx_openid
             # 获取token
             token = self.env['ir.config_parameter'].sudo().search([('key', '=', 'wechat.access_token')]).value
-            sale_prodcut = self.sale_order_line_ids.sudo().filtered(
+            sale_prodcut = self.sudo().sale_order_line_ids.sudo().filtered(
                 lambda l: l.product_sale_category_id and l.product_material_id).mapped(
                 'product_sale_category_id').mapped('name')
             if vals.get('state') == 'transported':
