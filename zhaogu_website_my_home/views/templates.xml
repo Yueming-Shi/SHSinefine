@@ -240,7 +240,7 @@
           <hr/>
           <ul>
             <t t-foreach="product_ids.sorted(key=lambda ml: ml.create_date, reverse=True)" t-as="line">
-              <form action="/submit/product/message" method="post">
+              <form action="/submit/product/message" method="post" t-if="not line.product_id.product_tmpl_id.rating_ids.filtered(lambda l: l.partner_id.id == partner.id)">
                 <input type="hidden" name="product_id" t-att-value="line.sudo().product_id.product_tmpl_id.id"/>
                 <input type="hidden" id="csrf-token" name="csrf_token" t-att-value="request.csrf_token()"/>
                 <li>

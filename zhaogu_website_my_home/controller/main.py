@@ -88,7 +88,7 @@ class Controller(http.Controller):
             return request.redirect('/my/evaluated')
 
         orders_list = request.env['sale.order'].sudo().search([('partner_id', '=', partner.id), ('website_id', '=', request.website.id)])
-        product_ids = orders_list.order_line.filtered(lambda l: l.product_id.detailed_type != 'service' and l.state in ['sale', 'done'] and not l.rating_ids.filtered(lambda l: l.partner_id.id == partner.id))
+        product_ids = orders_list.order_line.filtered(lambda l: l.product_id.detailed_type != 'service' and l.state in ['sale', 'done'])
         values = {
             'partner': partner,
             'product_ids': product_ids
