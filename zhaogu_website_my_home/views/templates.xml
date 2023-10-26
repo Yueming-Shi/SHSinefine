@@ -110,7 +110,7 @@
                 <div class="ddimg">
                   <img t-attf-src="/zhaogu_website_my_home/static/src/img/my04.png"/>
                 </div>
-                <p>待收货</p>
+                <p>历史订单</p>
               </a>
             </li>
             <li>
@@ -232,26 +232,44 @@
   <template id="my_be_evaluated_order" name="待评价">
     <t t-call="website.layout">
       <link type="text/css" rel="stylesheet" href="/zhaogu_website_my_home/static/src/css/footprint.css"/>
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <script src="/zhaogu_website_my_home/static/src/js/footprint.js.js"/>
       <div class="page">
         <div class="footprint">
           <h3 class="text-center">待评价</h3>
           <hr/>
           <ul>
             <t t-foreach="product_ids.sorted(key=lambda ml: ml.create_date, reverse=True)" t-as="line">
-              <a t-attf-href="/shop/{{line.sudo().product_id.product_tmpl_id.id}}">
+              <form action="/my/evaluated" method="post">
+                <input type="hidden" name="product_id" t-att-value="line.id"/>
                 <li>
-                  <img t-attf-src="data:image/png;base64,{{line.sudo().product_id.image_1920}}"/>
-                  <div>
+                  <div style="width:60%;display:flex;">
+                    <a t-attf-href="/shop/{{line.sudo().product_id.product_tmpl_id.id}}"><img t-attf-src="data:image/png;base64,{{line.sudo().product_id.image_1920}}"/></a>
                     <strong><p><span t-field="line.sudo().product_id.name"/></p></strong>
-                    <p><span t-field="line.sudo().product_id.description_sale"/></p>
-                    <br/>
-                    <p class="mobile-access-date"><span t-field="line.create_date"/></p>
                   </div>
-                  <p class="access-date"><span t-field="line.create_date"/></p>
+                  <div style="width:40%;" class="row">
+                    <div class="col-8">
+                      <div class="rating">
+                        <span class="star" data-star="1">&#9733;</span>
+                        <span class="star" data-star="2">&#9733;</span>
+                        <span class="star" data-star="3">&#9733;</span>
+                        <span class="star" data-star="4">&#9733;</span>
+                        <span class="star" data-star="5">&#9733;</span>
+                      </div>
+                      <input id="ratingText" type="hidden" name="rating"/>
+                      <textarea rows="4" name="message" class="form-control" value="0" placeholder="写点什么呢。。。" style="height:50px;"></textarea>
+                    </div>
+                    <div class="col-4">
+                      <button class="o_portal_chatter_composer_btn btn btn-primary">提交</button>
+                    </div>
+                  </div>
+
                 </li>
-              </a>
+              </form>
+
             </t>
           </ul>
+
         </div>
       </div>
     </t>

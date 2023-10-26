@@ -55,11 +55,11 @@ class Controller(http.Controller):
         partner = request.env.user.partner_id
         orders_list = request.env['sale.order'].sudo().search([('partner_id', '=', partner.id), ('website_id', '=', request.website.id)])
         if type == 'dfh':
-            orders = orders_list.filtered(lambda l: l.picking_ids and ('cancel' not in l.picking_ids.mapped('state') or 'done' not in l.picking_ids.mapped('state')) ) + orders_list.filtered(lambda l: not l.picking_ids)
+            orders = orders_list.filtered(lambda l: l.picking_ids and ('cancel' not in l.picking_ids.mapped('state') or 'done' not in l.picking_ids.mapped('state'))) + orders_list.filtered(lambda l: not l.picking_ids)
             type = '待发货'
         else:
             orders = orders_list.filtered(lambda l: 'cancel' in l.picking_ids.mapped('state'))
-            type = '待收货'
+            type = '历史订单'
         values = {
             'partner': partner,
             'orders': orders,
@@ -67,11 +67,27 @@ class Controller(http.Controller):
         }
         return request.render('zhaogu_website_my_home.my_shop_sale_order', values)
 
-    @http.route('/my/evaluated', type='http', auth='public', methods=['GET'], website=True)
-    def show_my_evaluated(self):
+    @http.route('/my/evaluated', type='http', auth='public', website=True)
+    def show_my_evaluated(self, **kwargs):
         partner = request.env.user.partner_id
+
+        if request.httprequest.method == 'POST':
+            product_id = request.env['product.product'].browse(int(kwargs.get('product_id')))
+            rating = int(kwargs.get('rating'))
+            message = kwargs.get('message')
+            values = {
+                'rating': rating,
+                'consumed': True,
+                'feedback': message,
+                'is_internal': False,
+                'res_id': product_id.product_tmpl_id.id,
+                'res_model_id': request.env['ir.model']._get_id('product.template'),
+            }
+            request.env['rating.rating'].create(values)
+            return request.redirect('/my/evaluated')
+
         orders_list = request.env['sale.order'].sudo().search([('partner_id', '=', partner.id), ('website_id', '=', request.website.id)])
-        product_ids = orders_list.order_line.filtered(lambda l: l.product_id.detailed_type != 'service' and l.state == 'sale')
+        product_ids = orders_list.order_line.filtered(lambda l: l.product_id.detailed_type != 'service' and l.state in ['sale', 'done'])
         values = {
             'partner': partner,
             'product_ids': product_ids

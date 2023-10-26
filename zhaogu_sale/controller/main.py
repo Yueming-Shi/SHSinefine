@@ -167,8 +167,8 @@ class Controller(http.Controller):
                 })
                 shipping_id.sale_order_id = sale_order.id
                 shipping_id.state = 'paired'
-                if shipping_id.state == 'paired':
-                    shipping_id.multi_action_compute()
+                # if shipping_id.state == 'paired':
+                #     shipping_id.multi_action_compute()
         except Exception as e:
             return request.redirect('/sale/portal/fill_order?%s' % url_encode(
                 {'order_id': order_id, 'error_message': str(e)}))
@@ -200,6 +200,7 @@ class Controller(http.Controller):
             return request.redirect('/web/login?redirect=%s'%redirect_url)
         if ytype == 'draft':
             sale_orders = request.env['sale.order'].sudo().search([('partner_id', '=', partner), ('state', '=', 'draft'), ('shipping_bill_id', '=' , False), ('shipping_no', '!=', False)])
+            sale_orders |= request.env['sale.order'].sudo().search([('partner_id', '=', partner), ('state', '=', 'draft'), ('shipping_bill_id', '!=' , False), ('shipping_bill_state', '=', 'paired')])
         elif ytype == 'valuedno':
             sale_orders = request.env['sale.order'].sudo().search([('shipping_bill_state', '=', 'valued'),
                                                                    ('partner_id', '=', partner)]).filtered(lambda l:l.shipping_bill_id.sale_invoice_payment_state == '支付未完成')

@@ -40,20 +40,17 @@
    background: #eee;
    cursor: pointer;
  }
- .access-date {
-  position:absolute;
-  right:5%;
- }
- .mobile-access-date {
-  display:none;
- }
+
+.star {
+  font-size: 24px;
+  color: #ccc;
+  cursor: pointer;
+}
+
+.star.active {
+  color: #ffcc00;
+}
 
  @media screen and (max-width: 750px) {
-    .access-date {
-      display:none;
-     }
 
-    .mobile-access-date {
-      display:block;
-     }
   }
