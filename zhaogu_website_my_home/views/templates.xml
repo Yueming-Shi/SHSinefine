@@ -233,7 +233,7 @@
     <t t-call="website.layout">
       <link type="text/css" rel="stylesheet" href="/zhaogu_website_my_home/static/src/css/footprint.css"/>
       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-      <script src="/zhaogu_website_my_home/static/src/js/footprint.js.js"/>
+      <script src="/zhaogu_website_my_home/static/src/js/footprint.js"/>
       <div class="page">
         <div class="footprint">
           <h3 class="text-center">待评价</h3>
