@@ -96,7 +96,7 @@ class Controller(http.Controller):
         return request.render('zhaogu_website_my_home.my_be_evaluated_order', values)
 
     @http.route('/submit/product/message', type='http', auth='public', website=True, methods=['POST'])
-    def show_my_evaluated(self, **kwargs):
+    def submit_product_message(self, **kwargs):
         partner = request.env.user.partner_id
         product_id = request.env['product.product'].sudo().browse(int(kwargs.get('product_id')))
         rating = int(kwargs.get('rating'))
