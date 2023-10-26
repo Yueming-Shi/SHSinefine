@@ -72,7 +72,7 @@ class Controller(http.Controller):
         partner = request.env.user.partner_id
 
         if request.httprequest.method == 'POST':
-            product_id = request.env['product.product'].browse(int(kwargs.get('product_id')))
+            product_id = request.env['product.product'].sudo().browse(int(kwargs.get('product_id')))
             rating = int(kwargs.get('rating'))
             message = kwargs.get('message')
             values = {
@@ -81,9 +81,10 @@ class Controller(http.Controller):
                 'feedback': message,
                 'is_internal': False,
                 'res_id': product_id.product_tmpl_id.id,
-                'res_model_id': request.env['ir.model']._get_id('product.template'),
+                'res_model_id': request.env['ir.model'].sudo()._get_id('product.template'),
+                'partner_id': partner.id
             }
-            request.env['rating.rating'].create(values)
+            request.env['rating.rating'].sudo().create(values)
             return request.redirect('/my/evaluated')
 
         orders_list = request.env['sale.order'].sudo().search([('partner_id', '=', partner.id), ('website_id', '=', request.website.id)])
