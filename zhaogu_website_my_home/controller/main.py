@@ -67,7 +67,7 @@ class Controller(http.Controller):
         }
         return request.render('zhaogu_website_my_home.my_shop_sale_order', values)
 
-    @http.route('/my/evaluated', type='http', auth='public', website=True)
+    @http.route('/my/evaluated', type='http', auth='public', website=True, methods=['GET'])
     def show_my_evaluated(self, **kwargs):
         partner = request.env.user.partner_id
 
@@ -94,4 +94,22 @@ class Controller(http.Controller):
             'product_ids': product_ids
         }
         return request.render('zhaogu_website_my_home.my_be_evaluated_order', values)
+
+    @http.route('/submit/product/message', type='http', auth='public', website=True, methods=['POST'])
+    def show_my_evaluated(self, **kwargs):
+        partner = request.env.user.partner_id
+        product_id = request.env['product.product'].sudo().browse(int(kwargs.get('product_id')))
+        rating = int(kwargs.get('rating'))
+        message = kwargs.get('message')
+        values = {
+            'rating': rating,
+            'consumed': True,
+            'feedback': message,
+            'is_internal': False,
+            'res_id': product_id.product_tmpl_id.id,
+            'res_model_id': request.env['ir.model'].sudo()._get_id('product.template'),
+            'partner_id': partner.id
+        }
+        request.env['rating.rating'].sudo().create(values)
+        return request.redirect('/my/evaluated')
 
