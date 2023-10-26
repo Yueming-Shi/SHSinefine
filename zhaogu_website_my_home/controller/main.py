@@ -98,7 +98,7 @@ class Controller(http.Controller):
     @http.route('/submit/product/message', type='http', auth='public', website=True, methods=['POST'])
     def submit_product_message(self, **kwargs):
         partner = request.env.user.partner_id
-        product_id = request.env['product.product'].sudo().browse(int(kwargs.get('product_id')))
+        product_id = request.env['product.template'].sudo().browse(int(kwargs.get('product_id')))
         rating = int(kwargs.get('rating'))
         message = kwargs.get('message')
         values = {
@@ -106,7 +106,7 @@ class Controller(http.Controller):
             'consumed': True,
             'feedback': message,
             'is_internal': False,
-            'res_id': product_id.product_tmpl_id.id,
+            'res_id': product_id.id,
             'res_model_id': request.env['ir.model'].sudo()._get_id('product.template'),
             'partner_id': partner.id
         }
