@@ -101,6 +101,17 @@ class Controller(http.Controller):
         product_id = request.env['product.template'].sudo().browse(int(kwargs.get('product_id')))
         rating = int(kwargs.get('rating'))
         message = kwargs.get('message')
+
+        # 创建消息
+        mail_message = request.env['mail.message'].create({
+            'message_type': 'comment',
+            'subtype_id': 1,
+            'model': 'product_template',
+            'res_id': product_id.id,
+            'recode_name': product_id.display_name,
+            'body': message
+        })
+
         values = {
             'rating': rating,
             'consumed': True,
@@ -108,7 +119,8 @@ class Controller(http.Controller):
             'is_internal': False,
             'res_id': product_id.id,
             'res_model_id': request.env['ir.model'].sudo()._get_id('product.template'),
-            'partner_id': partner.id
+            'partner_id': partner.id,
+            'message_id': mail_message.id
         }
         request.env['rating.rating'].sudo().create(values)
         return request.redirect('/my/evaluated')
