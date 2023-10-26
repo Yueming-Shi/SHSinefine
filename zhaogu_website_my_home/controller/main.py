@@ -103,10 +103,10 @@ class Controller(http.Controller):
         message = kwargs.get('message')
 
         # 创建消息
-        mail_message = request.env['mail.message'].create({
+        mail_message = request.env['mail.message'].sudo().create({
             'message_type': 'comment',
             'subtype_id': 1,
-            'model': 'product_template',
+            'model': 'product.template',
             'res_id': product_id.id,
             'recode_name': product_id.display_name,
             'body': message
