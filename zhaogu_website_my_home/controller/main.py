@@ -108,7 +108,7 @@ class Controller(http.Controller):
             'subtype_id': 1,
             'model': 'product.template',
             'res_id': product_id.id,
-            'recode_name': product_id.display_name,
+            'record_name': product_id.display_name,
             'body': message
         })
 
