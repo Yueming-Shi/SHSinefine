@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="website_form" model="ir.ui.view">
+        <field name="name">website_form</field>
+        <field name="model">website</field>
+        <field name="inherit_id" ref="website.view_website_form"/>
+        <field name="arch" type="xml">
+            <field name="default_lang_id" position="after">
+                <field name="should_city_agency_care"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>
