@@ -1,5 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_product_brand,access_product_brand,model_product_brand,,1,1,1,1
-access_product_material,access_product_material,model_product_material,,1,1,1,1
-access_product_sale_category,access_product_sale_category,model_product_sale_category,,1,1,1,1
-access_product_category_determined,access_product_category_determined,model_product_category_determined,,1,1,1,1
