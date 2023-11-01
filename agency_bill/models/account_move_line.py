@@ -44,6 +44,7 @@ class AccountMoveLine(models.Model):
     def can_create_city_commission_bill_lines(self):
         return all([
             self.sale_line_ids,
+            self.product_id.detailed_type == 'product',
             not self.city_transfer_reverse_bill_line_ids,
             not self.city_commission_bill_line_ids,
         ])
