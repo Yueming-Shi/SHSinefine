@@ -9,8 +9,8 @@ $(document).ready(function() {
 
   $(".o_delivery_carrier_select").click(function() {
     let way = $(this).children('label').text()
-
-    if (way == '站点自提'){
+    let arr_type = ['站点自提', 'Pickup@shop']
+    if (arr_type.indexOf(way) > -1){
       $('#select-site-table').css('display', 'block')
     } else {
       $('#select-site-table').css('display', 'none')
@@ -38,9 +38,9 @@ $(document).ready(function() {
       success:function(res){
         val = JSON.parse(res)
         if (val['site_address']) {
-          $('#site-address').text(val['site_address'])
+          $('.site-address').text(val['site_address'])
         } else {
-          $('#site-address').text('')
+          $('.site-address').text('')
         }
       },
       error: function (xhr, textStatus, errorThrown) {

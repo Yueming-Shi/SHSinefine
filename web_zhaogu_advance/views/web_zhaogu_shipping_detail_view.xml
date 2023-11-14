@@ -71,7 +71,7 @@
                 </div>
                 <div class="row">
                   <div class="col-6">体积重（kg）：</div>
-                  <div class="col-6 text-right"><span t-field="shipping.volume_weight"/></div>
+                  <div class="col-6 text-right"><span t-esc="'{0:.1f}'.format(shipping.volume_weight)"/></div>
                 </div>
                 <!--<div class="row">-->
                 <!--  <div class="col-6">体积：</div>-->
