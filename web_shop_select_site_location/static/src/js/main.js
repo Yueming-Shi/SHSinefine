@@ -1,6 +1,7 @@
 $(document).ready(function() {
   $('#select-site').select2()
   $('#select-site-table').css('display', 'none')
+  $('#site-address-div').css('display', 'none')
 
   let csrf_token = $("input[name='csrf_token']").val()
   let site_id = $('#select-site').val()
@@ -12,8 +13,10 @@ $(document).ready(function() {
     let arr_type = ['站点自提', 'Pickup@shop']
     if (way.indexOf(arr_type) > -1){
       $('#select-site-table').css('display', 'block')
+      $('#site-address-div').css('display', 'block')
     } else {
       $('#select-site-table').css('display', 'none')
+      $('#site-address-div').css('display', 'none')
       site_id = 0
       $('#select-site').val('0')
       $('.select2-selection__rendered').text('请选择')
@@ -38,9 +41,9 @@ $(document).ready(function() {
       success:function(res){
         val = JSON.parse(res)
         if (val['site_address']) {
-          $('#site-address').text(val['site_address'])
+          $('.site-address').text(val['site_address'])
         } else {
-          $('#site-address').text('')
+          $('.site-address').text('')
         }
       },
       error: function (xhr, textStatus, errorThrown) {

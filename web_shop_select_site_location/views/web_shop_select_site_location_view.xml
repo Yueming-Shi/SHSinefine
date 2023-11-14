@@ -30,9 +30,33 @@
                             </optgroup>
                         </select>
                         <br/>
-                        <div id="site-address"/>
+                        <div class="site-address"/>
                     </div>
                 </div>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="website_shop_select_site_address_page" inherit_id="website_sale.payment" name="Website Select Site Address">
+        <xpath expr="//div[@id='address_on_payment']" position="after">
+          <br/>
+          <div class="card" id="site-address-div">
+              <div class="card-body" id="shipping_and_billing">
+                  <div>
+                      <b>站点地址：</b>
+                      <span class="site-address"/>
+                  </div>
+              </div>
+          </div>
+        </xpath>
+    </template>
+
+    <template id="website_sale_order_portal_content_page" inherit_id="sale.sale_order_portal_content" name="Sale Order Portal Content">
+        <xpath expr="//t[@t-if='sale_order.partner_shipping_id != sale_order.partner_invoice_id']" position="after">
+            <div class="col-lg-6" t-if="sale_order.partner_team_site_id">
+                <strong class="d-block mb-1">站点地址</strong>
+                <div t-field="sale_order.partner_team_site_id.name"/>
+                <address t-field="sale_order.partner_team_site_contact_address"/>
             </div>
         </xpath>
     </template>
