@@ -15,9 +15,6 @@ _logger = logging.getLogger(__name__)
 class Controller(http.Controller):
 
     def _login_redirect(self, uid, redirect=None):
-        """ Redirect regular users (employees) to the backend) and others to
-        the frontend
-        """
         if not redirect and request.params.get('login_success'):
             if request.env['res.users'].browse(uid).has_group('base.group_user'):
                 redirect = '/web?' + request.httprequest.query_string.decode()
