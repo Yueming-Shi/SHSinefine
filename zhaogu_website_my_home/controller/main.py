@@ -14,15 +14,15 @@ _logger = logging.getLogger(__name__)
 
 class Controller(http.Controller):
 
-    def _get_login_redirect_url(uid, redirect=None):
+    def _login_redirect(self, uid, redirect=None):
         if not redirect and request.params.get('login_success'):
             if request.env['res.users'].browse(uid).has_group('base.group_user'):
-                _logger.info('***********123123123123*************')
+                _logger.info('123')
                 redirect = '/web?' + request.httprequest.query_string.decode()
             else:
-                _logger.info('************************')
+                _logger.info('456')
                 redirect = '/'
-        return super()._get_login_redirect_url(uid, redirect=redirect)
+        return super()._login_redirect(uid, redirect=redirect)
 
     @http.route('/my/personal/home', type='http', auth='public', methods=['GET'], website=True)
     def sale_fill_order_create_view(self):
