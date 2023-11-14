@@ -11,7 +11,7 @@ $(document).ready(function() {
   $(".o_delivery_carrier_select").click(function() {
     let way = $(this).children('label').text()
     let arr_type = ['站点自提', 'Pickup@shop']
-    if (way.indexOf(arr_type) > -1){
+    if (arr_type.indexOf(way) > -1){
       $('#select-site-table').css('display', 'block')
       $('#site-address-div').css('display', 'block')
     } else {
