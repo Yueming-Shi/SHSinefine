@@ -40,11 +40,11 @@
     <template id="website_shop_select_site_address_page" inherit_id="website_sale.payment" name="Website Select Site Address">
         <xpath expr="//div[@id='address_on_payment']" position="after">
           <br/>
-          <div class="card" id="site-address-div">
+          <div class="card" id="site-address-div" t-if="order.order_line.filtered(lambda l:l.product_id.name in ['Gift Card', '礼物卡', 'Carte cadeau', '禮物卡'])">
               <div class="card-body" id="shipping_and_billing">
                   <div>
                       <b>站点地址：</b>
-                      <span class="site-address"/>
+                      <span t-field="order.partner_team_site_contact_address"/>
                   </div>
               </div>
           </div>
