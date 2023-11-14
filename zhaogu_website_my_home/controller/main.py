@@ -17,8 +17,10 @@ class Controller(http.Controller):
     def _get_login_redirect_url(uid, redirect=None):
         if not redirect and request.params.get('login_success'):
             if request.env['res.users'].browse(uid).has_group('base.group_user'):
+                _logger.info('***********123123123123*************')
                 redirect = '/web?' + request.httprequest.query_string.decode()
             else:
+                _logger.info('************************')
                 redirect = '/'
         return super()._get_login_redirect_url(uid, redirect=redirect)
 
