@@ -54,7 +54,7 @@
     <template id="website_sale_order_portal_content_page" inherit_id="sale.sale_order_portal_content" name="Sale Order Portal Content">
         <xpath expr="//t[@t-if='sale_order.partner_shipping_id != sale_order.partner_invoice_id']" position="after">
             <div class="col-lg-6" t-if="sale_order.partner_team_site_id">
-                <strong class="d-block mb-1">站点地址</strong>
+                <strong class="d-block mb-1">站点自提地址</strong>
                 <div t-field="sale_order.partner_team_site_id.name"/>
                 <address t-field="sale_order.partner_team_site_contact_address"/>
             </div>

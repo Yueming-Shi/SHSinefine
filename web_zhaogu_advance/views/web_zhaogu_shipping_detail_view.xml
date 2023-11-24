@@ -51,7 +51,7 @@
                 </div>
                 <div class="row">
                   <div class="col-6">总费用：</div>
-                  <div class="col-6 text-right"><t t-esc="'{0:,.2f}'.format(shipping.fee)"/></div>
+                  <div class="col-6 text-right"><t t-esc="'{0:,.2f}'.format(shipping.all_fee)"/></div>
                 </div>
                 <div class="row">
                   <div class="col-6">包裹长度（cm）：</div>

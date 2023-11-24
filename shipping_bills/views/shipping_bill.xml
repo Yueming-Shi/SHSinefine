@@ -81,6 +81,7 @@
                             <field name="size_weight" digits="[42, 1]"/>
                             <field name="volume_weight" digits="[42, 1]"/>
                             <field name="fee"/>
+                            <field name="all_fee"/>
                             <field name="currency_id"/>
                         </group>
                         <group name="22">
