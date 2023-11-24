@@ -74,7 +74,12 @@ class ShippingBill(models.Model):
     # 已计费
     size_weight = fields.Float('计费重量', tracking=True, )
     fee = fields.Float(string='费用', tracking=True, )
-    all_fee = fields.Float(string='总单费用', related="sale_order_id.amount_total")
+
+    def _compute_all_fee(selfs):
+        for self in selfs:
+            self.all_fee = self.sale_order_id.amount_total
+    all_fee = fields.Float(string='总单费用', compute="_compute_all_fee")
+
     currency_id = fields.Many2one('res.currency', '币种', tracking=True)
 
     def _compute_size_weight(selfs):
