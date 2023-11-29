@@ -235,7 +235,8 @@ class ShippingBill(models.Model):
             so.invoice_ids.filtered(lambda i: i.state == 'posted').button_draft()
             so.invoice_ids.filtered(lambda i: i.state != 'cancel').button_cancel()
             so.action_cancel()
-            so.order_line.filtered(lambda l:l.product_id == product).unlink()
+            # so.order_line.filtered(lambda l:l.product_id == product).unlink()
+            so.order_line.filtered(lambda l: '运费(' in l.product_id.name).unlink()
             so.action_draft()
 
             shipping_factor = self.shipping_factor_id  # 线路
