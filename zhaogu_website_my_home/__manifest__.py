@@ -11,7 +11,6 @@
         'views/action.xml',
         'views/menu.xml',
         'views/web_protal_img_view.xml',
-        'views/website_views.xml'
     ],
     'installable': True,
     'auto_install': False,
