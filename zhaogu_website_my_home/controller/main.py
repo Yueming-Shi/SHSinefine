@@ -31,7 +31,7 @@ class Controller(http.Controller):
         if request.website.is_display_personal_home:
             request.redirect('/my/personal/home')
         else:
-            return super(Controller, self).home(**kw)
+            return super().home()
 
     @http.route('/my/personal/home', type='http', auth='public', methods=['GET'], website=True)
     def sale_fill_order_create_view(self):
