@@ -84,12 +84,15 @@ class ShippingLargeParcel(models.Model):
         for shipping in shippings:
             sale_order = shipping.sale_order_id.sudo()
             sale_product_names = sale_order.order_line.sudo().filtered(
-                lambda l: l.product_sale_category_id and l.product_material_id).mapped('product_sale_category_id').mapped('name')
+                lambda l: l.product_sale_category_id and l.product_material_id).mapped(
+                'product_sale_category_id').mapped('name')
             vals += "%s（%s）\n" % (shipping.picking_code, ','.join(sale_product_names) if sale_product_names else "")
 
-        item_dict['picking_code'] = ','.join(shippings.mapped('picking_code')) if shippings.mapped('picking_code') else ""
-        item_dict['logistics'] = ','.join(shippings.mapped('logistics')) if shippings.mapped('logistics') else ""
-        item_dict['tracking_no'] = ','.join(shippings.mapped('tracking_no')) if shippings.mapped('tracking_no') else ""
+        if not all(shippings.mapped('logistics')) or not all(shippings.mapped('tracking_no')):
+            raise UserError('运单物流商及物流追踪码信息缺失。')
+        item_dict['picking_code'] = ','.join(shippings.mapped('picking_code'))
+        item_dict['logistics'] = ','.join(shippings.mapped('logistics'))
+        item_dict['tracking_no'] = ','.join(shippings.mapped('tracking_no'))
         item_dict['name'] = ','.join(shippings.mapped('name'))
         item_dict['vals'] = vals
 
