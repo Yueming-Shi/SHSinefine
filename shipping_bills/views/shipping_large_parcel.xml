@@ -22,7 +22,7 @@
             <form string="Partners">
                 <header>
                     <button name="resend_email" type="object" string="应用并发送邮件" attrs="{'invisible': [('is_sent', '=', True)]}"/>
-                    <button name="resend_email" type="object" string="重新发送邮件" attrs="{'invisible': [('is_sent', '!=', True)]}"/>
+                    <button name="resend_email_to" type="object" string="重新发送邮件" attrs="{'invisible': [('is_sent', '!=', True)]}"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box"/>

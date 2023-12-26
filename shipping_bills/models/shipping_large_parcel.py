@@ -35,6 +35,13 @@ class ShippingLargeParcel(models.Model):
         res.name = res.env['ir.sequence'].next_by_code('shipping.large.parcel')
         return res
 
+    def resend_email_to(selfs):
+        for self in selfs:
+            # 给站点发送邮件
+            template = self.env.ref('shipping_bills.mail_template_shipping_large_parcel')
+            template.sudo().send_mail(self.id, raise_exception=True, force_send=True)
+            self.is_sent = True
+
     def resend_email(selfs, confirm_true=False):
         for self in selfs:
             vvip_shippings = self.shipping_bill_ids.filtered(lambda l: l.sale_partner_id.partner_vip_type == 'svip')
@@ -71,7 +78,7 @@ class ShippingLargeParcel(models.Model):
 
                 # 给站点发送邮件
                 template = self.env.ref('shipping_bills.mail_template_shipping_large_parcel')
-                template.sudo().send_mail(self.id, raise_exception=True, force_send=True)
+                template.sudo().send_mail(self.id, raise_exception=True)
                 self.is_sent = True
 
     # 包裹发出通知客户
@@ -124,7 +131,7 @@ class ShippingLargeParcel(models.Model):
 
         # 发送邮件
         self.env.ref('shipping_bills.mail_template_data_shipping_bill_issue').with_context(
-            item_dict=item_dict).send_mail(shippings[0].id, force_send=True)
+            item_dict=item_dict).send_mail(shippings[0].id)
 
         # 发送短信
         if shippings[0].sale_partner_id.phone:
