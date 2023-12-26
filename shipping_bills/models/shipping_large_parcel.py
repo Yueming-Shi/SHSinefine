@@ -87,10 +87,10 @@ class ShippingLargeParcel(models.Model):
                 lambda l: l.product_sale_category_id and l.product_material_id).mapped('product_sale_category_id').mapped('name')
             vals += "%s（%s）\n" % (shipping.picking_code, ','.join(sale_product_names or ""))
 
-        item_dict['picking_code'] = ','.join(shippings.mapped('picking_code') or "")
-        item_dict['logistics'] = ','.join(shippings.mapped('logistics') or "")
-        item_dict['tracking_no'] = ','.join(shippings.mapped('tracking_no') or "")
-        item_dict['name'] = ','.join(shippings.mapped('name') or "")
+        item_dict['picking_code'] = ','.join(shippings.mapped('picking_code') or " ")
+        item_dict['logistics'] = ','.join(shippings.mapped('logistics') or " ")
+        item_dict['tracking_no'] = ','.join(shippings.mapped('tracking_no') or " ")
+        item_dict['name'] = ','.join(shippings.mapped('name') or " ")
         item_dict['vals'] = vals
 
         if openid:
