@@ -37,7 +37,7 @@ class ShippingLargeParcel(models.Model):
 
     def resend_email(selfs, confirm_true=False):
         for self in selfs:
-            vvip_shippings = self.shipping_bill_ids.filtered(lambda l: l.sale_partner_id.partner_vip_type == 'vvip')
+            vvip_shippings = self.shipping_bill_ids.filtered(lambda l: l.sale_partner_id.partner_vip_type == 'svip')
             if vvip_shippings and not confirm_true:
                 return {
                     'name': 'VVIP客户确认扣款',
@@ -132,7 +132,7 @@ class ShippingLargeParcel(models.Model):
     # vvip自动扣款逻辑
     def vvip_wallet_payment(self, shippings):
         for shipping in shippings:
-            if shipping.sale_partner_id.partner_vip_type == 'vvip':
+            if shipping.sale_partner_id.partner_vip_type == 'svip':
                 shipping_sale = shipping.sudo().sale_order_id
                 invoice_order = shipping.sale_invoice_ids.filtered(lambda l: l.state != 'cancel')
                 for invoice in invoice_order:
