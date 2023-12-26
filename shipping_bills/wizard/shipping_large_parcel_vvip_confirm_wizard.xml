@@ -9,6 +9,7 @@
                 <sheet>
                     <group>
                         <field name="data"/>
+                        <field name="shipping_large_id" invisible="1"/>
                     </group>
                     <div>请确认是否继续扣款。</div>
                 </sheet>
