@@ -21,7 +21,7 @@ class Controller(http.Controller):
         # 不可改泡
         no_change = True
 
-        if partner_type in ['svip', 'vip']:
+        if partner_type in ['vvip', 'vip']:
             no_change = False
 
         values = {
@@ -42,7 +42,7 @@ class Controller(http.Controller):
         else:
             partner_team_site_id = user.partner_id.team_id
         no_change = False
-        if partner_type in ['svip', 'vip']:
+        if partner_type in ['vvip', 'vip']:
             no_change = True
         sale_shipping_no = request.env['sale.order'].sudo().search(
             [('shipping_no', '=', kwargs.get('shipping_no'))])

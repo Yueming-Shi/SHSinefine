@@ -215,6 +215,6 @@ class PaymentTransaction(models.Model):
                         wallet_create.wallet_transaction_email_send()  # Mail Send to Customer
                     order.with_context(send_email=True).action_confirm()
                 # 任意充值即为vip
-                if order.partner_id.partner_vip_type not in ['svip', 'vip']:
+                if order.partner_id.partner_vip_type not in ['vvip', 'vip']:
                     order.partner_id.partner_vip_type = 'vip'
         return True

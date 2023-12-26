@@ -153,7 +153,7 @@
     <record id="mail_template_data_shipping_bill_issue" model="mail.template">
         <field name="name">包裹已发出</field>
         <field name="model_id" ref="model_shipping_bill"/>
-        <field name="subject">Dispatch Confirmation for Package [{{ object.name }}]</field>
+        <field name="subject">Dispatch Confirmation for Package [{{ ctx.get('item_dict')['name'] }}]</field>
         <field name="email_from"></field>
         <field name="email_to">{{ object.sale_partner_id.email }}</field>
         <field name="body_html" type="html">
@@ -165,17 +165,17 @@
 
                             <tr style="box-sizing:border-box;">
                                 <td style="box-sizing:border-box;">
-                                    Package Status: Dispatched Tracking Number: [<span t-esc="object.name"/>]
+                                    Package Status: Dispatched Tracking Number: [<span t-esc="ctx.get('item_dict')['name']"/>]
                                 </td>
                             </tr>
                             <tr style="box-sizing:border-box;">
                                 <td style="box-sizing:border-box;">
-                                    Tracking Number: [<span t-esc="object.name"/>]
+                                    Tracking Number: [<span t-esc="ctx.get('item_dict')['name']"/>]
                                 </td>
                             </tr>
                             <tr style="box-sizing:border-box;">
                                 <td style="box-sizing:border-box;">
-                                    Pick-up Code: [<span t-esc="object.picking_code"/>]
+                                    Pick-up Code: [<span t-esc="ctx.get('item_dict')['picking_code']"/>]
                                     <br style="box-sizing:border-box;"/><br style="box-sizing:border-box;"/>
                                 </td>
                             </tr>

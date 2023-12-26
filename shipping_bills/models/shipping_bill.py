@@ -176,7 +176,7 @@ class ShippingBill(models.Model):
 
             if not self.sale_partner_id.is_agent:
                 if self.no_change and (self.volume_weight / self.actual_weight) < shipping_factor.double_difference:
-                    if self.sale_partner_id.partner_vip_type == 'svip':
+                    if self.sale_partner_id.partner_vip_type == 'vvip':
                         size_weight = self.actual_weight
                         first_weight = shipping_factor.vip_first_weight
                         first_total_price = shipping_factor.vip_first_total_price
@@ -271,7 +271,7 @@ class ShippingBill(models.Model):
                     'order_id': so.id
                 })
 
-                if self.sale_partner_id.partner_vip_type in ['svip', 'vip']:
+                if self.sale_partner_id.partner_vip_type in ['vvip', 'vip']:
                     self.env['sale.order.line'].create({
                         "product_id": modification_fee.id,
                         "name": f'{self.sale_partner_id.partner_vip_type}减免改泡费',
