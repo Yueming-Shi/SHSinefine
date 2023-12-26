@@ -12,6 +12,7 @@ class ShippingLargeParcelVvipConfirmWizard(models.TransientModel):
 
     shipping_large_id = fields.Many2one('shipping.large.parcel', string="大包裹")
 
+    @api.depends('shipping_large_id')
     def _compute_data(selfs):
         for self in selfs:
             data = ''
