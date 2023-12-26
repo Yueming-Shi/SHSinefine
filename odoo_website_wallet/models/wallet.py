@@ -23,6 +23,14 @@ class res_partner(models.Model):
 	wallet_balance = fields.Float('Wallet Balance', compute='_compute_wallet_balance')
 	wallet_transaction_count = fields.Integer(compute='_compute_wallet_transaction_count', string="Wallet")
 
+	@api.model
+	def model_remind_vvip_balance_not(cls):
+		balance_not_partners = cls.search([('partner_vip_type', '=', 'svip'), ('wallet_balance', '<', 200)])
+		for partner in balance_not_partners:
+			template_id = cls.env.ref('odoo_website_wallet.mail_template_partner_balance_not')
+			template_id.send_mail(partner.id, force_send=True)
+		return True
+
 	def _compute_wallet_transaction_count(self):
 		wallet_data = self.env['pos.wallet.transaction'].search([('partner_id', 'in', self.ids)])
 		for partner in self:

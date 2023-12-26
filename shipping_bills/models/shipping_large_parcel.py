@@ -78,7 +78,7 @@ class ShippingLargeParcel(models.Model):
 
                 # 给站点发送邮件
                 template = self.env.ref('shipping_bills.mail_template_shipping_large_parcel')
-                template.sudo().send_mail(self.id, raise_exception=True)
+                template.sudo().send_mail(self.id, raise_exception=True, force_send=True)
                 self.is_sent = True
 
     # 包裹发出通知客户
@@ -93,14 +93,14 @@ class ShippingLargeParcel(models.Model):
             sale_product_names = sale_order.order_line.sudo().filtered(
                 lambda l: l.product_sale_category_id and l.product_material_id).mapped(
                 'product_sale_category_id').mapped('name')
-            vals += "%s（%s）\n" % (shipping.picking_code, ','.join(sale_product_names) if sale_product_names else "")
+            vals += "%s（%s）\n" % (shipping.picking_code, ', '.join(sale_product_names) if sale_product_names else "")
 
         if not all(shippings.mapped('logistics')) or not all(shippings.mapped('tracking_no')):
             raise UserError('运单物流商及物流追踪码信息缺失。')
-        item_dict['picking_code'] = ','.join(shippings.mapped('picking_code'))
-        item_dict['logistics'] = ','.join(shippings.mapped('logistics'))
-        item_dict['tracking_no'] = ','.join(shippings.mapped('tracking_no'))
-        item_dict['name'] = ','.join(shippings.mapped('name'))
+        item_dict['picking_code'] = ', '.join(shippings.mapped('picking_code'))
+        item_dict['logistics'] = ', '.join(shippings.mapped('logistics'))
+        item_dict['tracking_no'] = ', '.join(shippings.mapped('tracking_no'))
+        item_dict['name'] = ', '.join(shippings.mapped('name'))
         item_dict['vals'] = vals
 
         if openid:
@@ -131,7 +131,7 @@ class ShippingLargeParcel(models.Model):
 
         # 发送邮件
         self.env.ref('shipping_bills.mail_template_data_shipping_bill_issue').with_context(
-            item_dict=item_dict).send_mail(shippings[0].id)
+            item_dict=item_dict).send_mail(shippings[0].id, force_send=True)
 
         # 发送短信
         if shippings[0].sale_partner_id.phone:

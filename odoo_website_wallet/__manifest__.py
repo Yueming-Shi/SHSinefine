@@ -125,6 +125,8 @@ This Module allow the seller to recharge wallet for the customer.
     'data': [
         'security/ir.model.access.csv',
         'data/data.xml',
+        'data/ir_cron.xml',
+        'data/mail_template_date.xml',
         'views/wallet.xml',
         'views/template.xml',
         'views/portal_template.xml',
