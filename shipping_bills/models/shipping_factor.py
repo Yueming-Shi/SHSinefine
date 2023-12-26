@@ -15,10 +15,10 @@ class ShippingFactor(models.Model):
     next_price_unit = fields.Float('续重单价')
     double_difference = fields.Float('倍差')
 
-    vip_first_weight = fields.Float('SVIP首重')
-    vip_first_total_price = fields.Float('SVIP首重总价')
-    vip_next_weight_to_ceil = fields.Float('SVIP续重取整')
-    vip_next_price_unit = fields.Float('SVIP续重单价')
+    vip_first_weight = fields.Float('VVIP首重')
+    vip_first_total_price = fields.Float('VVIP首重总价')
+    vip_next_weight_to_ceil = fields.Float('VVIP续重取整')
+    vip_next_price_unit = fields.Float('VVIP续重单价')
 
     agent_first_weight = fields.Float('代理商首重')
     agent_first_total_price = fields.Float('代理商首重总价')
