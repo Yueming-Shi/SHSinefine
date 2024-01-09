@@ -15,6 +15,8 @@ class ResPartner(models.Model):
 
     partner_vip_type = fields.Selection([('svip', 'VVIP'), ('vip', 'VIP'), ('common', '普通')], string="客户类型", default='common')
 
+    partner_vip_no = fields.Char('VVIP号码')
+
     team_id = fields.Many2one('crm.team', tracking=True)
 
     def normal_partner_vip_type(selfs):

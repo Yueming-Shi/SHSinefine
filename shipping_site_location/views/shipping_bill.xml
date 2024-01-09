@@ -15,6 +15,10 @@
                 <field name="return_cost"/>
                 <field name="return_note"/>
             </xpath>
+            <xpath expr="//field[@name='sale_partner_id']" position="after">
+                <field name="partner_vip_type" invisible="1"/>
+                <field name="partner_vip_no" attrs="{'invisible':[('partner_vip_type','!=','svip')]}"/>
+            </xpath>
         </field>
     </record>
 </odoo>
