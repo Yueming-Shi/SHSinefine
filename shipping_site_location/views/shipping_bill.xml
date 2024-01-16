@@ -17,7 +17,7 @@
             </xpath>
             <xpath expr="//field[@name='sale_partner_id']" position="after">
                 <field name="partner_vip_type" invisible="1"/>
-                <field name="partner_vip_no" attrs="{'invisible':[('partner_vip_type','!=','svip')]}"/>
+                <field name="partner_vip_number" attrs="{'invisible':[('partner_vip_type','!=','svip')]}"/>
             </xpath>
             <xpath expr="//button[@name='multi_action_compute']" position="attributes">
                 <attribute name="attrs">{'invisible':['|', ('state','!=','paired'), ('partner_vip_type', '=', 'svip')]}</attribute>
