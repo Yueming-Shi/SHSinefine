@@ -16,8 +16,8 @@ class ShippingBill(models.Model):
     is_no_header = fields.Boolean('无头件')
     return_cost = fields.Float('退运成本')
     return_note = fields.Char('退运备注')
-    # partner_vip_number = fields.Char('VVIP号码', related='sale_partner_id.partner_vip_number')
-    # partner_vip_type = fields.Selection(related='sale_partner_id.partner_vip_type')
+    partner_vip_number = fields.Char('VVIP号码', related='sale_partner_id.partner_vip_number')
+    partner_vip_type = fields.Selection(related='sale_partner_id.partner_vip_type')
 
     def _inverse_frontend_trigger(selfs):
         for self in selfs.filtered(lambda s: s.frontend_trigger):
