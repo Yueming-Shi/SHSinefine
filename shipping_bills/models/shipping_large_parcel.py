@@ -1,4 +1,5 @@
 # See LICENSE file for full copyright and licensing details.
+import math
 from datetime import datetime
 import odoo
 from odoo import fields, models, api
@@ -141,8 +142,9 @@ class ShippingLargeParcel(models.Model):
 
     # vvip自动扣款逻辑
     def vvip_wallet_payment(self, shippings):
-        for shipping in shippings:
-            if shipping.sale_partner_id.partner_vip_type == 'svip':
+        if shippings[0].sale_partner_id.partner_vip_type == 'svip':
+            new_shippings = self.vvip_sort_pack_type(shippings)
+            for shipping in new_shippings:
                 shipping_sale = shipping.sudo().sale_order_id
                 invoice_order = shipping.sale_invoice_ids.filtered(lambda l: l.state != 'cancel')
                 for invoice in invoice_order:
@@ -171,3 +173,34 @@ class ShippingLargeParcel(models.Model):
                         })],
                     })
         return True
+
+    # vvip分类包裹类型
+    def vvip_sort_pack_type(self, shippings):
+        _term_lambda = lambda s: (s.shipping_factor_id.id)
+        for term in set(shippings.mapped(_term_lambda)):
+            merge_shippings = shippings.filtered(lambda s: _term_lambda(s) == term)
+            self._compute_vvip_factor(merge_shippings)
+        return shippings
+
+    # vvip计算各个包裹价格，并创建发票
+    def _compute_vvip_factor(self, merge_shippings):
+        shipping_factor = merge_shippings[0].shipping_factor_id
+
+        size_weight = sum(merge_shippings.mapped('actual_weight'))
+        first_weight = shipping_factor.vip_first_weight
+        first_total_price = shipping_factor.vip_first_total_price
+        next_price_unit = shipping_factor.vip_next_price_unit
+        next_weight_to_ceil = shipping_factor.vip_next_weight_to_ceil
+
+        weight = math.ceil(
+            size_weight * 1000 / next_weight_to_ceil) * next_weight_to_ceil
+
+        if weight < first_weight:
+            fee = first_total_price
+        else:
+            fee = first_total_price + (
+                    weight - first_weight) / next_weight_to_ceil * next_price_unit
+        for shipping in merge_shippings:
+            alone_fee = shipping.actual_weight / weight * fee
+            shipping.vvip_action_remind_payment(alone_fee)
+        return merge_shippings
