@@ -24,7 +24,8 @@ class ShippingLargeParcelVvipConfirmWizard(models.TransientModel):
                 invoice_price = sum(this_shipping_bills.sale_invoice_ids.filtered(lambda l: l.state != 'cancel').mapped('amount_total'))
                 partner_wallt_price = this_shipping_bills[0].sale_partner_id.wallet_balance
                 balance_price = partner_wallt_price - invoice_price
-                data += '客户: %s, 余额: %s, 扣款: %s, 扣款后余额: %s \n' % (partner_name, '%.2f' % partner_wallt_price, '%.2f' % invoice_price, '%.2f' % balance_price)
+                # data += '客户: %s, 余额: %s, 扣款: %s, 扣款后余额: %s \n' % (partner_name, '%.2f' % partner_wallt_price, '%.2f' % invoice_price, '%.2f' % balance_price)
+                data += '客户: %s, 余额: %s \n' % (partner_name, '%.2f' % partner_wallt_price)
             self.data = data or "无VVIP用户"
     data = fields.Text('VVIP用户',compute="_compute_data", readonly=True)
 

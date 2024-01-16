@@ -52,9 +52,8 @@
                         </group>
                     </group>
                     <notebook>
-<!--                        ('sale_invoice_payment_state', '=', '支付已完成'),-->
                         <page string="客户运单" name="Customer waybill">
-                            <field name="shipping_bill_ids" domain="[('state', '=', 'valued'), ('sale_site_id', '=', site_id)]">
+                            <field name="shipping_bill_ids" domain="['|', '&amp;', ('state', '=', 'valued'), ('sale_site_id', '=', site_id), '&amp;', ('partner_vip_type', '=', 'svip'),  ('state', '=', 'paired'), ('sale_site_id', '=', site_id)]">
                                 <tree>
                                     <field name="name"/>
                                     <field name="picking_code"/>
