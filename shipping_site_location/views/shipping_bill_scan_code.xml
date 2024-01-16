@@ -6,7 +6,7 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button name="multi_action_compute" string="运费计算" type="object" attrs="{'invisible':[('state','!=','paired')]}"/>
+                    <button name="multi_action_compute" string="运费计算" type="object" attrs="{'invisible':['|', ('state','!=','paired'), ('partner_vip_type', '=', 'svip')]}"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">

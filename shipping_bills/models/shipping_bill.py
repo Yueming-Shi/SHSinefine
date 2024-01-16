@@ -164,7 +164,6 @@ class ShippingBill(models.Model):
             if not sale_order:
                 continue
             sale_order.write({'shipping_bill_id': self.id, 'fetch_no': self.picking_code})
-            #            sale_order.set_fetch_no()
             self.write({'sale_order_id': sale_order.id, 'state': 'paired', 'no_change': sale_order.no_change})
 
     def multi_action_compute(selfs):
@@ -176,18 +175,18 @@ class ShippingBill(models.Model):
 
             if not self.sale_partner_id.is_agent:
                 if self.no_change and (self.volume_weight / self.actual_weight) < shipping_factor.double_difference:
-                    if self.sale_partner_id.partner_vip_type == 'svip':
-                        size_weight = self.actual_weight
-                        first_weight = shipping_factor.vip_first_weight
-                        first_total_price = shipping_factor.vip_first_total_price
-                        next_price_unit = shipping_factor.vip_next_price_unit
-                        next_weight_to_ceil = shipping_factor.vip_next_weight_to_ceil
-                    else:
-                        size_weight = self.actual_weight
-                        first_weight = shipping_factor.vip_t_first_weight
-                        first_total_price = shipping_factor.vip_t_first_total_price
-                        next_price_unit = shipping_factor.vip_t_next_price_unit
-                        next_weight_to_ceil = shipping_factor.vip_t_next_weight_to_ceil
+                    # if self.sale_partner_id.partner_vip_type == 'svip':
+                    #     size_weight = self.actual_weight
+                    #     first_weight = shipping_factor.vip_first_weight
+                    #     first_total_price = shipping_factor.vip_first_total_price
+                    #     next_price_unit = shipping_factor.vip_next_price_unit
+                    #     next_weight_to_ceil = shipping_factor.vip_next_weight_to_ceil
+                    # else:
+                    size_weight = self.actual_weight
+                    first_weight = shipping_factor.vip_t_first_weight
+                    first_total_price = shipping_factor.vip_t_first_total_price
+                    next_price_unit = shipping_factor.vip_t_next_price_unit
+                    next_weight_to_ceil = shipping_factor.vip_t_next_weight_to_ceil
                 else:
                     size_weight = max([self.actual_weight, volume / shipping_factor.factor])
                     first_weight = shipping_factor.first_weight
@@ -284,6 +283,39 @@ class ShippingBill(models.Model):
             so.action_confirm()
             invoice = so._create_invoices(True)
             invoice.action_post()
+
+    def vvip_action_remind_payment(selfs, fee):
+        for self in selfs:
+            so = self.sale_order_id
+            if not (fee and so):
+                continue
+
+            product_name = f'运费({self.shipping_factor_id.name})'
+            product = self.env['product.product'].search([('name', '=', product_name)], limit=1)
+            if not product:
+                raise UserError('没有找到运费')
+
+            so.invoice_ids.filtered(lambda i: i.state == 'posted').button_draft()
+            so.invoice_ids.filtered(lambda i: i.state != 'cancel').button_cancel()
+            so.action_cancel()
+            so.order_line.filtered(lambda l: '运费(' in l.product_id.name).unlink()
+            so.action_draft()
+
+            description = "VVIP包裹计费重量（kg）：{}".format(round(self.size_weight, 1))
+
+            self.env['sale.order.line'].create({
+                "product_id": product.id,
+                "name": description,
+                "product_uom_qty": 1.0,
+                "product_uom": product.uom_id.id,
+                "price_unit": fee,
+                'order_id': so.id
+            })
+
+            so.action_confirm()
+            invoice = so._create_invoices(True)
+            invoice.action_post()
+
 
     @api.constrains('name')
     def check_name_unique(selfs):
