@@ -35,6 +35,7 @@
                             <field name="sale_order_id" readonly="1"/>
                             <field name="sale_fetch_no" readonly="1"/>
                             <field name="sale_partner_id" readonly="1"/>
+                            <field name="partner_vip_type" invisible="1"/>
                             <field name="sale_site_id" readonly="1"/>
                             <field name="remark"/>
                             <field name="frontend_trigger" invisible="1"/>
