@@ -186,11 +186,22 @@ class ShippingLargeParcel(models.Model):
     def _compute_vvip_factor(self, merge_shippings):
         shipping_factor = merge_shippings[0].shipping_factor_id
 
-        size_weight = sum(merge_shippings.mapped('actual_weight'))
-        first_weight = shipping_factor.vip_first_weight
-        first_total_price = shipping_factor.vip_first_total_price
-        next_price_unit = shipping_factor.vip_next_price_unit
-        next_weight_to_ceil = shipping_factor.vip_next_weight_to_ceil
+        volume = 0
+        for shipping1 in merge_shippings:
+            volume += shipping1.length * shipping1.width * shipping1.height
+
+        if (sum(merge_shippings.mapped('volume_weight')) / sum(merge_shippings.mapped('actual_weight'))) < shipping_factor.double_difference:
+            size_weight = sum(merge_shippings.mapped('actual_weight'))
+            first_weight = shipping_factor.vip_first_weight
+            first_total_price = shipping_factor.vip_first_total_price
+            next_price_unit = shipping_factor.vip_next_price_unit
+            next_weight_to_ceil = shipping_factor.vip_next_weight_to_ceil
+        else:
+            size_weight = max([sum(merge_shippings.mapped('actual_weight')), volume / shipping_factor.factor])
+            first_weight = shipping_factor.first_weight
+            first_total_price = shipping_factor.first_total_price
+            next_price_unit = shipping_factor.next_price_unit
+            next_weight_to_ceil = shipping_factor.next_weight_to_ceil
 
         weight = math.ceil(
             size_weight * 1000 / next_weight_to_ceil) * next_weight_to_ceil
