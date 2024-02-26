@@ -38,23 +38,22 @@ class ShippingLargeParcelVvipConfirmWizard(models.TransientModel):
         _term_lambda = lambda s: (s.shipping_factor_id.id)
         fee_total = 0
         for term in set(merge_shippings.mapped(_term_lambda)):
-            this_shipping_bills = merge_shippings.filtered(lambda s: _term_lambda(s) == term)
-            raise UserError(this_shipping_bills)
-            shipping_factor = this_shipping_bills[0].shipping_factor_id
+            this_shipping_bills2 = merge_shippings.filtered(lambda s: _term_lambda(s) == term)
+            shipping_factor = this_shipping_bills2[0].shipping_factor_id
 
             volume = 0
-            for shipping1 in this_shipping_bills:
+            for shipping1 in this_shipping_bills2:
                 volume += shipping1.length * shipping1.width * shipping1.height
 
-            if (sum(this_shipping_bills.mapped('volume_weight')) / sum(
-                    this_shipping_bills.mapped('actual_weight'))) < shipping_factor.double_difference:
-                size_weight = sum(this_shipping_bills.mapped('actual_weight'))
+            if (sum(this_shipping_bills2.mapped('volume_weight')) / sum(
+                    this_shipping_bills2.mapped('actual_weight'))) < shipping_factor.double_difference:
+                size_weight = sum(this_shipping_bills2.mapped('actual_weight'))
                 first_weight = shipping_factor.vip_first_weight
                 first_total_price = shipping_factor.vip_first_total_price
                 next_price_unit = shipping_factor.vip_next_price_unit
                 next_weight_to_ceil = shipping_factor.vip_next_weight_to_ceil
             else:
-                size_weight = max([sum(this_shipping_bills.mapped('actual_weight')), volume / shipping_factor.factor])
+                size_weight = max([sum(this_shipping_bills2.mapped('actual_weight')), volume / shipping_factor.factor])
                 first_weight = shipping_factor.first_weight
                 first_total_price = shipping_factor.first_total_price
                 next_price_unit = shipping_factor.next_price_unit
