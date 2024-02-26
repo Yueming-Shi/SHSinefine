@@ -165,11 +165,6 @@ class ShippingBill(models.Model):
                 continue
             sale_order.write({'shipping_bill_id': self.id, 'fetch_no': self.picking_code})
             self.write({'sale_order_id': sale_order.id, 'state': 'paired', 'no_change': sale_order.no_change})
-            if self.sale_order_id.partner_id.partner_vip_type == 'svip':
-                self.write({
-                    'can_change': True,
-                    'has_changed': True
-                })
 
     def multi_action_compute(selfs):
         for self in selfs:
