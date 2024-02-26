@@ -59,14 +59,7 @@ class ShippingLargeParcel(models.Model):
                     'target': 'new',
                 }
             else:
-                _term_lambda = lambda s: (s.sale_partner_id.id)
-                for term in set(self.shipping_bill_ids.mapped(_term_lambda)):
-                    this_shipping_bills = self.shipping_bill_ids.filtered(lambda s: _term_lambda(s) == term)
-                    # vvip自动扣款
-                    self.vvip_wallet_payment(this_shipping_bills)
-                    # 包裹发出给客户发送邮件
-                    self.send_parcel_sent_email(this_shipping_bills)
-
+                # 写入包裹信息
                 if not self.delivery_time:
                     self.delivery_time = datetime.now()
                 for shipping_bill in self.shipping_bill_ids:
@@ -76,6 +69,15 @@ class ShippingLargeParcel(models.Model):
                         'state': 'transported',
                         'out_date': self.delivery_time
                     })
+
+                # 根据用户分组并扣款及发送邮件操作
+                _term_lambda = lambda s: (s.sale_partner_id.id)
+                for term in set(self.shipping_bill_ids.mapped(_term_lambda)):
+                    this_shipping_bills = self.shipping_bill_ids.filtered(lambda s: _term_lambda(s) == term)
+                    # vvip自动扣款
+                    self.vvip_wallet_payment(this_shipping_bills)
+                    # 包裹发出给客户发送邮件
+                    self.send_parcel_sent_email(this_shipping_bills)
 
                 # 给站点发送邮件
                 template = self.env.ref('shipping_bills.mail_template_shipping_large_parcel')
@@ -96,11 +98,9 @@ class ShippingLargeParcel(models.Model):
                 'product_sale_category_id').mapped('name')
             vals += "%s（%s）\n" % (shipping.picking_code, ', '.join(sale_product_names) if sale_product_names else "")
 
-        if not all(shippings.mapped('logistics')) or not all(shippings.mapped('tracking_no')):
-            raise UserError('运单物流商及物流追踪码信息缺失。')
         item_dict['picking_code'] = ', '.join(shippings.mapped('picking_code'))
-        item_dict['logistics'] = ', '.join(shippings.mapped('logistics'))
-        item_dict['tracking_no'] = ', '.join(shippings.mapped('tracking_no'))
+        item_dict['logistics'] = shippings[0].logistics
+        item_dict['tracking_no'] = shippings[0].tracking_no,
         item_dict['name'] = ', '.join(shippings.mapped('name'))
         item_dict['vals'] = vals
 
