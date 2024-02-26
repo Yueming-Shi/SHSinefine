@@ -40,7 +40,7 @@ class ShippingBill(models.Model):
 
     def multi_action_match(self):
         res = super(ShippingBill, self).multi_action_match()
-        if self.partner_vip_type == 'svip':
+        if self.sale_order_id.partner_id.partner_vip_type == 'svip':
             self.write({
                 'can_change': True,
                 'has_changed': True
