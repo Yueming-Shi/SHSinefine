@@ -21,6 +21,7 @@ class ShippingLargeParcelVvipConfirmWizard(models.TransientModel):
             _term_lambda = lambda s: (s.sale_partner_id.id)
             for term in set(vvip_shipping.mapped(_term_lambda)):
                 this_shipping_bills = vvip_shipping.filtered(lambda s: _term_lambda(s) == term)
+                raise UserError(this_shipping_bills)
                 fee_total = self._compute_vvip_factor(this_shipping_bills)
                 partner_name = this_shipping_bills[0].sale_partner_id.name
                 partner_wallt_price = this_shipping_bills[0].sale_partner_id.wallet_balance

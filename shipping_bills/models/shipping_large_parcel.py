@@ -213,7 +213,6 @@ class ShippingLargeParcel(models.Model):
                     weight - first_weight) / next_weight_to_ceil * next_price_unit
         for shipping in merge_shippings:
             alone_fee = shipping.actual_weight / size_weight * fee
-            shipping.write({'fee': alone_fee, 'currency_id': shipping_factor.currency_id.id, 'state': 'valued',
-                        'size_weight': shipping.actual_weight, })
+            shipping.write({'fee': alone_fee, 'currency_id': shipping_factor.currency_id.id, 'size_weight': shipping.actual_weight, })
             shipping.vvip_action_remind_payment(alone_fee)
         return merge_shippings
