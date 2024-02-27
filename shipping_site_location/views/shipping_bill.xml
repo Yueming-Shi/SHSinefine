@@ -22,6 +22,9 @@
             <xpath expr="//button[@name='multi_action_compute']" position="attributes">
                 <attribute name="attrs">{'invisible':['|', ('state','!=','paired'), ('partner_vip_type', '=', 'svip')]}</attribute>
             </xpath>
+            <xpath expr="//button[@name='multi_action_change']" position="attributes">
+                <attribute name="attrs">{'invisible':['|', ('partner_vip_type', '=', 'svip'), '|', ('has_changed','=',False), ('state','!=','paired')]}</attribute>
+            </xpath>
         </field>
     </record>
 </odoo>
