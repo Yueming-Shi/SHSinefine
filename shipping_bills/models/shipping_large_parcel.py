@@ -208,8 +208,7 @@ class ShippingLargeParcel(models.Model):
                 next_price_unit = shipping_factor.next_price_unit
                 next_weight_to_ceil = shipping_factor.next_weight_to_ceil
 
-        size_weight = sum(merge_shippings.mapped('size_weight'))
-
+        size_weight = round(sum(merge_shippings.mapped('size_weight')), 2)
 
         weight = math.ceil(
             size_weight * 1000 / next_weight_to_ceil) * next_weight_to_ceil
@@ -219,7 +218,6 @@ class ShippingLargeParcel(models.Model):
         else:
             fee = first_total_price + (
                     weight - first_weight) / next_weight_to_ceil * next_price_unit
-        raise UserError('%s, %s, %s, %s, %s, %s, %s' % (first_weight, first_total_price, next_price_unit, next_weight_to_ceil, size_weight, fee, weight))
         for shipping2 in merge_shippings:
             alone_fee = shipping2.size_weight / sum(merge_shippings.mapped('size_weight')) * fee
             shipping2.write({'fee': alone_fee, 'currency_id': shipping_factor.currency_id.id})
