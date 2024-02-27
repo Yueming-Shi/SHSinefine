@@ -19,6 +19,7 @@
         'views/shipping_bill_disposable.xml',
         'views/shipping_bill_return_shipment.xml',
         'views/shipping_bill_modified_foam.xml',
+        'views/shipping_large_parcel_views.xml',
         'views/action.xml',
         'views/menu.xml',
         'data/site_location.xml',

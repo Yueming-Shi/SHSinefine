@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <data>
+        <record id="ir_cron_remind_vvip_balance_not" model="ir.cron">
+            <field name="name">提醒VVIP客户余额不足200</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="active">True</field>
+            <field name="doall" eval="False" />
+            <field name="model_id" ref="model_res_partner" />
+            <field name="code">model.model_remind_vvip_balance_not()</field>
+            <field name="state">code</field>
+        </record>
+    </data>
+</odoo>

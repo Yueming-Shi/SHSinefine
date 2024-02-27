@@ -11,51 +11,6 @@ odoo_session = requests.Session()
 class ShippingBill(models.Model):
     _inherit = 'shipping.bill'
 
-    def write(selfs, vals):
-        result = super().write(vals)
-        for self in selfs:
-            openid = self.sale_partner_id.user_ids.wx_openid
-            # 获取token
-            token = self.env['ir.config_parameter'].sudo().search([('key', '=', 'wechat.access_token')]).value
-            sale_order = self.sale_order_id.sudo()
-            sale_prodcut = sale_order.order_line.sudo().filtered(lambda l:l.product_sale_category_id and l.product_material_id).mapped('product_sale_category_id').mapped('name')
-            if vals.get('state') == 'transported':
-                if openid:
-                    tmpl_id = "fKRko5U-JjPalqSmtG6nlTeuezIpTAD41hGM7JX3NQw"
-                    tmpl_data = {
-                        "first": {
-                            "value": "您的包裹已发出:",
-                            "color": "#173177"
-                        },
-                        "keyword1": {
-                            "value": "%s（%s）" % (self.picking_code, ','.join(sale_prodcut)) or "",
-                            "color": "#173177"
-                        },
-                        "keyword2": {
-                            "value": self.logistics or "",
-                            "color": "#173177"
-                        },
-                        "keyword3": {
-                            "value": self.tracking_no or "",
-                            "color": "#173177"
-                        },
-                        "remark": {
-                            "value": "取件码[%s]" % self.picking_code or "",
-                            "color": "#173177"
-                        },
-                    }
-                    self.wx_information_send(token, openid, tmpl_data, tmpl_id)
-
-                # 发送邮件
-                self.env.ref('shipping_bills.mail_template_data_shipping_bill_issue').send_mail(self.id, force_send=True)
-
-                # 发送短信
-                if self.sale_partner_id.phone:
-                    msg = 'Package [%s] has been dispatched. ' \
-                          'For queries, contact our customer service.    Sinefine' % self.tracking_no
-                    self.send_message_post(msg)
-        return result
-
     def multi_action_compute(selfs):
         result = super().multi_action_compute()
         for self in selfs:

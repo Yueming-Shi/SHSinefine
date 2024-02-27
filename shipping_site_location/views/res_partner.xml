@@ -21,6 +21,7 @@
         <field name="arch" type="xml">
             <field name="vat" position="after">
                 <field name="partner_vip_type"/>
+                <field name="partner_vip_number" attrs="{'invisible':[('partner_vip_type','!=','svip')]}"/>
             </field>
         </field>
     </record>

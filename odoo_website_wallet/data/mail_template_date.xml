@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo><data noupdate="1">
+    <record id="mail_template_partner_balance_not" model="mail.template">
+        <field name="name">客户钱包余额不足提醒</field>
+        <field name="model_id" ref="model_res_partner"/>
+        <field name="subject">Your wallet balance is insufficient.</field>
+        <field name="email_to">{{ object.email }}</field>
+        <field name="body_html" type="html">
+            <div style="border:1px solid black;width:70%;margin:0 auto;padding:20px;">
+                <p style="margin:0px 0 12px 0;box-sizing:border-box;">
+                    <span t-esc="object.name"/>Hello,
+                </p>
+                <p style="margin:0px 0 12px 0;box-sizing:border-box;">
+                    Your wallet balance remaining<span t-esc="'%.2f' % object.wallet_balance"/>, Less than two hundred yuan, Please recharge in time.
+                </p>
+            </div>
+        </field>
+        <field name="lang">{{ object.lang }}</field>
+        <field name="auto_delete" eval="True"/>
+    </record>
+</data>
+</odoo>

@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="shipping_large_parcel_vvip_confirm_wizard_form" model="ir.ui.view">
+        <field name="name">shipping_large_parcel_vvip_confirm_wizard_form</field>
+        <field name="model">shipping.large.parcel.vvip.confirm.wizard</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="data"/>
+                        <field name="shipping_large_id" invisible="1"/>
+                    </group>
+                    <div>请确认是否继续扣款。</div>
+                </sheet>
+                <footer>
+                    <button name="apply" type="object" string="确认" class="oe_highlight"/>
+                    <button special="cancel" class="oe_highlight" string="取消" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+</odoo>
