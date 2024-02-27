@@ -85,13 +85,14 @@ class ShippingLargeParcelVvipConfirmWizard(models.TransientModel):
         next_price_unit = shipping_factor.next_price_unit
         next_weight_to_ceil = shipping_factor.next_weight_to_ceil
 
+        fee = 0
         for shipping in shippings:
             weight = math.ceil(
                 shipping.size_weight * 1000 / next_weight_to_ceil) * next_weight_to_ceil
             if weight < first_weight:
-                fee = first_total_price
+                fee += first_total_price
             else:
-                fee = first_total_price + (
+                fee += first_total_price + (
                         weight - first_weight) / next_weight_to_ceil * next_price_unit
         return fee
 
