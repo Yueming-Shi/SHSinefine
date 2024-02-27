@@ -153,18 +153,18 @@ class ShippingLargeParcel(models.Model):
                         'partner_id': shipping.sale_partner_id.id,
                         'sale_order_id': shipping_sale.id,
                         'reference': 'sale_order',
-                        'amount': invoice.amount_total,
+                        'amount': round(invoice.amount_total,2),
                         'currency_id': invoice.currency_id.id,
                         'status': 'done'
                     })
                     shipping_sale.sudo().write({
-                        'wallet_used': invoice.amount_total,
+                        'wallet_used': round(invoice.amount_total,2),
                         'wallet_transaction_id': wallet_id.id
                     })
                     invoice.sudo().update({
                         'wallet_added': True,
                         'invoice_line_ids': [(0, 0, {
-                            'name': 'Wallet Used' + ' ' + str(invoice.amount_total),
+                            'name': 'Wallet Used' + ' ' + str(round(invoice.amount_total,2)),
                             'analytic_account_id': shipping_sale.analytic_account_id.id or False,
                             'price_unit': -shipping_sale.wallet_used,
                             'price_subtotal': -shipping_sale.wallet_used,
