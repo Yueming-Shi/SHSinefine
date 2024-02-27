@@ -38,15 +38,6 @@ class ShippingBill(models.Model):
             res.is_no_header = True
         return res
 
-    def multi_action_match(self):
-        res = super(ShippingBill, self).multi_action_match()
-        if self.partner_vip_type == 'svip':
-            self.write({
-                'can_change': True,
-                'has_changed': True
-            })
-        return res
-
     @api.onchange('name')
     def onchange_name(self):
         if self.name:

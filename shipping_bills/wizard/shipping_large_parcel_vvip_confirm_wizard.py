@@ -41,32 +41,57 @@ class ShippingLargeParcelVvipConfirmWizard(models.TransientModel):
             this_shipping_bills2 = merge_shippings.filtered(lambda s: _term_lambda(s) == term)
             shipping_factor = this_shipping_bills2[0].shipping_factor_id
 
-            volume = 0
+            sz_package = self.env['shipping.bill']
+            tjz_shippings = self.env['shipping.bill']
+
             for shipping1 in this_shipping_bills2:
-                volume += shipping1.length * shipping1.width * shipping1.height
+                volume = shipping1.length * shipping1.width * shipping1.height
+                if (shipping1.volume_weight / shipping1.actual_weight) < shipping_factor.double_difference:
+                    shipping1.write({
+                        'size_weight': shipping1.actual_weight
+                    })
+                    sz_package |= shipping1
+                else:
+                    shipping1.write({
+                        'size_weight': max([shipping1.actual_weight, volume / shipping_factor.factor])
+                    })
+                    tjz_shippings |= shipping1
 
-            if (sum(this_shipping_bills2.mapped('volume_weight')) / sum(
-                    this_shipping_bills2.mapped('actual_weight'))) < shipping_factor.double_difference:
-                size_weight = sum(this_shipping_bills2.mapped('actual_weight'))
-                first_weight = shipping_factor.vip_first_weight
-                first_total_price = shipping_factor.vip_first_total_price
-                next_price_unit = shipping_factor.vip_next_price_unit
-                next_weight_to_ceil = shipping_factor.vip_next_weight_to_ceil
-            else:
-                size_weight = max([sum(this_shipping_bills2.mapped('actual_weight')), volume / shipping_factor.factor])
-                first_weight = shipping_factor.first_weight
-                first_total_price = shipping_factor.first_total_price
-                next_price_unit = shipping_factor.next_price_unit
-                next_weight_to_ceil = shipping_factor.next_weight_to_ceil
+            fee_total += self.compute_sz_package_weight_fee(sz_package, shipping_factor) + self.compute_tjz_package_weight_fee(tjz_shippings, shipping_factor)
+        return fee_total
 
+    def compute_sz_package_weight_fee(self, packages, shipping_factor):
+        # VVIP计费参数
+        first_weight = shipping_factor.vip_first_weight
+        first_total_price = shipping_factor.vip_first_total_price
+        next_price_unit = shipping_factor.vip_next_price_unit
+        next_weight_to_ceil = shipping_factor.vip_next_weight_to_ceil
+
+        size_weight = round(sum(packages.mapped('size_weight')), 2)
+
+        weight = math.ceil(
+            size_weight * 1000 / next_weight_to_ceil) * next_weight_to_ceil
+
+        if weight < first_weight:
+            fee = first_total_price
+        else:
+            fee = first_total_price + (
+                    weight - first_weight) / next_weight_to_ceil * next_price_unit
+        return fee
+
+    def compute_tjz_package_weight_fee(self, shippings, shipping_factor):
+        first_weight = shipping_factor.first_weight
+        first_total_price = shipping_factor.first_total_price
+        next_price_unit = shipping_factor.next_price_unit
+        next_weight_to_ceil = shipping_factor.next_weight_to_ceil
+
+        for shipping in shippings:
             weight = math.ceil(
-                size_weight * 1000 / next_weight_to_ceil) * next_weight_to_ceil
-
+                shipping.size_weight * 1000 / next_weight_to_ceil) * next_weight_to_ceil
             if weight < first_weight:
                 fee = first_total_price
             else:
                 fee = first_total_price + (
                         weight - first_weight) / next_weight_to_ceil * next_price_unit
-            fee_total += fee
-        return fee_total
+        return fee
 
