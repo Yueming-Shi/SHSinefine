@@ -97,3 +97,50 @@ class ShippingBill(models.Model):
             if self.site_location_id and self.site_location_id.name == '无头位置':
                 if self.in_days > self.site_location_id.package_discard_day:
                     self.disposable = True
+
+    def multi_action_match(selfs):
+        res = super(ShippingBill, selfs).multi_action_match()
+        for self in selfs:
+            if self.partner_vip_type == 'svip':
+                invoice_id = self.sale_invoice_ids.filtered(
+                    lambda l: l.payment_state not in ['paid', 'reversed', 'invoicing_legacy'] and l.state != 'cancel')
+                point_price = -sum(
+                    invoice_id.invoice_line_ids.filtered(lambda l: 'Wallet' in l.name).mapped('price_subtotal'))
+                fee = sum(invoice_id.mapped('amount_total')) + (point_price or 0)
+                openid = self.sale_partner_id.user_ids.wx_openid
+                if openid:
+                    # 获取token
+                    token = selfs.env['ir.config_parameter'].sudo().search([('key', '=', 'wechat.access_token')]).value
+                    tmpl_id = "nyb0HsFu4oVOyR712tQFurlpt27foVsRwIb9pDge3vA"
+                    tmpl_data = {
+                        "first": {
+                            "value": "您的订单已到仓:",
+                            "color": "#173177"
+                        },
+                        "orderno": {
+                            "value": self.name or "",
+                            "color": "#173177"
+                        },
+                        "amount": {
+                            "value": str('{0:,.2f}'.format(fee)),
+                            "color": "#173177"
+                        },
+                        "remark": {
+                            "value": "取件码[%s]" % self.picking_code or "",
+                            "color": "#173177"
+                        },
+                    }
+                    self.wx_information_send(token, openid, tmpl_data, tmpl_id)
+
+                # 发送邮件
+                self.env.ref('shipping_bills.mail_template_data_shipping_bill_to_warehouse').send_mail(self.id,
+                                                                                                       force_send=True)
+
+                # 发送短信
+                if self.sale_partner_id.phone:
+                    msg = 'Package [%s] has arrived at warehouse. Shipment Cost is [%s %s].' \
+                          'Please make payment via your registered account.' \
+                          'For queries, contact our customer service.     Sinefine' % (
+                          self.tracking_no, self.currency_id.name, fee)
+                    self.send_message_post(msg)
+        return res
